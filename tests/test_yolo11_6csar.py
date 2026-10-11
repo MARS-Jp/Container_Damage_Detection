@@ -8,7 +8,6 @@ import torch
 from ultralytics.nn.modules import CSAR, Segment26
 from ultralytics.nn.tasks import SegmentationModel
 
-
 MODEL_CFG = Path("ultralytics/cfg/models/11_myself/yolo11-6csar.yaml")
 
 

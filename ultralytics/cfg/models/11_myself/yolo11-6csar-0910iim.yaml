@@ -31,46 +31,46 @@ mms:
 # The IIMStem name is temporarily mapped to AdaptiveGatedIIMStem0910 by the trainer.
 backbone:
   # [from, repeats, module, args]
-  - [-1, 1, IIMStem, [64, 3, 2, 8, 3, 0.0]]   # 0-P1/2 adaptive RGB/IIM gate
-  - [-1, 1, Conv, [128, 3, 2]]                 # 1-P2/4
+  - [-1, 1, IIMStem, [64, 3, 2, 8, 3, 0.0]] # 0-P1/2 adaptive RGB/IIM gate
+  - [-1, 1, Conv, [128, 3, 2]] # 1-P2/4
 
-  - [-1, 2, AttentionResiduals, [256, 0.25]]   # 2-P2/4
-  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]]     # 3-P2/4
+  - [-1, 2, AttentionResiduals, [256, 0.25]] # 2-P2/4
+  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]] # 3-P2/4
 
-  - [3, 1, Conv, [256, 3, 2]]                  # 4-P3/8
-  - [4, 2, AttentionResiduals, [512, 0.25]]    # 5-P3/8
-  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]]     # 6-P3/8
+  - [3, 1, Conv, [256, 3, 2]] # 4-P3/8
+  - [4, 2, AttentionResiduals, [512, 0.25]] # 5-P3/8
+  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]] # 6-P3/8
 
-  - [6, 1, Conv, [512, 3, 2]]                  # 7-P4/16
-  - [7, 2, AttentionResiduals, [512]]           # 8-P4/16
-  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]]     # 9-P4/16
+  - [6, 1, Conv, [512, 3, 2]] # 7-P4/16
+  - [7, 2, AttentionResiduals, [512]] # 8-P4/16
+  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]] # 9-P4/16
 
-  - [9, 1, Conv, [1024, 3, 2]]                 # 10-P5/32
-  - [10, 2, AttentionResiduals, [1024]]         # 11-P5/32
-  - [[10, 11], 1, FSNetShuffle, [1024, 2, 2]]  # 12-P5/32
+  - [9, 1, Conv, [1024, 3, 2]] # 10-P5/32
+  - [10, 2, AttentionResiduals, [1024]] # 11-P5/32
+  - [[10, 11], 1, FSNetShuffle, [1024, 2, 2]] # 12-P5/32
 
-  - [-1, 1, SPPF, [1024, 5]]                   # 13
-  - [-1, 2, C2PSA, [1024]]                     # 14-P5/32
+  - [-1, 1, SPPF, [1024, 5]] # 13
+  - [-1, 2, C2PSA, [1024]] # 14-P5/32
 
 # Preserve the original two-stage 6-CSAR path and add P2 only at the final segmentation head.
 head:
-  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 1, 0.5, True]]    # 15-P3/8
-  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 2, 0.5, True]]    # 16-P4/16
-  - [[3, 6, 9, 14], 1, CSAR, [1024, 4, 3, 0.5, True]]   # 17-P5/32
+  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 1, 0.5, True]] # 15-P3/8
+  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 2, 0.5, True]] # 16-P4/16
+  - [[3, 6, 9, 14], 1, CSAR, [1024, 4, 3, 0.5, True]] # 17-P5/32
 
-  - [[3, 15, 16, 17], 1, CSAR, [512, 4, 1, 0.5, True]]  # 18-P3/8
-  - [[3, 15, 16, 17], 1, CSAR, [512, 4, 2, 0.5, True]]  # 19-P4/16
+  - [[3, 15, 16, 17], 1, CSAR, [512, 4, 1, 0.5, True]] # 18-P3/8
+  - [[3, 15, 16, 17], 1, CSAR, [512, 4, 2, 0.5, True]] # 19-P4/16
   - [[3, 15, 16, 17], 1, CSAR, [1024, 4, 3, 0.5, True]] # 20-P5/32
 
   # Independent P2/P3/P4/P5 multi-label class logits.
-  - [3, 1, CBLinear, [[80]]]  # 21-P2/4 MMS list
-  - [21, 1, Index, [nc, 0]]  # 22-P2/4 MMS logits
+  - [3, 1, CBLinear, [[80]]] # 21-P2/4 MMS list
+  - [21, 1, Index, [nc, 0]] # 22-P2/4 MMS logits
   - [18, 1, CBLinear, [[80]]] # 23-P3/8 MMS list
-  - [23, 1, Index, [nc, 0]]  # 24-P3/8 MMS logits
+  - [23, 1, Index, [nc, 0]] # 24-P3/8 MMS logits
   - [19, 1, CBLinear, [[80]]] # 25-P4/16 MMS list
-  - [25, 1, Index, [nc, 0]]  # 26-P4/16 MMS logits
+  - [25, 1, Index, [nc, 0]] # 26-P4/16 MMS logits
   - [20, 1, CBLinear, [[80]]] # 27-P5/32 MMS list
-  - [27, 1, Index, [nc, 0]]  # 28-P5/32 MMS logits
+  - [27, 1, Index, [nc, 0]] # 28-P5/32 MMS logits
 
   # Segment26MultiLabel is temporarily mapped to Segment26ClassQuery0910 by the trainer.
   # Args: [nc, masks, prototypes, MMS gain, overlap weight, query condition scale].

@@ -4,8 +4,8 @@ import argparse
 import csv
 import hashlib
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
@@ -22,8 +22,10 @@ def main():
     args = parser.parse_args()
     output = args.output or args.selected_run / "comparisons"
     output.mkdir(parents=True, exist_ok=True)
-    provenance = [json.loads((r / "input_provenance.json").read_text(encoding="utf-8"))
-                  for r in (args.selected_run, args.focused_run)]
+    provenance = [
+        json.loads((r / "input_provenance.json").read_text(encoding="utf-8"))
+        for r in (args.selected_run, args.focused_run)
+    ]
     for key in ("model_sha256", "image_sha256", "xml_sha256", "regions", "coordinate_origin"):
         if provenance[0][key] != provenance[1][key]:
             raise ValueError(f"Incompatible comparison inputs: {key}")
@@ -38,11 +40,17 @@ def main():
     ):
         folder = run / folder_name
         prediction = json.loads((folder / "predictions.json").read_text(encoding="utf-8"))
-        record = {"name": title, "title": title, "source": prediction["source"],
-                  "image": next(folder.glob("*__all.jpg")),
-                  "evaluation": json.loads((folder / "evaluation.json").read_text(encoding="utf-8"))}
+        record = {
+            "name": title,
+            "title": title,
+            "source": prediction["source"],
+            "image": next(folder.glob("*__all.jpg")),
+            "evaluation": json.loads((folder / "evaluation.json").read_text(encoding="utf-8")),
+        }
         score = performance(record)
-        record["caption"] = f"{title}\nIoU0.50：D {score['D_tp']}/25，R {score['R_tp']}/69；未匹配 {score['D_fp']}/{score['R_fp']}"
+        record["caption"] = (
+            f"{title}\nIoU0.50：D {score['D_tp']}/25，R {score['R_tp']}/69；未匹配 {score['D_fp']}/{score['R_fp']}"
+        )
         records.append(record)
         scores.append({"version": title, "folder": str(folder.resolve()), **score})
     font = Path("C:/Windows/Fonts/msjh.ttc")
