@@ -8,26 +8,26 @@
 
 ## A. 四個版本與符號
 
-| 版本 | 局部架構改動 | n 規模、八類參數量 | 相較 00 |
-|---|---|---:|---:|
-| 00-baseline | 原入口、原六個 CSAR、原語意分支與原型解碼 | 6,302,676 | 基準 |
-| 01-luma | 00 加入亮度／相對對比／方向梯度入口旁路 | 6,303,638 | +962，約 0.015% |
-| 02-shallow | 01 加入 P2/P3 淺層特徵直達預測頭 | 6,378,586 | +75,910，約 1.204% |
-| 03-dualproto | 02 加入 P2 原生尺度解碼旁路 | 6,394,044 | +91,368，約 1.450% |
+| 版本         | 局部架構改動                              | n 規模、八類參數量 |            相較 00 |
+| ------------ | ----------------------------------------- | -----------------: | -----------------: |
+| 00-baseline  | 原入口、原六個 CSAR、原語意分支與原型解碼 |          6,302,676 |               基準 |
+| 01-luma      | 00 加入亮度／相對對比／方向梯度入口旁路   |          6,303,638 |    +962，約 0.015% |
+| 02-shallow   | 01 加入 P2/P3 淺層特徵直達預測頭          |          6,378,586 | +75,910，約 1.204% |
+| 03-dualproto | 02 加入 P2 原生尺度解碼旁路               |          6,394,044 | +91,368，約 1.450% |
 
 00 是共同基準，沒有新增陰影專用分支。01～03 的新增分支均在訓練與推論時運算。四版保留原 AttentionResiduals、FSNetShuffle、六個 CSAR、四個 DamageSemanticAttention，以及原框、分類、mask coefficient 路徑。四份訓練 recipe 的 loss 與 640 輸入等設定相同，沒有啟用 0928 的 training_aux。
 
-| 符號 | 含義與單位 |
-|---|---|
-| I、R、G、B | 網路輸入影像與 RGB 通道，通常縮放至 0～1 |
-| u、v | 目前所討論張量的空間位置，不能直接視為原圖像素 |
-| F、S、D、C | 學習式特徵，數值可正可負，不是亮度或機率 |
-| σ(z) | sigmoid，將實數映射至 0～1 |
-| tanh(z) | 雙曲正切，輸出介於 −1 與 1 |
-| ⊙、[A,B] | 逐元素相乘、沿通道拼接 |
-| Pₖ、cᵢₖ | 第 k 個共享遮罩原型、第 i 個實例的原型係數 |
-| y、p、z | 真值 0/1 遮罩、預測機率、未經 sigmoid 的 logit |
-| K=8、M=32 | 類別數、原型數，兩者不同 |
+| 符號       | 含義與單位                                     |
+| ---------- | ---------------------------------------------- |
+| I、R、G、B | 網路輸入影像與 RGB 通道，通常縮放至 0～1       |
+| u、v       | 目前所討論張量的空間位置，不能直接視為原圖像素 |
+| F、S、D、C | 學習式特徵，數值可正可負，不是亮度或機率       |
+| σ(z)       | sigmoid，將實數映射至 0～1                     |
+| tanh(z)    | 雙曲正切，輸出介於 −1 與 1                     |
+| ⊙、[A,B]   | 逐元素相乘、沿通道拼接                         |
+| Pₖ、cᵢₖ    | 第 k 個共享遮罩原型、第 i 個實例的原型係數     |
+| y、p、z    | 真值 0/1 遮罩、預測機率、未經 sigmoid 的 logit |
+| K=8、M=32  | 類別數、原型數，兩者不同                       |
 
 對 640×640 輸入，P2、P3、P4、P5 分別為 160²、80²、40²、20²。以下張量形狀省略 batch 維度。若原圖為 800×600，實際推論會縮放／補邊，特徵位置與原圖位置必須經座標映射。
 
@@ -103,7 +103,7 @@ sigmoid 把門控值限制到 0～1；tanh 讓可學習的旁路增益有界且�
 
 \[
 \frac{\partial F'}{\partial z_g}
- =\tanh(\alpha)D\odot G(1-G).
+=\tanh(\alpha)D\odot G(1-G).
 \tag{B8}
 \]
 
@@ -159,7 +159,7 @@ a_s=\operatorname{softmax}_{s}(e_s),\quad Z=\sum_sa_sV_s,
 \]
 \[
 F_{out}=\operatorname{Proj}(Z+\operatorname{DWConv}_{3\times3}(V_t))
-       +\operatorname{Shortcut}(F_t).
++\operatorname{Shortcut}(F_t).
 \tag{C6}
 \]
 
@@ -173,7 +173,7 @@ n 規模、四個 heads 下，128 通道輸出的 dₖ=16，256 通道輸出的 
 
 \[
 \operatorname{LN}(x)=\gamma\frac{x-\operatorname{mean}(x)}
- {\sqrt{\operatorname{var}(x)+\epsilon_{LN}}}+\beta.
+{\sqrt{\operatorname{var}(x)+\epsilon_{LN}}}+\beta.
 \tag{C7}
 \]
 
@@ -197,8 +197,8 @@ FFN 是 LayerNorm、128→256 的線性投影、GELU、256→128 的投影。GEL
 ### C5. 獨立類別回應及回饋
 
 \[
-\ell_{c,p}=\langle W'_qT'_c,W'_kV_p\rangle/\sqrt{128}+b_c,
-\quad r_{c,p}=\sigma(\ell_{c,p}),
+\ell_{c,p}=\langle W'_qT'*c,W'*kV_p\rangle/\sqrt{128}+b_c,
+\quad r*{c,p}=\sigma(\ell*{c,p}),
 \tag{C10}
 \]
 \[
@@ -217,14 +217,14 @@ S_p=\frac1{8}\sum_{c=1}^{8}r_{c,p}W_{sv}T'_c,
 
 \[
 Z=F_{P3}+\sum_{s\in\{P2,P4,P5\}}
- \operatorname{Resize}^{nearest}_{P3}(\operatorname{Conv}_{1\times1,s}(F_s)),
+\operatorname{Resize}^{nearest}_{P3}(\operatorname{Conv}_{1\times1,s}(F_s)),
 \tag{C12}
 \]
 \[
 P_{old}=\operatorname{Conv}_{1\times1}\!\left[
- \operatorname{Conv}_{3\times3}\!\left(
- \operatorname{ConvTranspose}_{2,2}(\operatorname{Conv}_{3\times3}
- (\operatorname{Conv}_{3\times3,fuse}(Z)))\right)\right],
+\operatorname{Conv}_{3\times3}\!\left(
+\operatorname{ConvTranspose}_{2,2}(\operatorname{Conv}_{3\times3}
+(\operatorname{Conv}_{3\times3,fuse}(Z)))\right)\right],
 \tag{C13}
 \]
 \[
@@ -273,7 +273,7 @@ C_k=\tanh(q_k),\qquad\epsilon=1/255.
 
 \[
 q'_k=\frac{a(Y-\mu_k)}{a\mu_k+\epsilon}
-     =\frac{Y-\mu_k}{\mu_k+\epsilon/a}.
+=\frac{Y-\mu_k}{\mu_k+\epsilon/a}.
 \tag{D4}
 \]
 
@@ -332,10 +332,10 @@ n 規模下 F、D 均為 16×320×320，G 為 1×320×320，對所有通道共�
 
 02 繼承 01，head 從八個輸入增至十個。每一個新增融合只處理同解析度的兩個特徵：
 
-| 融合尺度 | 原 head 特徵 | 新增淺層來源 | n 規模來源通道 | 融合後通道與尺寸 |
-|---|---|---|---:|---|
-| P3 | layer 22 | FSNet layer 6 | 64 | 128×80×80 |
-| P2 | layer 25 | FSNet layer 3 | 32 | 64×160×160 |
+| 融合尺度 | 原 head 特徵 | 新增淺層來源  | n 規模來源通道 | 融合後通道與尺寸 |
+| -------- | ------------ | ------------- | -------------: | ---------------- |
+| P3       | layer 22     | FSNet layer 6 |             64 | 128×80×80        |
+| P2       | layer 25     | FSNet layer 3 |             32 | 64×160×160       |
 
 原 P2 特徵本來就來自 layer 2 的語意分支。新增 layer 3 提供 FSNet 混合後的另一特徵來源；不能描述成原本完全沒有 P2，或所有 P2 原本都經過多輪 CSAR。
 
@@ -400,7 +400,7 @@ F′P2 是 02 淺層融合後的特徵，P4 為原語意增強特徵。n 規模�
 
 \[
 C(x,y)=(1-a)(1-b)C_{00}+a(1-b)C_{10}
-       +(1-a)bC_{01}+abC_{11}.
++(1-a)bC_{01}+abC_{11}.
 \tag{F2}
 \]
 
@@ -427,8 +427,8 @@ D+C 讓每個高解析度位置同時接觸細節與較大範圍的語意。Wₒ
 
 \[
 z_i=\sum_kc_{ik}P'_k
-   =\sum_kc_{ik}P_{old,k}
-    +\tanh(\beta)G\sum_kc_{ik}\Delta P_k,
+=\sum_kc_{ik}P_{old,k}
++\tanh(\beta)G\sum_kc_{ik}\Delta P_k,
 \qquad p_i=\sigma(z_i).
 \tag{F5}
 \]
@@ -437,7 +437,7 @@ z_i=\sum_kc_{ik}P'_k
 
 \[
 \frac{\partial\ell}{\partial\Delta P_k}
- =(p_i-y_i)c_{ik}\tanh(\beta)G.
+=(p_i-y_i)c_{ik}\tanh(\beta)G.
 \tag{F6}
 \]
 
@@ -488,7 +488,7 @@ L_{Dice}=\operatorname{mean}_{b,c}\left[
 \]
 \[
 L_{aux}=0.5\operatorname{mean}_{4\ scales}
-              (0.5L_{wBCE}+0.5L_{Dice}).
+(0.5L_{wBCE}+0.5L_{Dice}).
 \tag{G5}
 \]
 
@@ -498,13 +498,13 @@ G4 的平滑常數是本程式設定的 1，Dice 沒有另外套用 G3 的像素
 
 ## H. 陰影情境下的預期影響與驗證
 
-| 情境 | 主要涉及的運算 | 可能幫助 | 需排查的副作用 |
-|---|---|---|---|
-| 暗處但仍有局部明暗差 | D3～D8 | 相對對比、方向變化可進入主幹 | 雜訊與陰影邊界也可能增強 |
-| 深層特徵忽略細小凹損 | E1～E3 | 淺層線索直接影響分類、定位與遮罩 | 溝槽或污漬造成局部誤報 |
-| 有偵測但只畫一小塊 | F1～F6 | 原生 P2 資訊參與遮罩組合 | 邊界外溢、錯標範圍被強化 |
-| 凹損與鏽蝕共存 | C10、G3～G5 | 保留兩類獨立存在機率 | 粗尺度共現不一定是真實像素交集 |
-| 完全黑暗或物理不可見 | B1、D4 | 沒有可靠的恢復保證 | 用上下文猜測可能造成假損壞 |
+| 情境                 | 主要涉及的運算 | 可能幫助                         | 需排查的副作用                 |
+| -------------------- | -------------- | -------------------------------- | ------------------------------ |
+| 暗處但仍有局部明暗差 | D3～D8         | 相對對比、方向變化可進入主幹     | 雜訊與陰影邊界也可能增強       |
+| 深層特徵忽略細小凹損 | E1～E3         | 淺層線索直接影響分類、定位與遮罩 | 溝槽或污漬造成局部誤報         |
+| 有偵測但只畫一小塊   | F1～F6         | 原生 P2 資訊參與遮罩組合         | 邊界外溢、錯標範圍被強化       |
+| 凹損與鏽蝕共存       | C10、G3～G5    | 保留兩類獨立存在機率             | 粗尺度共現不一定是真實像素交集 |
+| 完全黑暗或物理不可見 | B1、D4         | 沒有可靠的恢復保證               | 用上下文猜測可能造成假損壞     |
 
 評估時區分陰影中的真正凹損與「純陰影但無損壞」負例。用固定 confidence／IoU 規則做實例一對一配對，另以有精細 GT 的遮罩計算：
 
@@ -521,13 +521,13 @@ H1 可用於明確定義的像素或實例計數，但兩種單位不能混用�
 
 ## I. 程式與公式對照
 
-| 程式 | 主要公式 |
-|---|---|
+| 程式                                                                                                      | 主要公式         |
+| --------------------------------------------------------------------------------------------------------- | ---------------- |
 | [block.py](../ultralytics/nn/modules/block.py)：AttentionResiduals、FSNetShuffle、CSAR、Proto26MultiLabel | C1～C6、C12～C13 |
-| [damage_semantic.py](../ultralytics/nn/modules/damage_semantic.py) | C7～C11 |
-| [shadow_dent.py](../ultralytics/nn/modules/shadow_dent.py)：LuminanceDetail、DentDetailFusion | D1～D7、E1～E3 |
-| [damage_architecture.py](../ultralytics/nn/modules/damage_architecture.py) | D8、F1～F5 |
-| [head.py](../ultralytics/nn/modules/head.py)、[loss.py](../ultralytics/utils/loss.py) | C14、G1～G5 |
+| [damage_semantic.py](../ultralytics/nn/modules/damage_semantic.py)                                        | C7～C11          |
+| [shadow_dent.py](../ultralytics/nn/modules/shadow_dent.py)：LuminanceDetail、DentDetailFusion             | D1～D7、E1～E3   |
+| [damage_architecture.py](../ultralytics/nn/modules/damage_architecture.py)                                | D8、F1～F5       |
+| [head.py](../ultralytics/nn/modules/head.py)、[loss.py](../ultralytics/utils/loss.py)                     | C14、G1～G5      |
 
 原模型／配套訓練 YAML 與執行方式見 [0929 架構文件](damage-architecture-0929.md)。93 項程式測試與既有權重移植檢查只證明受測條件下可執行，不代表陰影召回已提高；新分支仍需訓練與資料集驗證。
 
@@ -561,11 +561,11 @@ C_{actual}=8\left\lceil\frac{\min(C_{yaml},1024)\times0.25}{8}\right\rceil.
 
 ### 三種數值應分開閱讀
 
-| 數值 | 意義 | 是否直接等同另一個數值 |
-|---|---|---|
-| 內部 gate G | 控制新增特徵的相對貢獻 | 不是陰影分類機率 |
-| 實例像素 pᵢ=σ(zᵢ) | 像素屬於某個實例的估計 | 不等於物件 confidence |
-| 顯示／篩選用 confidence | 物件候選的分類分數 | 隱藏文字不改變篩選門檻 |
+| 數值                    | 意義                   | 是否直接等同另一個數值 |
+| ----------------------- | ---------------------- | ---------------------- |
+| 內部 gate G             | 控制新增特徵的相對貢獻 | 不是陰影分類機率       |
+| 實例像素 pᵢ=σ(zᵢ)       | 像素屬於某個實例的估計 | 不等於物件 confidence  |
+| 顯示／篩選用 confidence | 物件候選的分類分數     | 隱藏文字不改變篩選門檻 |
 
 ## K. 每版兩頁簡報
 
