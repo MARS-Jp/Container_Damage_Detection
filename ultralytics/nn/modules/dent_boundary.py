@@ -6,8 +6,8 @@ from __future__ import annotations
 import math
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from .block import Proto, Proto26MultiLabel
 from .conv import Conv, DWConv
@@ -20,8 +20,8 @@ __all__ = ("Segment26MultiLabelBoundary",)
 class ModulatedShapeConv(nn.Module):
     """Optional depthwise DCNv2 residual, using learned offsets and sigmoid modulation masks.
 
-    Torchvision native operators are required only when this branch is enabled. Sampling uses
-    FP32, including under autocast/model.half(), then returns to the incoming feature dtype.
+    Torchvision native operators are required only when this branch is enabled. Sampling uses FP32, including under
+    autocast/model.half(), then returns to the incoming feature dtype.
     """
 
     def __init__(self, channels: int):
@@ -42,9 +42,7 @@ class ModulatedShapeConv(nn.Module):
         from torchvision.ops import deform_conv2d
 
         with torch.autocast(device_type=x.device.type, enabled=False):
-            offset_mask = F.conv2d(
-                x.float(), self.offset_mask.weight.float(), self.offset_mask.bias.float(), padding=1
-            )
+            offset_mask = F.conv2d(x.float(), self.offset_mask.weight.float(), self.offset_mask.bias.float(), padding=1)
             offset, mask = offset_mask[:, :18], offset_mask[:, 18:].sigmoid()
             aligned = deform_conv2d(x.float(), offset, self.weight.float(), padding=(1, 1), mask=mask)
         return x + self.align_scale.tanh() * self.act(self.norm(aligned.to(x.dtype)))
@@ -53,8 +51,8 @@ class ModulatedShapeConv(nn.Module):
 class BoundaryGuidedDentFusion(DentDetailFusion):
     """Add deep semantic context and explicitly supervised boundaries to the 0915 shallow path.
 
-    The neck feature always retains an identity/residual path. Boundary evidence only modulates
-    the extra detail, with a nonzero floor; neither rust nor an edge threshold is required for D.
+    The neck feature always retains an identity/residual path. Boundary evidence only modulates the extra detail, with a
+    nonzero floor; neither rust nor an edge threshold is required for D.
     """
 
     def __init__(self, ch, c2, context_channels, nc, detail_scale=0.1, use_dcn=False):
@@ -88,8 +86,8 @@ class BoundaryGuidedDentFusion(DentDetailFusion):
 class NativeP2Proto(Proto26MultiLabel):
     """Fuse at the second input (P2) without downsampling it or upsampling prototypes to P1.
 
-    Input feature order remains P3/P2/P4/P5/P6. Existing projection/refinement parameter names
-    and shapes are retained; only the old transpose-convolution parameters are removed.
+    Input feature order remains P3/P2/P4/P5/P6. Existing projection/refinement parameter names and shapes are retained;
+    only the old transpose-convolution parameters are removed.
     """
 
     def __init__(self, ch=(), c_=256, c2=32, nc=80):
@@ -140,8 +138,7 @@ class Segment26MultiLabelBoundary(Segment26MultiLabel):
         self.use_dcn = use_dcn
         self.proto = NativeP2Proto(ch[: self.num_feature_levels], self.npr, self.nm, nc)
         self.detail_fusion = nn.ModuleList(
-            BoundaryGuidedDentFusion([ch[i], ch[-2 + i]], ch[i], ch[2], nc, detail_scale, use_dcn)
-            for i in range(2)
+            BoundaryGuidedDentFusion([ch[i], ch[-2 + i]], ch[i], ch[2], nc, detail_scale, use_dcn) for i in range(2)
         )
 
     def forward(self, x):

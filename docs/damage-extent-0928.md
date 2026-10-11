@@ -8,11 +8,11 @@
 
 新 XML 包含 25 個 D（凹損）與 69 個 R（鏽蝕）。以現有權重、`imgsz=640`、`conf=0.25`、`iou=0.3` 的核對結果為例：
 
-| 現象 | 此例證據 | 本次對應處理 |
-|---|---|---|
-| 有找到一小塊，但範圍不完整 | 新 D16 的框為 `[29,435,75,480]`，既有預測只有約 12×17；框 IoU 約 0.101 | 完整實例標記、範圍 loss |
-| 陰影位置的凹損沒有被抓到 | 新 D24、D25 附近的原始 D 分數約為 0.0178、0.0043，遠低於 0.25 | 陰影成對訓練、可靠位置的一致性監督、補齊正例 |
-| 相鄰或重疊的 D/R 容易互相干擾 | 25 個 D 框中有 19 個與至少一個 R 框相交 | 保留獨立實例遮罩及既有多標籤分支 |
+| 現象                          | 此例證據                                                               | 本次對應處理                                 |
+| ----------------------------- | ---------------------------------------------------------------------- | -------------------------------------------- |
+| 有找到一小塊，但範圍不完整    | 新 D16 的框為 `[29,435,75,480]`，既有預測只有約 12×17；框 IoU 約 0.101 | 完整實例標記、範圍 loss                      |
+| 陰影位置的凹損沒有被抓到      | 新 D24、D25 附近的原始 D 分數約為 0.0178、0.0043，遠低於 0.25          | 陰影成對訓練、可靠位置的一致性監督、補齊正例 |
+| 相鄰或重疊的 D/R 容易互相干擾 | 25 個 D 框中有 19 個與至少一個 R 框相交                                | 保留獨立實例遮罩及既有多標籤分支             |
 
 框相交只代表候選範圍相交，不能據此判定兩類損壞的像素一定重疊。提高解析度及切片推論的試跑沒有穩定找回 D24、D25，因此本次把訓練標記與監督方式列為主軸。單純把門檻降到極低，也可能同時帶入大量背景誤報。
 
@@ -20,22 +20,22 @@
 
 每組都有兩種 YAML：**模型檔**包含完整 backbone、head 與 `training_aux`；**訓練檔**包含模型路徑、解析度、epoch、batch、optimizer 等執行設定。訓練時讀取下表右側的訓練檔。
 
-| 順序 | 完整模型 YAML | 配套訓練 YAML | 該組要回答的問題 |
-|---|---|---|---|
-| 01 | [01-baseline](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-01-baseline.yaml) | [01-baseline](../ultralytics/cfg/experiments/damage-extent-0928/01-baseline.yaml) | 用已核對標記與共同參數重新建立基準 |
-| 02 | [02-shadow](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-02-shadow.yaml) | [02-shadow](../ultralytics/cfg/experiments/damage-extent-0928/02-shadow.yaml) | 加入陰影訓練能否改善暗處漏檢？ |
-| 03 | [03-consistency](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-03-consistency.yaml) | [03-consistency](../ultralytics/cfg/experiments/damage-extent-0928/03-consistency.yaml) | 陰影前後的可靠語意能否更穩定？ |
-| 04 | [04-extent](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-04-extent.yaml) | [04-extent](../ultralytics/cfg/experiments/damage-extent-0928/04-extent.yaml) | 最終實例遮罩是否較完整，同時控制多塗背景？ |
-| 05 | [05-boundary](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-05-boundary.yaml) | [05-boundary](../ultralytics/cfg/experiments/damage-extent-0928/05-boundary.yaml) | 在 04 上加邊界監督，是否改善精確輪廓？ |
-| 06 | [06-detail960](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-06-detail960.yaml) | [06-detail960](../ultralytics/cfg/experiments/damage-extent-0928/06-detail960.yaml) | 在 04 上改為 960 訓練，小凹損是否受益？ |
+| 順序 | 完整模型 YAML                                                                                      | 配套訓練 YAML                                                                           | 該組要回答的問題                           |
+| ---- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------ |
+| 01   | [01-baseline](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-01-baseline.yaml)       | [01-baseline](../ultralytics/cfg/experiments/damage-extent-0928/01-baseline.yaml)       | 用已核對標記與共同參數重新建立基準         |
+| 02   | [02-shadow](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-02-shadow.yaml)           | [02-shadow](../ultralytics/cfg/experiments/damage-extent-0928/02-shadow.yaml)           | 加入陰影訓練能否改善暗處漏檢？             |
+| 03   | [03-consistency](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-03-consistency.yaml) | [03-consistency](../ultralytics/cfg/experiments/damage-extent-0928/03-consistency.yaml) | 陰影前後的可靠語意能否更穩定？             |
+| 04   | [04-extent](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-04-extent.yaml)           | [04-extent](../ultralytics/cfg/experiments/damage-extent-0928/04-extent.yaml)           | 最終實例遮罩是否較完整，同時控制多塗背景？ |
+| 05   | [05-boundary](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-05-boundary.yaml)       | [05-boundary](../ultralytics/cfg/experiments/damage-extent-0928/05-boundary.yaml)       | 在 04 上加邊界監督，是否改善精確輪廓？     |
+| 06   | [06-detail960](../ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-06-detail960.yaml)     | [06-detail960](../ultralytics/cfg/experiments/damage-extent-0928/06-detail960.yaml)     | 在 04 上改為 960 訓練，小凹損是否受益？    |
 
-| 設定 | 01 | 02 | 03 | 04 | 05 | 06 |
-|---|---:|---:|---:|---:|---:|---:|
-| 陰影成對訓練 | 關閉 | 啟用 | 啟用 | 啟用 | 啟用 | 啟用 |
-| `consistency.gain` | 0 | 0 | 0.2 | 0.2 | 0.2 | 0.2 |
-| `extent.gain` | 0 | 0 | 0 | 0.2 | 0.2 | 0.2 |
-| `boundary.gain` | 0 | 0 | 0 | 0 | 0.05 | 0 |
-| 配套訓練檔 `imgsz` | 640 | 640 | 640 | 640 | 640 | 960 |
+| 設定               |   01 |   02 |   03 |   04 |   05 |   06 |
+| ------------------ | ---: | ---: | ---: | ---: | ---: | ---: |
+| 陰影成對訓練       | 關閉 | 啟用 | 啟用 | 啟用 | 啟用 | 啟用 |
+| `consistency.gain` |    0 |    0 |  0.2 |  0.2 |  0.2 |  0.2 |
+| `extent.gain`      |    0 |    0 |    0 |  0.2 |  0.2 |  0.2 |
+| `boundary.gain`    |    0 |    0 |    0 |    0 | 0.05 |    0 |
+| 配套訓練檔 `imgsz` |  640 |  640 |  640 |  640 |  640 |  960 |
 
 先比較 01→02→03→04，再分別比較 **04 與 05、04 與 06**。05 和 06 是獨立對照，06 沒有包含 05 的邊界項。
 
@@ -71,14 +71,14 @@ python tools/audit_damage_extent.py `
 
 ```yaml
 names:
-  0: B
-  1: C
-  2: D
-  3: H
-  4: O
-  5: R
-  6: X
-  7: U
+    0: B
+    1: C
+    2: D
+    3: H
+    4: O
+    5: R
+    6: X
+    7: U
 ```
 
 模型檔的 `nc: 80` 沿用原定義，trainer 會以資料 YAML 的八類覆寫。已用 `nc=8` 檢查全部參數相容；類別數相同但順序不同，仍會造成類別語意錯位。設定 `overlap_mask: false` 讓每個實例保有自己的遮罩；`mask_ratio: 4` 對應目前遮罩解析度。
@@ -106,7 +106,7 @@ z 是未壓縮的 logit，p 是像素屬於該實例的機率。新增項從 p �
 
 \[
 R_i(u,v)=\mathbf1[x_1-m\leq u+0.5<x_2+m]
-          \mathbf1[y_1-m\leq v+0.5<y_2+m].
+\mathbf1[y_1-m\leq v+0.5<y_2+m].
 \]
 
 R 只決定在哪裡算新增 loss。外擴 1 個 mask 像素讓它看見邊界附近的背景，避免只看到框內正例。`mask_ratio=4` 時，相當於約 4 個網路輸入像素，映回原圖的寬度還取決於縮放比例。**GT 遮罩沒有膨脹，推論輸出也沒有被自動擴框或填滿。**
@@ -127,7 +127,7 @@ FP_i=\sum R_i p_i(1-y_i).
 
 \[
 L_{T,i}=1-\frac{TP_i+\epsilon}
- {TP_i+0.7FN_i+0.3FP_i+\epsilon},\qquad\epsilon=10^{-6}.
+{TP_i+0.7FN_i+0.3FP_i+\epsilon},\qquad\epsilon=10^{-6}.
 \]
 
 0.7 與 0.3 決定分母中 FN、FP 的相對權重，使本次設定更偏向補回遺漏前景。這不表示召回率會提高 70%，也不代表兩類像素梯度在所有情況下都固定為 7:3。ε 避免零分母。Tversky 以不對稱錯誤權重調節分割取捨的想法來自 [Tversky loss 論文](https://arxiv.org/abs/1706.05721)；本專案採用的數值仍需用貨櫃資料驗證。
@@ -216,7 +216,7 @@ w(u,v)=1+2\mathbf1\left[\sum_cY_c(u,v)>1\right].
 
 \[
 L_{edge}=1-\frac{2\sum E(p)E(y)+\epsilon}
- {\sum E(p)+\sum E(y)+\epsilon}.
+{\sum E(p)+\sum E(y)+\epsilon}.
 \]
 
 另加 GT 邊界帶上平均的 BCE，兩項各占一半，以 0.05 的增益加入 seg loss，沿用正樣本正規化。形態差分在輪廓附近較大，Dice 形式衡量邊界的對齊；邊界帶 BCE 為初始機率近乎平坦時提供梯度。若完整範圍已正確、輪廓仍粗糙，這一組才有明確比較價值；錯誤或很粗糙的 polygon 邊界也可能被強化。

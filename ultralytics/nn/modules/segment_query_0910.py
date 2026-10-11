@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from .block import Proto26MultiLabel
 from .head import Segment26MultiLabel
@@ -16,10 +16,9 @@ __all__ = ("P2Proto26MultiLabel0910", "Segment26ClassQuery0910")
 class P2Proto26MultiLabel0910(Proto26MultiLabel):
     """Generate standard stride-4 prototypes directly from a stride-4 P2 feature.
 
-    The regular Proto module upsamples its first input by two because ordinary
-    segmentation heads start at P3/8. This model starts at P2/4, so retaining
-    that upsample would produce stride-2 masks that the standard validator
-    cannot compare with its stride-4 targets.
+    The regular Proto module upsamples its first input by two because ordinary segmentation heads start at P3/8. This
+    model starts at P2/4, so retaining that upsample would produce stride-2 masks that the standard validator cannot
+    compare with its stride-4 targets.
     """
 
     def __init__(self, ch: tuple = (), c_: int = 256, c2: int = 32, nc: int = 80):

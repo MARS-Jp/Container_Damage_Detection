@@ -1,6 +1,8 @@
 # Ultralytics 🚀 AGPL-3.0 License - https://ultralytics.com/license
 """Tests for class-conditioned multi-label supervision in MSAT V2."""
 
+from __future__ import annotations
+
 from copy import deepcopy
 from pathlib import Path
 
@@ -11,7 +13,6 @@ from ultralytics.nn.modules import MSAT, MSATMultiLabel, MultiStateCSAR, Segment
 from ultralytics.nn.tasks import SegmentationModel
 from ultralytics.utils.loss import v8MultiLabelSegmentationLoss
 from ultralytics.utils.torch_utils import ModelEMA
-
 
 MODEL_CFG = Path("ultralytics/cfg/models/11_myself/yolo11-MSAT-V2-MultiLabel.yaml")
 V1_CFG = Path("ultralytics/cfg/models/11_myself/yolo11-MSAT-V1.yaml")

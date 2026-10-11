@@ -7,7 +7,7 @@ import math
 
 import numpy as np
 import torch
-import torch.nn as nn
+from torch import nn
 
 __all__ = (
     "CBAM",
@@ -94,9 +94,9 @@ class Conv(nn.Module):
 class IlluminationInvariantConv(nn.Module):
     """Extract YOLA illumination-invariant features with shared zero-mean kernels.
 
-    The module applies the same learnable spatial kernels to logarithmic RGB channels and returns the pairwise
-    R-G, G-B, and R-B responses. Subtracting the spatial mean from every kernel preserves the zero-mean constraint
-    proposed by YOLA without requiring an optimizer hook or a separate parameter projection step.
+    The module applies the same learnable spatial kernels to logarithmic RGB channels and returns the pairwise R-G, G-B,
+    and R-B responses. Subtracting the spatial mean from every kernel preserves the zero-mean constraint proposed by
+    YOLA without requiring an optimizer hook or a separate parameter projection step.
     """
 
     def __init__(self, kernel_nums=8, kernel_size=3, eps=1e-7):
@@ -136,7 +136,9 @@ class IlluminationInvariantConv(nn.Module):
     def forward(self, x):
         """Extract illumination-invariant features from an RGB tensor in the [0, 1] range."""
         if x.shape[1] != 3:
-            raise ValueError(f"IlluminationInvariantConv requires RGB input with 3 channels, but received {x.shape[1]}.")
+            raise ValueError(
+                f"IlluminationInvariantConv requires RGB input with 3 channels, but received {x.shape[1]}."
+            )
 
         zero_mask = x == 0
         log_rgb = x.clamp_min(self.eps).log().split(1, dim=1)
