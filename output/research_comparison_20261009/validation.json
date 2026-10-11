@@ -1,0 +1,20 @@
+{
+  "pdf_pages": 3,
+  "pdf_numeric_display_check": "passed",
+  "unsupported_text_glyph_check": "passed",
+  "source_links": [
+    "https://papers.neurips.cc/paper/2021/file/64f1f27bf1b4ec22924fd0acb550c235-Paper.pdf",
+    "https://papers.nips.cc/paper/2021/hash/64f1f27bf1b4ec22924fd0acb550c235-Abstract.html",
+    "https://mmcheng.net/wp-content/uploads/2025/06/25PAMI_LRFormer.pdf",
+    "https://github.com/yuhuan-wu/LRFormer",
+    "https://arxiv.org/html/2412.11890v2",
+    "https://github.com/yunxiangfu2001/SegMAN"
+  ],
+  "visual_review": "all_3_pages_passed",
+  "main_image_pixels": [
+    1988,
+    1406
+  ],
+  "pdf_bytes": 235222,
+  "main_csv_rows": 4
+}

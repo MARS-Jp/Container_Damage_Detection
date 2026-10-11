@@ -1,0 +1,1133 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/142dnq",
+    "id": "142dnq",
+    "slide": 2,
+    "layoutId": "62d7705a-6c4b-4b0c-ba88-a5c7a1eed54e",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "5907f495-916b-40c3-b19f-3c08611c0f1b",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Noto Sans TC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "62d7705a-6c4b-4b0c-ba88-a5c7a1eed54e",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "5907f495-916b-40c3-b19f-3c08611c0f1b",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "5907f495-916b-40c3-b19f-3c08611c0f1b",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/4jq5wzud",
+      "id": "1",
+      "name": "title",
+      "bbox": [
+        60,
+        32,
+        1160,
+        72
+      ],
+      "geometry": "rect",
+      "text": "03 原型殘差與完整凹損範圍",
+      "textPreview": "03 原型殘差與完整凹損範圍",
+      "resolvedFontSize": 45,
+      "resolvedTextStyle": {
+        "fontSize": 45,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "03 原型殘差與完整凹損範圍"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "03 原型殘差與完整凹損範圍",
+          "resolvedTextStyle": {
+            "fontSize": 45,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "03 原型殘差與完整凹損範圍",
+              "fontSize": 45,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jih43uds",
+      "id": "2",
+      "name": "subtitle",
+      "bbox": [
+        62,
+        111,
+        1156,
+        48
+      ],
+      "geometry": "rect",
+      "text": "新增分支經最終實例 mask loss 學習，保留原型與係數的組合方式",
+      "textPreview": "新增分支經最終實例 mask loss 學習，保留原型與係數的組合方式",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "新增分支經最終實例 mask loss 學習，保留原型與係數的組合方式"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "新增分支經最終實例 mask loss 學習，保留原型與係數的組合方式",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "新增分支經最終實例 mask loss 學習，保留原型與係數的組合方式",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ih8nupc7",
+      "id": "3",
+      "name": "footer",
+      "bbox": [
+        62,
+        663,
+        1156,
+        38
+      ],
+      "geometry": "rect",
+      "text": "完整版相較基準新增約 1.45% 參數。尚未重訓，沒有準確率或 FPS 改善數據。",
+      "textPreview": "完整版相較基準新增約 1.45% 參數。尚未重訓，沒有準確率或 FPS 改善數據。",
+      "resolvedFontSize": 22.69,
+      "resolvedTextStyle": {
+        "fontSize": 22.69,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "完整版相較基準新增約 1.45% 參數。尚未重訓，沒有準確率或 FPS 改善數據。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "完整版相較基準新增約 1.45% 參數。尚未重訓，沒有準確率或 FPS 改善數據。",
+          "resolvedTextStyle": {
+            "fontSize": 22.69,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "完整版相較基準新增約 1.45% 參數。尚未重訓，沒有準確率或 FPS 改善數據。",
+              "fontSize": 22.69,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hgzm14v2",
+      "id": "4",
+      "name": "proto-heading",
+      "bbox": [
+        62,
+        181,
+        583,
+        43
+      ],
+      "geometry": "rect",
+      "text": "門控及可正可負的原型修正",
+      "textPreview": "門控及可正可負的原型修正",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "門控及可正可負的原型修正"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "門控及可正可負的原型修正",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "門控及可正可負的原型修正",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wfqlszuh",
+      "id": "5",
+      "name": "proto-gate",
+      "bbox": [
+        62,
+        232,
+        583,
+        50
+      ],
+      "geometry": "rect",
+      "text": "G = σ(Wg[D,C] + b)",
+      "textPreview": "G = σ(Wg[D,C] + b)",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "G = σ(Wg[D,C] + b)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "G = σ(Wg[D,C] + b)",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "G = σ(Wg[D,C] + b)",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/veh4zudw",
+      "id": "6",
+      "name": "proto-delta",
+      "bbox": [
+        62,
+        295,
+        583,
+        50
+      ],
+      "geometry": "rect",
+      "text": "ΔP = Wo DWConv(D+C) + bo",
+      "textPreview": "ΔP = Wo DWConv(D+C) + bo",
+      "resolvedFontSize": 28,
+      "resolvedTextStyle": {
+        "fontSize": 28,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "ΔP = Wo DWConv(D+C) + bo"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "ΔP = Wo DWConv(D+C) + bo",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "ΔP = Wo DWConv(D+C) + bo",
+              "fontSize": 28,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ud83qpcb",
+      "id": "7",
+      "name": "proto-residual",
+      "bbox": [
+        62,
+        358,
+        583,
+        50
+      ],
+      "geometry": "rect",
+      "text": "P′ = Pold + tanh(β) G ⊙ ΔP",
+      "textPreview": "P′ = Pold + tanh(β) G ⊙ ΔP",
+      "resolvedFontSize": 28,
+      "resolvedTextStyle": {
+        "fontSize": 28,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "P′ = Pold + tanh(β) G ⊙ ΔP"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "P′ = Pold + tanh(β) G ⊙ ΔP",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "P′ = Pold + tanh(β) G ⊙ ΔP",
+              "fontSize": 28,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1c3mdov6",
+      "id": "8",
+      "name": "proto-gate-note",
+      "bbox": [
+        62,
+        419,
+        583,
+        82
+      ],
+      "geometry": "rect",
+      "text": "G 為單通道 gate，廣播至 32 個原型。\nβ 初始 0.1，保留原路與新增路的梯度。",
+      "textPreview": "G 為單通道 gate，廣播至 32 個原型。 | β 初始 0.1，保留原路與新增路的梯度。",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "G 為單通道 gate，廣播至 32 個原型。"
+          },
+          {
+            "index": 2,
+            "text": "β 初始 0.1，保留原路與新增路的梯度。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "G 為單通道 gate，廣播至 32 個原型。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "G 為單通道 gate，廣播至 32 個原型。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "β 初始 0.1，保留原路與新增路的梯度。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "β 初始 0.1，保留原路與新增路的梯度。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/gbu54jul",
+      "id": "9",
+      "name": "instance-heading",
+      "bbox": [
+        696,
+        181,
+        522,
+        43
+      ],
+      "geometry": "rect",
+      "text": "不同實例使用不同原型係數",
+      "textPreview": "不同實例使用不同原型係數",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "不同實例使用不同原型係數"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "不同實例使用不同原型係數",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "不同實例使用不同原型係數",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/q5kb2l8v",
+      "id": "10",
+      "name": "instance-formula",
+      "bbox": [
+        696,
+        232,
+        522,
+        50
+      ],
+      "geometry": "rect",
+      "text": "zᵢ = Σₖ cᵢₖP′ₖ，pᵢ = σ(zᵢ)",
+      "textPreview": "zᵢ = Σₖ cᵢₖP′ₖ，pᵢ = σ(zᵢ)",
+      "resolvedFontSize": 28,
+      "resolvedTextStyle": {
+        "fontSize": 28,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "zᵢ = Σₖ cᵢₖP′ₖ，pᵢ = σ(zᵢ)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "zᵢ = Σₖ cᵢₖP′ₖ，pᵢ = σ(zᵢ)",
+          "resolvedTextStyle": {
+            "fontSize": 28,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "zᵢ = Σₖ cᵢₖP′ₖ，pᵢ = σ(zᵢ)",
+              "fontSize": 28,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/r6tcv69g",
+      "id": "11",
+      "name": "bce-derivative",
+      "bbox": [
+        696,
+        295,
+        522,
+        50
+      ],
+      "geometry": "rect",
+      "text": "∂ℓ/∂zᵢ = pᵢ − yᵢ",
+      "textPreview": "∂ℓ/∂zᵢ = pᵢ − yᵢ",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "∂ℓ/∂zᵢ = pᵢ − yᵢ"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "∂ℓ/∂zᵢ = pᵢ − yᵢ",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "∂ℓ/∂zᵢ = pᵢ − yᵢ",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/c72t4bq1",
+      "id": "12",
+      "name": "gradient-meaning",
+      "bbox": [
+        696,
+        359,
+        522,
+        130
+      ],
+      "geometry": "rect",
+      "text": "真實損壞漏掉時，負梯度推高 logit。\n係數 cᵢₖ 可正可負，因此各原型\n不必全部變亮，最終組合才是目標。",
+      "textPreview": "真實損壞漏掉時，負梯度推高 logit。 | 係數 cᵢₖ 可正可負，因此各原型 | 不必全部變亮，最終組合才是目標。",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "真實損壞漏掉時，負梯度推高 logit。"
+          },
+          {
+            "index": 2,
+            "text": "係數 cᵢₖ 可正可負，因此各原型"
+          },
+          {
+            "index": 3,
+            "text": "不必全部變亮，最終組合才是目標。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "真實損壞漏掉時，負梯度推高 logit。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "真實損壞漏掉時，負梯度推高 logit。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "係數 cᵢₖ 可正可負，因此各原型",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "係數 cᵢₖ 可正可負，因此各原型",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "不必全部變亮，最終組合才是目標。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "不必全部變亮，最終組合才是目標。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 13,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/it4zapk3",
+      "id": "13",
+      "bbox": [
+        62,
+        521,
+        1156,
+        129
+      ],
+      "text": "可能作用 | 影響邊界與驗證重點\n補充已匹配實例的範圍 | 完整 polygon 必須正確，避免背景外溢\n直接監督 prototype 旁路 | 無法保證找回完全沒有候選框的凹損",
+      "textPreview": "可能作用 | 影響邊界與驗證重點 | 補充已匹配實例的範圍 | 完整 polygon 必須正確，避免背景外溢 | 直接監督 prototype 旁路 | 無法保證找回完全沒有候選框的凹損",
+      "rows": 3,
+      "cols": 2,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            62,
+            521,
+            340,
+            43
+          ],
+          "text": "可能作用",
+          "textPreview": "可能作用",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "可能作用",
+              "resolvedTextStyle": {
+                "fontSize": 24,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "可能作用",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            402,
+            521,
+            816,
+            43
+          ],
+          "text": "影響邊界與驗證重點",
+          "textPreview": "影響邊界與驗證重點",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "影響邊界與驗證重點",
+              "resolvedTextStyle": {
+                "fontSize": 24,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "影響邊界與驗證重點",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            62,
+            564,
+            340,
+            43
+          ],
+          "text": "補充已匹配實例的範圍",
+          "textPreview": "補充已匹配實例的範圍",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "補充已匹配實例的範圍",
+              "resolvedTextStyle": {
+                "fontSize": 24,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "補充已匹配實例的範圍",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            402,
+            564,
+            816,
+            43
+          ],
+          "text": "完整 polygon 必須正確，避免背景外溢",
+          "textPreview": "完整 polygon 必須正確，避免背景外溢",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "完整 polygon 必須正確，避免背景外溢",
+              "resolvedTextStyle": {
+                "fontSize": 24,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "完整 polygon 必須正確，避免背景外溢",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            62,
+            607,
+            340,
+            43
+          ],
+          "text": "直接監督 prototype 旁路",
+          "textPreview": "直接監督 prototype 旁路",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "直接監督 prototype 旁路",
+              "resolvedTextStyle": {
+                "fontSize": 24,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "直接監督 prototype 旁路",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            402,
+            607,
+            816,
+            43
+          ],
+          "text": "無法保證找回完全沒有候選框的凹損",
+          "textPreview": "無法保證找回完全沒有候選框的凹損",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "無法保證找回完全沒有候選框的凹損",
+              "resolvedTextStyle": {
+                "fontSize": 24,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "無法保證找回完全沒有候選框的凹損",
+                  "fontSize": 24,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "composeRuns": []
+}

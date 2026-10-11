@@ -1,0 +1,1335 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/1j2asn",
+    "id": "1j2asn",
+    "slide": 2,
+    "layoutId": "b4f4a8e1-2964-4efa-a984-423eb9237984",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "203c5da8-484f-433f-a9e9-6eb2712e9e18",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Noto Sans TC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "b4f4a8e1-2964-4efa-a984-423eb9237984",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "203c5da8-484f-433f-a9e9-6eb2712e9e18",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "203c5da8-484f-433f-a9e9-6eb2712e9e18",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/nipgjq94",
+      "id": "1",
+      "name": "title",
+      "bbox": [
+        60,
+        32,
+        1160,
+        72
+      ],
+      "geometry": "rect",
+      "text": "01 相對對比在陰影中的作用",
+      "textPreview": "01 相對對比在陰影中的作用",
+      "resolvedFontSize": 45,
+      "resolvedTextStyle": {
+        "fontSize": 45,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "01 相對對比在陰影中的作用"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "01 相對對比在陰影中的作用",
+          "resolvedTextStyle": {
+            "fontSize": 45,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "01 相對對比在陰影中的作用",
+              "fontSize": 45,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ojyhsvqp",
+      "id": "2",
+      "name": "subtitle",
+      "bbox": [
+        62,
+        111,
+        1156,
+        48
+      ],
+      "geometry": "rect",
+      "text": "均勻變暗時可保留部分相對差異，陰影界線仍會產生響應",
+      "textPreview": "均勻變暗時可保留部分相對差異，陰影界線仍會產生響應",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "均勻變暗時可保留部分相對差異，陰影界線仍會產生響應"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "均勻變暗時可保留部分相對差異，陰影界線仍會產生響應",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "均勻變暗時可保留部分相對差異，陰影界線仍會產生響應",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/9k7yl0ra",
+      "id": "3",
+      "name": "footer",
+      "bbox": [
+        62,
+        663,
+        1156,
+        38
+      ],
+      "geometry": "rect",
+      "text": "數值為公式示例，並非訓練結果。門控 G 表示特徵取捨，不是陰影機率。",
+      "textPreview": "數值為公式示例，並非訓練結果。門控 G 表示特徵取捨，不是陰影機率。",
+      "resolvedFontSize": 22.69,
+      "resolvedTextStyle": {
+        "fontSize": 22.69,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "數值為公式示例，並非訓練結果。門控 G 表示特徵取捨，不是陰影機率。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "數值為公式示例，並非訓練結果。門控 G 表示特徵取捨，不是陰影機率。",
+          "resolvedTextStyle": {
+            "fontSize": 22.69,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "數值為公式示例，並非訓練結果。門控 G 表示特徵取捨，不是陰影機率。",
+              "fontSize": 22.69,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/edwzml8n",
+      "id": "4",
+      "name": "example-heading",
+      "bbox": [
+        62,
+        181,
+        570,
+        43
+      ],
+      "geometry": "rect",
+      "text": "四分之一亮度的手算示例",
+      "textPreview": "四分之一亮度的手算示例",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "四分之一亮度的手算示例"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "四分之一亮度的手算示例",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "四分之一亮度的手算示例",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/yx0ru9sz",
+      "id": "5",
+      "bbox": [
+        62,
+        232,
+        568,
+        280
+      ],
+      "text": "數值 | 原亮度 | 變暗後\nY | 0.20 | 0.05\nμ | 0.24 | 0.06\nY−μ | −0.04 | −0.01\ntanh((Y−μ)/(μ+ε)) | −0.163 | −0.155",
+      "textPreview": "數值 | 原亮度 | 變暗後 | Y | 0.20 | 0.05 | μ | 0.24 | 0.06 | Y−μ | −0.04 | −0.01 | tanh((Y−μ)/(μ+ε)) | −0.163 | −0.155",
+      "rows": 5,
+      "cols": 3,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            62,
+            232,
+            310,
+            56
+          ],
+          "text": "數值",
+          "textPreview": "數值",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "數值",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "數值",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            372,
+            232,
+            129,
+            56
+          ],
+          "text": "原亮度",
+          "textPreview": "原亮度",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "原亮度",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "原亮度",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            501,
+            232,
+            129,
+            56
+          ],
+          "text": "變暗後",
+          "textPreview": "變暗後",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "變暗後",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "變暗後",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            62,
+            288,
+            310,
+            56
+          ],
+          "text": "Y",
+          "textPreview": "Y",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Y",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Y",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            372,
+            288,
+            129,
+            56
+          ],
+          "text": "0.20",
+          "textPreview": "0.20",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "0.20",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "0.20",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            501,
+            288,
+            129,
+            56
+          ],
+          "text": "0.05",
+          "textPreview": "0.05",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "0.05",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "0.05",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            62,
+            344,
+            310,
+            56
+          ],
+          "text": "μ",
+          "textPreview": "μ",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "μ",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "μ",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            372,
+            344,
+            129,
+            56
+          ],
+          "text": "0.24",
+          "textPreview": "0.24",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "0.24",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "0.24",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            501,
+            344,
+            129,
+            56
+          ],
+          "text": "0.06",
+          "textPreview": "0.06",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "0.06",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "0.06",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 10,
+          "row": 4,
+          "column": 1,
+          "bbox": [
+            62,
+            400,
+            310,
+            56
+          ],
+          "text": "Y−μ",
+          "textPreview": "Y−μ",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "Y−μ",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "Y−μ",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 11,
+          "row": 4,
+          "column": 2,
+          "bbox": [
+            372,
+            400,
+            129,
+            56
+          ],
+          "text": "−0.04",
+          "textPreview": "−0.04",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "−0.04",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "−0.04",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 12,
+          "row": 4,
+          "column": 3,
+          "bbox": [
+            501,
+            400,
+            129,
+            56
+          ],
+          "text": "−0.01",
+          "textPreview": "−0.01",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "−0.01",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "−0.01",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 13,
+          "row": 5,
+          "column": 1,
+          "bbox": [
+            62,
+            456,
+            310,
+            56
+          ],
+          "text": "tanh((Y−μ)/(μ+ε))",
+          "textPreview": "tanh((Y−μ)/(μ+ε))",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "tanh((Y−μ)/(μ+ε))",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "tanh((Y−μ)/(μ+ε))",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 14,
+          "row": 5,
+          "column": 2,
+          "bbox": [
+            372,
+            456,
+            129,
+            56
+          ],
+          "text": "−0.163",
+          "textPreview": "−0.163",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "−0.163",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "−0.163",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 15,
+          "row": 5,
+          "column": 3,
+          "bbox": [
+            501,
+            456,
+            129,
+            56
+          ],
+          "text": "−0.155",
+          "textPreview": "−0.155",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "−0.155",
+              "resolvedTextStyle": {
+                "fontSize": 23.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "−0.155",
+                  "fontSize": 23.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/0fyhovqt",
+      "id": "6",
+      "name": "contrast-result",
+      "bbox": [
+        62,
+        534,
+        572,
+        84
+      ],
+      "geometry": "rect",
+      "text": "絕對差縮為 1/4，相對對比仍接近。\n極暗時 ε 的影響變大，訊號也會縮小。",
+      "textPreview": "絕對差縮為 1/4，相對對比仍接近。 | 極暗時 ε 的影響變大，訊號也會縮小。",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "絕對差縮為 1/4，相對對比仍接近。"
+          },
+          {
+            "index": 2,
+            "text": "極暗時 ε 的影響變大，訊號也會縮小。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "絕對差縮為 1/4，相對對比仍接近。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "絕對差縮為 1/4，相對對比仍接近。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "極暗時 ε 的影響變大，訊號也會縮小。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "極暗時 ε 的影響變大，訊號也會縮小。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/1g7yh0re",
+      "id": "7",
+      "name": "shadow-formula-heading",
+      "bbox": [
+        686,
+        181,
+        532,
+        43
+      ],
+      "geometry": "rect",
+      "text": "局部衰減 a 的影響",
+      "textPreview": "局部衰減 a 的影響",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "局部衰減 a 的影響"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "局部衰減 a 的影響",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "局部衰減 a 的影響",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/qpwzi18r",
+      "id": "8",
+      "name": "relative-formula",
+      "bbox": [
+        686,
+        233,
+        532,
+        50
+      ],
+      "geometry": "rect",
+      "text": "q′ = (Y−μ) / (μ+ε/a)",
+      "textPreview": "q′ = (Y−μ) / (μ+ε/a)",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "q′ = (Y−μ) / (μ+ε/a)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "q′ = (Y−μ) / (μ+ε/a)",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "q′ = (Y−μ) / (μ+ε/a)",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/rq5gb69w",
+      "id": "9",
+      "name": "relative-meaning",
+      "bbox": [
+        686,
+        295,
+        532,
+        82
+      ],
+      "geometry": "rect",
+      "text": "只有鄰域內 a 近似一致，\n且 μ 遠大於 ε/a，才近似保留對比。",
+      "textPreview": "只有鄰域內 a 近似一致， | 且 μ 遠大於 ε/a，才近似保留對比。",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 2,
+        "lines": [
+          {
+            "index": 1,
+            "text": "只有鄰域內 a 近似一致，"
+          },
+          {
+            "index": 2,
+            "text": "且 μ 遠大於 ε/a，才近似保留對比。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "只有鄰域內 a 近似一致，",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "只有鄰域內 a 近似一致，",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "且 μ 遠大於 ε/a，才近似保留對比。",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "且 μ 遠大於 ε/a，才近似保留對比。",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/76x8fax4",
+      "id": "10",
+      "name": "shadow-edge-formula",
+      "bbox": [
+        686,
+        400,
+        532,
+        50
+      ],
+      "geometry": "rect",
+      "text": "∇(aY) = a∇Y + Y∇a",
+      "textPreview": "∇(aY) = a∇Y + Y∇a",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "∇(aY) = a∇Y + Y∇a"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "∇(aY) = a∇Y + Y∇a",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "∇(aY) = a∇Y + Y∇a",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/m5orm5gj",
+      "id": "11",
+      "name": "edge-meaning",
+      "bbox": [
+        686,
+        460,
+        532,
+        129
+      ],
+      "geometry": "rect",
+      "text": "a∇Y：原表面的明暗變化\nY∇a：照明變化也會形成邊界\n需用上下文與純陰影負例控制誤報。",
+      "textPreview": "a∇Y：原表面的明暗變化 | Y∇a：照明變化也會形成邊界 | 需用上下文與純陰影負例控制誤報。",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "a∇Y：原表面的明暗變化"
+          },
+          {
+            "index": 2,
+            "text": "Y∇a：照明變化也會形成邊界"
+          },
+          {
+            "index": 3,
+            "text": "需用上下文與純陰影負例控制誤報。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "a∇Y：原表面的明暗變化",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "a∇Y：原表面的明暗變化",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Y∇a：照明變化也會形成邊界",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Y∇a：照明變化也會形成邊界",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "需用上下文與純陰影負例控制誤報。",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "需用上下文與純陰影負例控制誤報。",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

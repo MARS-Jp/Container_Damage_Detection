@@ -1,0 +1,17 @@
+{
+  "regions": [
+    {
+      "name": "right_orange_column",
+      "source": "C:/Users/USER/Desktop/碩論/貨櫃-20221012T025654Z-001/貨櫃/Container_damage Dataset/train/B/CBHU0708054-A.JPG",
+      "classes": ["R"],
+      "polygon_normalized": [
+        [0.845, 0.0],
+        [1.0, 0.0],
+        [1.0, 1.0],
+        [0.880, 1.0],
+        [0.870, 0.600],
+        [0.858, 0.250]
+      ]
+    }
+  ]
+}

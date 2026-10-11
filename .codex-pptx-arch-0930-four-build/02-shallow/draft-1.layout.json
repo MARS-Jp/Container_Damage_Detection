@@ -1,0 +1,1195 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/kw94iv",
+    "id": "kw94iv",
+    "slide": 1,
+    "layoutId": "db206cd2-bb05-4cc3-ab29-3eafa3fb5a34",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "6d425fae-a69e-4e03-9851-b06ecffc9e3c",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Noto Sans TC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "db206cd2-bb05-4cc3-ab29-3eafa3fb5a34",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "6d425fae-a69e-4e03-9851-b06ecffc9e3c",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "6d425fae-a69e-4e03-9851-b06ecffc9e3c",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/yh8retcv",
+      "id": "1",
+      "name": "title",
+      "bbox": [
+        60,
+        32,
+        1160,
+        72
+      ],
+      "geometry": "rect",
+      "text": "02 淺層特徵直達預測頭",
+      "textPreview": "02 淺層特徵直達預測頭",
+      "resolvedFontSize": 45,
+      "resolvedTextStyle": {
+        "fontSize": 45,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "02 淺層特徵直達預測頭"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "02 淺層特徵直達預測頭",
+          "resolvedTextStyle": {
+            "fontSize": 45,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "02 淺層特徵直達預測頭",
+              "fontSize": 45,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/lkzq9ob6",
+      "id": "2",
+      "name": "subtitle",
+      "bbox": [
+        62,
+        111,
+        1156,
+        48
+      ],
+      "geometry": "rect",
+      "text": "繼承 01 入口旁路，再加入 FSNet 的 P3 與 P2 來源",
+      "textPreview": "繼承 01 入口旁路，再加入 FSNet 的 P3 與 P2 來源",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "繼承 01 入口旁路，再加入 FSNet 的 P3 與 P2 來源"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "繼承 01 入口旁路，再加入 FSNet 的 P3 與 P2 來源",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "繼承 01 入口旁路，再加入 FSNet 的 P3 與 P2 來源",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/kjq9gjul",
+      "id": "3",
+      "name": "footer",
+      "bbox": [
+        62,
+        663,
+        1156,
+        38
+      ],
+      "geometry": "rect",
+      "text": "02 相較 01 新增 74,948 個參數。新增特徵影響框、分類、係數與原型。",
+      "textPreview": "02 相較 01 新增 74,948 個參數。新增特徵影響框、分類、係數與原型。",
+      "resolvedFontSize": 22.69,
+      "resolvedTextStyle": {
+        "fontSize": 22.69,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "02 相較 01 新增 74,948 個參數。新增特徵影響框、分類、係數與原型。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "02 相較 01 新增 74,948 個參數。新增特徵影響框、分類、係數與原型。",
+          "resolvedTextStyle": {
+            "fontSize": 22.69,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "02 相較 01 新增 74,948 個參數。新增特徵影響框、分類、係數與原型。",
+              "fontSize": 22.69,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/bex83et4",
+      "id": "4",
+      "name": "routes-heading",
+      "bbox": [
+        62,
+        181,
+        576,
+        43
+      ],
+      "geometry": "rect",
+      "text": "兩條新增連接",
+      "textPreview": "兩條新增連接",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "兩條新增連接"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "兩條新增連接",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "兩條新增連接",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/7idkbit0",
+      "id": "5",
+      "bbox": [
+        62,
+        234,
+        566,
+        196
+      ],
+      "text": "尺度 | 原 head 特徵 | 新增 FSNet\nP3 | layer 22 | layer 6\nP2 | layer 25 | layer 3",
+      "textPreview": "尺度 | 原 head 特徵 | 新增 FSNet | P3 | layer 22 | layer 6 | P2 | layer 25 | layer 3",
+      "rows": 3,
+      "cols": 3,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            62,
+            234,
+            112,
+            65.33
+          ],
+          "text": "尺度",
+          "textPreview": "尺度",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "尺度",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "尺度",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            174,
+            234,
+            229,
+            65.33
+          ],
+          "text": "原 head 特徵",
+          "textPreview": "原 head 特徵",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "原 head 特徵",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "原 head 特徵",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 1,
+          "column": 3,
+          "bbox": [
+            403,
+            234,
+            225,
+            65.33
+          ],
+          "text": "新增 FSNet",
+          "textPreview": "新增 FSNet",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "新增 FSNet",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "新增 FSNet",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            62,
+            299.33,
+            112,
+            65.33
+          ],
+          "text": "P3",
+          "textPreview": "P3",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "P3",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "P3",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            174,
+            299.33,
+            229,
+            65.33
+          ],
+          "text": "layer 22",
+          "textPreview": "layer 22",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "layer 22",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "layer 22",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 2,
+          "column": 3,
+          "bbox": [
+            403,
+            299.33,
+            225,
+            65.33
+          ],
+          "text": "layer 6",
+          "textPreview": "layer 6",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "layer 6",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "layer 6",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 7,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            62,
+            364.67,
+            112,
+            65.33
+          ],
+          "text": "P2",
+          "textPreview": "P2",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "P2",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "P2",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 8,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            174,
+            364.67,
+            229,
+            65.33
+          ],
+          "text": "layer 25",
+          "textPreview": "layer 25",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "layer 25",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "layer 25",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 9,
+          "row": 3,
+          "column": 3,
+          "bbox": [
+            403,
+            364.67,
+            225,
+            65.33
+          ],
+          "text": "layer 3",
+          "textPreview": "layer 3",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "layer 3",
+              "resolvedTextStyle": {
+                "fontSize": 25,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "layer 3",
+                  "fontSize": 25,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/xgzq5oba",
+      "id": "6",
+      "name": "routes-note",
+      "bbox": [
+        62,
+        459,
+        570,
+        120
+      ],
+      "geometry": "rect",
+      "text": "P3 融合後：128×80×80\nP2 融合後：64×160×160\n以上為 n 規模、640 輸入。",
+      "textPreview": "P3 融合後：128×80×80 | P2 融合後：64×160×160 | 以上為 n 規模、640 輸入。",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "P3 融合後：128×80×80"
+          },
+          {
+            "index": 2,
+            "text": "P2 融合後：64×160×160"
+          },
+          {
+            "index": 3,
+            "text": "以上為 n 規模、640 輸入。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "P3 融合後：128×80×80",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "P3 融合後：128×80×80",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "P2 融合後：64×160×160",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "P2 融合後：64×160×160",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "以上為 n 規模、640 輸入。",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "以上為 n 規模、640 輸入。",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/cf69cjup",
+      "id": "7",
+      "name": "difference-heading",
+      "bbox": [
+        680,
+        181,
+        538,
+        43
+      ],
+      "geometry": "rect",
+      "text": "投影後保留局部差異",
+      "textPreview": "投影後保留局部差異",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "投影後保留局部差異"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "投影後保留局部差異",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "投影後保留局部差異",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/va18fyt8",
+      "id": "8",
+      "name": "shallow-project",
+      "bbox": [
+        680,
+        232,
+        538,
+        50
+      ],
+      "geometry": "rect",
+      "text": "S = Conv₁×₁(Sraw)",
+      "textPreview": "S = Conv₁×₁(Sraw)",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "S = Conv₁×₁(Sraw)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "S = Conv₁×₁(Sraw)",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "S = Conv₁×₁(Sraw)",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/upsrmdcn",
+      "id": "9",
+      "name": "difference3",
+      "bbox": [
+        680,
+        303,
+        538,
+        50
+      ],
+      "geometry": "rect",
+      "text": "Δ₃ = S − Avg₃(S)",
+      "textPreview": "Δ₃ = S − Avg₃(S)",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Δ₃ = S − Avg₃(S)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Δ₃ = S − Avg₃(S)",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Δ₃ = S − Avg₃(S)",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wbu94re5",
+      "id": "10",
+      "name": "difference7",
+      "bbox": [
+        680,
+        365,
+        538,
+        50
+      ],
+      "geometry": "rect",
+      "text": "Δ₇ = S − Avg₇(S)",
+      "textPreview": "Δ₇ = S − Avg₇(S)",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "Δ₇ = S − Avg₇(S)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "Δ₇ = S − Avg₇(S)",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Δ₇ = S − Avg₇(S)",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/hc3qxwvq",
+      "id": "11",
+      "name": "difference-meaning",
+      "bbox": [
+        680,
+        432,
+        538,
+        128
+      ],
+      "geometry": "rect",
+      "text": "S 是學習式特徵，可正可負。\n此處扣掉局部平均，不做亮度除法。\n均勻特徵的差分接近零。",
+      "textPreview": "S 是學習式特徵，可正可負。 | 此處扣掉局部平均，不做亮度除法。 | 均勻特徵的差分接近零。",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "S 是學習式特徵，可正可負。"
+          },
+          {
+            "index": 2,
+            "text": "此處扣掉局部平均，不做亮度除法。"
+          },
+          {
+            "index": 3,
+            "text": "均勻特徵的差分接近零。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "S 是學習式特徵，可正可負。",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "S 是學習式特徵，可正可負。",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "此處扣掉局部平均，不做亮度除法。",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "此處扣掉局部平均，不做亮度除法。",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "均勻特徵的差分接近零。",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "均勻特徵的差分接近零。",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/u9cr21wz",
+      "id": "12",
+      "name": "p2-existing",
+      "bbox": [
+        62,
+        606,
+        1155,
+        43
+      ],
+      "geometry": "rect",
+      "text": "原模型已含 P2。此版再加入 layer 3 的 FSNet 特徵，保留原語意路徑。",
+      "textPreview": "原模型已含 P2。此版再加入 layer 3 的 FSNet 特徵，保留原語意路徑。",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "原模型已含 P2。此版再加入 layer 3 的 FSNet 特徵，保留原語意路徑。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "原模型已含 P2。此版再加入 layer 3 的 FSNet 特徵，保留原語意路徑。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "原模型已含 P2。此版再加入 layer 3 的 FSNet 特徵，保留原語意路徑。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

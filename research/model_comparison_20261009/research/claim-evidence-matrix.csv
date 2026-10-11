@@ -1,0 +1,11 @@
+claim_id,section,claim,source_ids,evidence_location,status,notes
+C01,Table 1,本研究主列使用 val 160 張有效圖片的九指標,S07;S08,groups.val; val/summary.csv,reported,原推論 174 張；14 張未納入；數值保持原始精度輸出 CSV
+C02,Table 1,本研究九指標為方框區域像素代理指標而非真正遮罩分割精度,S07;S08,evaluation_basis; settings.json mode boxes,reported,預測框與 XML 框按類別取填滿矩形聯集
+C03,Table 1,三個外部模型九指標轉錄自使用者圖片,S06,Three visible reference rows,reported,數字來源可確認為圖片；不能確認為論文原始實驗成績
+C04,Table 1,外部九指標的資料集與評估設定未提供,S06;S01;S02;S04,Image lacks context; reviewed source tables,not-disclosed,不推論不存在此實驗；僅記錄未能核實來源
+C05,Venue correction,LRFormer 圖中 TIP 與官方 TPAMI 記載衝突,S03;S06,Official README About and Citation; image Venue,conflicting,成品依作者官方資料更正為 TPAMI 2025
+C06,Identity,SegFormer 發表於 NeurIPS 2021 而 SegMAN 發表於 CVPR 2025,S01;S05,Title pages and official repository header,reported,本研究 2026 僅評估年；沒有推論其發表 venue
+C07,Supplement,train val 和合併表源自同一份核查後報表,S07;S08,Three groups; summaries and class counts,reported,合併由計數相加而非平均分數；不把 train 當 held-out 成績
+C08,Published benchmarks,三個指定模型在公开语义分割基准的 mIoU 可回溯原始來源,S01;S02;S04,SegFormer Table 1(a); LRFormer Tables 3-5; SegMAN Table 2,reported,使用 B5/B/B 已註明規模；取原文數值；不表示算力或測試條件完全一致
+C09,Interpretation,現有資料不足以進行本研究與三模型的同條件優劣排名,S01;S02;S04;S06;S08,Different datasets and GT bases; screenshot unknown experiment,inferred,因此只並列分數；不計算跨來源提升幅度或最佳值
+C10,Limitations,616 筆可評估輸出對應 524 張獨立照片且有 37 組標記衝突,S07,unique_evaluated_photos; conflicting_duplicate_annotation_groups,reported,涉及多份推論或不同標記版本；CSV 有效筆數與独立照片數分別註明

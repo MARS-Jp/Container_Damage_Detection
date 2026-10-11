@@ -1,0 +1,57 @@
+{
+  "pdf": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\output\\pdf\\inference_metric_audit_20261009.pdf",
+  "pages": [
+    {
+      "page": 1,
+      "extracted_characters": 664,
+      "characters_within_page": true
+    },
+    {
+      "page": 2,
+      "extracted_characters": 649,
+      "characters_within_page": true
+    },
+    {
+      "page": 3,
+      "extracted_characters": 648,
+      "characters_within_page": true
+    },
+    {
+      "page": 4,
+      "extracted_characters": 259,
+      "characters_within_page": true
+    },
+    {
+      "page": 5,
+      "extracted_characters": 271,
+      "characters_within_page": true
+    },
+    {
+      "page": 6,
+      "extracted_characters": 870,
+      "characters_within_page": true
+    },
+    {
+      "page": 7,
+      "extracted_characters": 787,
+      "characters_within_page": true
+    },
+    {
+      "page": 8,
+      "extracted_characters": 880,
+      "characters_within_page": true
+    },
+    {
+      "page": 9,
+      "extracted_characters": 739,
+      "characters_within_page": true
+    },
+    {
+      "page": 10,
+      "extracted_characters": 855,
+      "characters_within_page": true
+    }
+  ],
+  "numeric_checks": "passed",
+  "size_bytes": 2850629
+}

@@ -1,0 +1,315 @@
+{
+  "date": "2026-10-09",
+  "pdf": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\output\\pdf\\model_research_comparison_20261009.pdf",
+  "pages": 3,
+  "comparison_kind": "source_labelled_descriptive_not_head_to_head",
+  "main_local_group": "val",
+  "external_nine_metrics_original_experiment_verified": false,
+  "local_formula_checks": [
+    {
+      "group": "train",
+      "nine_metrics_recomputed": true,
+      "audit_matches": true,
+      "active_macro_classes": 8
+    },
+    {
+      "group": "val",
+      "nine_metrics_recomputed": true,
+      "audit_matches": true,
+      "active_macro_classes": 5
+    },
+    {
+      "group": "train_and_val",
+      "nine_metrics_recomputed": true,
+      "audit_matches": true,
+      "active_macro_classes": 8
+    }
+  ],
+  "ledger_rows": 8,
+  "claims": 10,
+  "ledger_references_valid": true,
+  "layout": [
+    {
+      "page": 1,
+      "kind": "paragraph",
+      "top": 504.27559055118115,
+      "bottom": 487.27559055118115
+    },
+    {
+      "page": 1,
+      "kind": "table",
+      "top": 475.27559055118115,
+      "bottom": 317.39059055118116
+    },
+    {
+      "page": 1,
+      "kind": "paragraph",
+      "top": 305.39059055118116,
+      "bottom": 290.89059055118116
+    },
+    {
+      "page": 1,
+      "kind": "paragraph",
+      "top": 281.89059055118116,
+      "bottom": 263.89059055118116
+    },
+    {
+      "page": 1,
+      "kind": "table",
+      "top": 258.89059055118116,
+      "bottom": 160.79059055118114
+    },
+    {
+      "page": 1,
+      "kind": "paragraph",
+      "top": 148.79059055118114,
+      "bottom": 119.79059055118114
+    },
+    {
+      "page": 2,
+      "kind": "table",
+      "top": 504.27559055118115,
+      "bottom": 245.77559055118115
+    },
+    {
+      "page": 2,
+      "kind": "table",
+      "top": 233.77559055118115,
+      "bottom": 142.47559055118114
+    },
+    {
+      "page": 2,
+      "kind": "paragraph",
+      "top": 130.47559055118114,
+      "bottom": 115.97559055118114
+    },
+    {
+      "page": 2,
+      "kind": "paragraph",
+      "top": 109.97559055118114,
+      "bottom": 80.97559055118114
+    },
+    {
+      "page": 3,
+      "kind": "table",
+      "top": 504.27559055118115,
+      "bottom": 386.27559055118115
+    },
+    {
+      "page": 3,
+      "kind": "paragraph",
+      "top": 374.27559055118115,
+      "bottom": 345.27559055118115
+    },
+    {
+      "page": 3,
+      "kind": "paragraph",
+      "top": 336.27559055118115,
+      "bottom": 318.27559055118115
+    },
+    {
+      "page": 3,
+      "kind": "paragraph",
+      "top": 312.27559055118115,
+      "bottom": 283.27559055118115
+    },
+    {
+      "page": 3,
+      "kind": "paragraph",
+      "top": 274.27559055118115,
+      "bottom": 245.27559055118115
+    },
+    {
+      "page": 3,
+      "kind": "paragraph",
+      "top": 236.27559055118115,
+      "bottom": 207.27559055118115
+    },
+    {
+      "page": 3,
+      "kind": "paragraph",
+      "top": 198.27559055118115,
+      "bottom": 169.27559055118115
+    }
+  ],
+  "inputs": [
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\tools\\runs\\metric_audits\\audit_20261008_235145_226565\\audit.json",
+      "sha256": "baf6d1290ec3d678af03ed791567b3100be888bf94099bf899ca8100d46dad1c"
+    },
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\research\\model_comparison_20261009\\reference_data.json",
+      "sha256": "6084dff84857617435c32322a727cf0175948f1be7945c0d62e60021abaa9039"
+    },
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\tools\\runs\\nine_metric_reports\\report_20261008_235420_507363\\settings.json",
+      "sha256": "3ebe58c844f69c102887fe37649f48efa54329ea426595a85bb52cf1f3cd2bfa"
+    },
+    {
+      "path": "C:\\Users\\USER\\Downloads\\1791524499680.jpg",
+      "sha256": "d9e1b8eedf0108da54eae32fe331e88379536500553d66853a1b0b221b30355c"
+    },
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\tools\\runs\\nine_metric_reports\\report_20261008_235420_507363\\train\\summary.csv",
+      "sha256": "aea94fdf4500edbcdcfc5c7630492c703ae145ab48c0e89361b5e8136202bfd2"
+    },
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\tools\\runs\\nine_metric_reports\\report_20261008_235420_507363\\train\\class_metrics.csv",
+      "sha256": "592cc6f6f39f97295edaea86c7d2c2e3e1baab1ff31074fd62900bb84c5674eb"
+    },
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\tools\\runs\\nine_metric_reports\\report_20261008_235420_507363\\val\\summary.csv",
+      "sha256": "2dd100786a6c64f5e0489ec8711b7346742489f15a788563a816031c0a602620"
+    },
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\tools\\runs\\nine_metric_reports\\report_20261008_235420_507363\\val\\class_metrics.csv",
+      "sha256": "93199be08d6561e105db58a9d2ea9da6edf5a3363b10d83f3832a12df519ea4e"
+    },
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\tools\\runs\\nine_metric_reports\\report_20261008_235420_507363\\train_and_val\\summary.csv",
+      "sha256": "ffa928d2bfbae636ac59c5cdea318bedff3209a08a03e34c4c0a82681c716afe"
+    },
+    {
+      "path": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\tools\\runs\\nine_metric_reports\\report_20261008_235420_507363\\train_and_val\\class_metrics.csv",
+      "sha256": "04404bfe139de634f1c75a9aa748bfa99910d310bf368e01b67ef51605044ce2"
+    }
+  ],
+  "records": [
+    {
+      "Model": "Ours (val): last0912 / S08",
+      "Year": 2026,
+      "Venue": "-",
+      "year_basis": "evaluation_year_not_publication",
+      "dataset": "container_damage_8_classes",
+      "variant": "last0912.pt / S08_diagnostic_only",
+      "split": "val",
+      "evaluation_basis": "boxes",
+      "evaluated_images": 160,
+      "total_images": 174,
+      "identity_source": "S07;S08",
+      "metric_source": "S07;S08",
+      "metric_provenance": "local_recomputed_box_region_proxy",
+      "comparable_head_to_head": false,
+      "Accuracy": 0.96720109827987,
+      "Precision": 0.5626160949921556,
+      "Recall": 0.20706655791867884,
+      "Dice": 0.3027195111624016,
+      "IoU": 0.17835561838675376,
+      "mIoU": 0.06329256165516271,
+      "Mean Dice": 0.0978458091394038,
+      "FPR": 0.005732027305395893,
+      "FNR": 0.7929334420813212
+    },
+    {
+      "Model": "SegFormer",
+      "Year": 2021,
+      "Venue": "NeurIPS",
+      "Accuracy": 0.9836,
+      "Precision": 0.9115,
+      "Recall": 0.9182,
+      "Dice": 0.9148,
+      "IoU": 0.843,
+      "mIoU": 0.9125,
+      "Mean Dice": 0.9529,
+      "FPR": 0.0095,
+      "FNR": 0.0818,
+      "identity_source": "S01",
+      "metric_source": "S06",
+      "metric_provenance": "user_image_unverified_experiment",
+      "dataset": "unknown",
+      "variant": "unknown",
+      "evaluation_basis": "unknown",
+      "year_basis": "publication_year",
+      "split": "unknown",
+      "evaluated_images": "NA",
+      "total_images": "NA",
+      "comparable_head_to_head": false
+    },
+    {
+      "Model": "LRFormer",
+      "Year": 2025,
+      "Venue": "TPAMI",
+      "Accuracy": 0.9817,
+      "Precision": 0.9161,
+      "Recall": 0.8908,
+      "Dice": 0.9032,
+      "IoU": 0.8235,
+      "mIoU": 0.9017,
+      "Mean Dice": 0.9466,
+      "FPR": 0.0087,
+      "FNR": 0.1092,
+      "identity_source": "S02;S03",
+      "metric_source": "S06",
+      "metric_provenance": "user_image_unverified_experiment",
+      "dataset": "unknown",
+      "variant": "unknown",
+      "evaluation_basis": "unknown",
+      "venue_correction": "TIP in user image; TPAMI in official author sources",
+      "year_basis": "publication_year",
+      "split": "unknown",
+      "evaluated_images": "NA",
+      "total_images": "NA",
+      "comparable_head_to_head": false
+    },
+    {
+      "Model": "SegMAN",
+      "Year": 2025,
+      "Venue": "CVPR",
+      "Accuracy": 0.9793,
+      "Precision": 0.9018,
+      "Recall": 0.8799,
+      "Dice": 0.8907,
+      "IoU": 0.8029,
+      "mIoU": 0.8901,
+      "Mean Dice": 0.9396,
+      "FPR": 0.0102,
+      "FNR": 0.1201,
+      "identity_source": "S04;S05",
+      "metric_source": "S06",
+      "metric_provenance": "user_image_unverified_experiment",
+      "dataset": "unknown",
+      "variant": "unknown",
+      "evaluation_basis": "unknown",
+      "year_basis": "publication_year",
+      "split": "unknown",
+      "evaluated_images": "NA",
+      "total_images": "NA",
+      "comparable_head_to_head": false
+    }
+  ],
+  "published_benchmarks": [
+    {
+      "Model": "SegFormer-B5",
+      "Year": 2021,
+      "Venue": "NeurIPS",
+      "ADE20K_mIoU_percent": 51.0,
+      "Cityscapes_mIoU_percent": 82.4,
+      "COCO_Stuff_mIoU_percent": 46.7,
+      "test_setting": "single-scale columns",
+      "source_ids": "S01",
+      "evidence_location": "Table 1(a), paper p.7"
+    },
+    {
+      "Model": "LRFormer-B",
+      "Year": 2025,
+      "Venue": "TPAMI",
+      "ADE20K_mIoU_percent": 51.0,
+      "Cityscapes_mIoU_percent": 83.0,
+      "COCO_Stuff_mIoU_percent": 47.2,
+      "test_setting": "as reported; evaluation protocols not harmonized",
+      "source_ids": "S02;S03",
+      "evidence_location": "Tables 3, 5, 4, paper pp.6-7; official README"
+    },
+    {
+      "Model": "SegMAN-B",
+      "Year": 2025,
+      "Venue": "CVPR",
+      "ADE20K_mIoU_percent": 52.6,
+      "Cityscapes_mIoU_percent": 83.8,
+      "COCO_Stuff_mIoU_percent": 48.4,
+      "test_setting": "as reported; evaluation protocols not harmonized",
+      "source_ids": "S04;S05",
+      "evidence_location": "Table 2, arXiv v2"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+﻿Model,Year,Venue,ADE20K_mIoU_percent,Cityscapes_mIoU_percent,COCO_Stuff_mIoU_percent,test_setting,source_ids,evidence_location
+SegFormer-B5,2021,NeurIPS,51.0,82.4,46.7,single-scale columns,S01,"Table 1(a), paper p.7"
+LRFormer-B,2025,TPAMI,51.0,83.0,47.2,as reported; evaluation protocols not harmonized,S02;S03,"Tables 3, 5, 4, paper pp.6-7; official README"
+SegMAN-B,2025,CVPR,52.6,83.8,48.4,as reported; evaluation protocols not harmonized,S04;S05,"Table 2, arXiv v2"

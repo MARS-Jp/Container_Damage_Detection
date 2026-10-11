@@ -21,25 +21,25 @@ WEIGHT_SOURCES = [
     #r"C:\Users\USER\Downloads\best0907-10csar.pt",
     #r"C:\Users\USER\Downloads\best0907-p2.pt"
     #r"C:\Users\USER\Downloads\best0902-2.pt",
-    r"C:\Users\USER\Downloads\last0926.pt",  # Active baseline restored on 2026-09-18.
+    r"C:\Users\USER\Downloads\best0929-3.pt",  # Active baseline restored on 2026-09-18.
 ]
 
 # Image or image-directory paths
 DATASET_SOURCES = [
     r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\train\B\CBHU0708054-A.JPG",
-    r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\train\B\CBHU0708054-B.JPG",
-    r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\train\B\IMG_4155.JPG",
-    r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\val 驗證\IMAG0749.jpg",
-    r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\val 驗證\P5021976.JPG",
-    r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\val 驗證\P6232556.JPG",
-    r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\val 驗證\P8293423.JPG",
+    # r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\train\B\CBHU0708054-B.JPG",
+    # r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\train\B\IMG_4155.JPG",
+    # r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\val 驗證\IMAG0749.jpg",
+    # r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\val 驗證\P5021976.JPG",
+    # r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\val 驗證\P6232556.JPG",
+    # r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset\val 驗證\P8293423.JPG",
 ]
 
 # Inference settings
 OUTPUT_DIR = "./runs/segment_by_class"
 IMAGE_SIZE = 640
-CONFIDENCE = 0.25
-IOU_THRESHOLD = 0.3
+CONFIDENCE = 0.15
+IOU_THRESHOLD = 0.7
 DEVICE = "0"  # Examples: "0", "cpu", "0,1"
 RETINA_MASKS = True
 # ============================================================================== 

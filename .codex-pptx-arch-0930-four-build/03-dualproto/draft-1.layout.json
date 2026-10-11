@@ -1,0 +1,1091 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/1wwnjt",
+    "id": "1wwnjt",
+    "slide": 1,
+    "layoutId": "62d7705a-6c4b-4b0c-ba88-a5c7a1eed54e",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "5907f495-916b-40c3-b19f-3c08611c0f1b",
+    "masterLayoutName": "Master",
+    "backgroundColor": "#FFFFFF",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Noto Sans TC"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "62d7705a-6c4b-4b0c-ba88-a5c7a1eed54e",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "5907f495-916b-40c3-b19f-3c08611c0f1b",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "5907f495-916b-40c3-b19f-3c08611c0f1b",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/vix836t0",
+      "id": "1",
+      "name": "title",
+      "bbox": [
+        60,
+        32,
+        1160,
+        72
+      ],
+      "geometry": "rect",
+      "text": "03 原生 P2 的雙路遮罩解碼",
+      "textPreview": "03 原生 P2 的雙路遮罩解碼",
+      "resolvedFontSize": 45,
+      "resolvedTextStyle": {
+        "fontSize": 45,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "03 原生 P2 的雙路遮罩解碼"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "03 原生 P2 的雙路遮罩解碼",
+          "resolvedTextStyle": {
+            "fontSize": 45,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "03 原生 P2 的雙路遮罩解碼",
+              "fontSize": 45,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/g36pwbu5",
+      "id": "2",
+      "name": "subtitle",
+      "bbox": [
+        62,
+        111,
+        1156,
+        48
+      ],
+      "geometry": "rect",
+      "text": "繼承 02，保留原解碼器並加入直接處理 P2 的旁路",
+      "textPreview": "繼承 02，保留原解碼器並加入直接處理 P2 的旁路",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "繼承 02，保留原解碼器並加入直接處理 P2 的旁路"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "繼承 02，保留原解碼器並加入直接處理 P2 的旁路",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "繼承 02，保留原解碼器並加入直接處理 P2 的旁路",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/h4fq5gbq",
+      "id": "3",
+      "name": "footer",
+      "bbox": [
+        62,
+        663,
+        1156,
+        38
+      ],
+      "geometry": "rect",
+      "text": "03 相較 02 新增 15,458 個參數。最終原型仍為 32×160×160，沒有新增偵測尺度。",
+      "textPreview": "03 相較 02 新增 15,458 個參數。最終原型仍為 32×160×160，沒有新增偵測尺度。",
+      "resolvedFontSize": 22.69,
+      "resolvedTextStyle": {
+        "fontSize": 22.69,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "03 相較 02 新增 15,458 個參數。最終原型仍為 32×160×160，沒有新增偵測尺度。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "03 相較 02 新增 15,458 個參數。最終原型仍為 32×160×160，沒有新增偵測尺度。",
+          "resolvedTextStyle": {
+            "fontSize": 22.69,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "03 相較 02 新增 15,458 個參數。最終原型仍為 32×160×160，沒有新增偵測尺度。",
+              "fontSize": 22.69,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/6d47q1c3",
+      "id": "4",
+      "name": "decoder-heading",
+      "bbox": [
+        62,
+        181,
+        587,
+        43
+      ],
+      "geometry": "rect",
+      "text": "同一輸出解析度，兩種資訊路徑",
+      "textPreview": "同一輸出解析度，兩種資訊路徑",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "同一輸出解析度，兩種資訊路徑"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "同一輸出解析度，兩種資訊路徑",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "同一輸出解析度，兩種資訊路徑",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 5,
+      "kind": "table",
+      "scope": "slide",
+      "aid": "tb/29sryd47",
+      "id": "5",
+      "bbox": [
+        62,
+        233,
+        583,
+        198
+      ],
+      "text": "路徑 | 主要過程\n原路 | P3 80² 融合，再放大至 160²\n新增路 | P2 160² 直接投影與局部運算",
+      "textPreview": "路徑 | 主要過程 | 原路 | P3 80² 融合，再放大至 160² | 新增路 | P2 160² 直接投影與局部運算",
+      "rows": 3,
+      "cols": 2,
+      "cells": [
+        {
+          "index": 1,
+          "row": 1,
+          "column": 1,
+          "bbox": [
+            62,
+            233,
+            124,
+            66
+          ],
+          "text": "路徑",
+          "textPreview": "路徑",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "路徑",
+              "resolvedTextStyle": {
+                "fontSize": 24.51,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "路徑",
+                  "fontSize": 24.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 2,
+          "row": 1,
+          "column": 2,
+          "bbox": [
+            186,
+            233,
+            459,
+            66
+          ],
+          "text": "主要過程",
+          "textPreview": "主要過程",
+          "fillColor": "#153447",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "主要過程",
+              "resolvedTextStyle": {
+                "fontSize": 24.51,
+                "typeface": "Noto Sans TC",
+                "color": "#FFFFFF",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "主要過程",
+                  "fontSize": 24.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#FFFFFF",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 3,
+          "row": 2,
+          "column": 1,
+          "bbox": [
+            62,
+            299,
+            124,
+            66
+          ],
+          "text": "原路",
+          "textPreview": "原路",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "原路",
+              "resolvedTextStyle": {
+                "fontSize": 24.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "原路",
+                  "fontSize": 24.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 4,
+          "row": 2,
+          "column": 2,
+          "bbox": [
+            186,
+            299,
+            459,
+            66
+          ],
+          "text": "P3 80² 融合，再放大至 160²",
+          "textPreview": "P3 80² 融合，再放大至 160²",
+          "fillColor": "#FFFFFF",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "P3 80² 融合，再放大至 160²",
+              "resolvedTextStyle": {
+                "fontSize": 24.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "P3 80² 融合，再放大至 160²",
+                  "fontSize": 24.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 5,
+          "row": 3,
+          "column": 1,
+          "bbox": [
+            62,
+            365,
+            124,
+            66
+          ],
+          "text": "新增路",
+          "textPreview": "新增路",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "新增路",
+              "resolvedTextStyle": {
+                "fontSize": 24.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447",
+                "bold": true
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "新增路",
+                  "fontSize": 24.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447",
+                  "bold": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "index": 6,
+          "row": 3,
+          "column": 2,
+          "bbox": [
+            186,
+            365,
+            459,
+            66
+          ],
+          "text": "P2 160² 直接投影與局部運算",
+          "textPreview": "P2 160² 直接投影與局部運算",
+          "fillColor": "#F1F6F7",
+          "paragraphs": [
+            {
+              "index": 1,
+              "text": "P2 160² 直接投影與局部運算",
+              "resolvedTextStyle": {
+                "fontSize": 24.51,
+                "typeface": "Noto Sans TC",
+                "color": "#153447"
+              },
+              "runs": [
+                {
+                  "index": 1,
+                  "text": "P2 160² 直接投影與局部運算",
+                  "fontSize": 24.51,
+                  "typeface": "Noto Sans TC",
+                  "color": "#153447"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "order": 6,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/8fmpsru9",
+      "id": "6",
+      "name": "bottleneck-note",
+      "bbox": [
+        62,
+        461,
+        583,
+        127
+      ],
+      "geometry": "rect",
+      "text": "原路徑中的 P2 會先縮小至 P3。\n新旁路讓 P2 細節保有原生網格，\n再與原 prototype 殘差相加。",
+      "textPreview": "原路徑中的 P2 會先縮小至 P3。 | 新旁路讓 P2 細節保有原生網格， | 再與原 prototype 殘差相加。",
+      "resolvedFontSize": 26,
+      "resolvedTextStyle": {
+        "fontSize": 26,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "原路徑中的 P2 會先縮小至 P3。"
+          },
+          {
+            "index": 2,
+            "text": "新旁路讓 P2 細節保有原生網格，"
+          },
+          {
+            "index": 3,
+            "text": "再與原 prototype 殘差相加。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "原路徑中的 P2 會先縮小至 P3。",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "原路徑中的 P2 會先縮小至 P3。",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "新旁路讓 P2 細節保有原生網格，",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "新旁路讓 P2 細節保有原生網格，",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "再與原 prototype 殘差相加。",
+          "resolvedTextStyle": {
+            "fontSize": 26,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "再與原 prototype 殘差相加。",
+              "fontSize": 26,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 7,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/tgfq1wbu",
+      "id": "7",
+      "name": "context-heading",
+      "bbox": [
+        696,
+        181,
+        522,
+        43
+      ],
+      "geometry": "rect",
+      "text": "P2 細節與 P4 上下文",
+      "textPreview": "P2 細節與 P4 上下文",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "P2 細節與 P4 上下文"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "P2 細節與 P4 上下文",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "P2 細節與 P4 上下文",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 8,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/y947mhc7",
+      "id": "8",
+      "name": "native-p2",
+      "bbox": [
+        696,
+        233,
+        522,
+        50
+      ],
+      "geometry": "rect",
+      "text": "D = Conv₁×₁(F′P2)",
+      "textPreview": "D = Conv₁×₁(F′P2)",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "D = Conv₁×₁(F′P2)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "D = Conv₁×₁(F′P2)",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "D = Conv₁×₁(F′P2)",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 9,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/jadovmts",
+      "id": "9",
+      "name": "native-p4",
+      "bbox": [
+        696,
+        302,
+        522,
+        50
+      ],
+      "geometry": "rect",
+      "text": "C₀ = Conv₁×₁(FP4)",
+      "textPreview": "C₀ = Conv₁×₁(FP4)",
+      "resolvedFontSize": 31,
+      "resolvedTextStyle": {
+        "fontSize": 31,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "C₀ = Conv₁×₁(FP4)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "C₀ = Conv₁×₁(FP4)",
+          "resolvedTextStyle": {
+            "fontSize": 31,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "C₀ = Conv₁×₁(FP4)",
+              "fontSize": 31,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 10,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/3q5sb6ho",
+      "id": "10",
+      "name": "resize-context",
+      "bbox": [
+        696,
+        371,
+        522,
+        50
+      ],
+      "geometry": "rect",
+      "text": "C = Bilinear₁₆₀×₁₆₀(C₀)",
+      "textPreview": "C = Bilinear₁₆₀×₁₆₀(C₀)",
+      "resolvedFontSize": 29,
+      "resolvedTextStyle": {
+        "fontSize": 29,
+        "typeface": "Noto Sans TC",
+        "color": "#153447",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "C = Bilinear₁₆₀×₁₆₀(C₀)"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "C = Bilinear₁₆₀×₁₆₀(C₀)",
+          "resolvedTextStyle": {
+            "fontSize": 29,
+            "typeface": "Noto Sans TC",
+            "color": "#153447",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "C = Bilinear₁₆₀×₁₆₀(C₀)",
+              "fontSize": 29,
+              "typeface": "Noto Sans TC",
+              "color": "#153447",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 11,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/ipwr21g3",
+      "id": "11",
+      "name": "native-shapes",
+      "bbox": [
+        696,
+        442,
+        522,
+        137
+      ],
+      "geometry": "rect",
+      "text": "n 規模的 D、C 皆為 64×160×160。\nP4 原始尺寸是 128×40×40。\nBilinear 對齊上下文，不創造真實細節。",
+      "textPreview": "n 規模的 D、C 皆為 64×160×160。 | P4 原始尺寸是 128×40×40。 | Bilinear 對齊上下文，不創造真實細節。",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "Noto Sans TC",
+        "color": "#495C69",
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 3,
+        "lines": [
+          {
+            "index": 1,
+            "text": "n 規模的 D、C 皆為 64×160×160。"
+          },
+          {
+            "index": 2,
+            "text": "P4 原始尺寸是 128×40×40。"
+          },
+          {
+            "index": 3,
+            "text": "Bilinear 對齊上下文，不創造真實細節。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "n 規模的 D、C 皆為 64×160×160。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "n 規模的 D、C 皆為 64×160×160。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "P4 原始尺寸是 128×40×40。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "P4 原始尺寸是 128×40×40。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "Bilinear 對齊上下文，不創造真實細節。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#495C69"
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Bilinear 對齊上下文，不創造真實細節。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#495C69"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    },
+    {
+      "order": 12,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/5cnadwzu",
+      "id": "12",
+      "name": "native-meaning",
+      "bbox": [
+        62,
+        607,
+        1155,
+        43
+      ],
+      "geometry": "rect",
+      "text": "細節來自直接的 P2。較大範圍的 P4 context 提供另一種判讀依據。",
+      "textPreview": "細節來自直接的 P2。較大範圍的 P4 context 提供另一種判讀依據。",
+      "resolvedFontSize": 25,
+      "resolvedTextStyle": {
+        "fontSize": 25,
+        "typeface": "Noto Sans TC",
+        "color": "#007B80",
+        "bold": true,
+        "alignment": "left",
+        "autoFit": "none",
+        "insets": {
+          "top": 4.8,
+          "right": 9.6,
+          "bottom": 4.8,
+          "left": 9.6
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "細節來自直接的 P2。較大範圍的 P4 context 提供另一種判讀依據。"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "細節來自直接的 P2。較大範圍的 P4 context 提供另一種判讀依據。",
+          "resolvedTextStyle": {
+            "fontSize": 25,
+            "typeface": "Noto Sans TC",
+            "color": "#007B80",
+            "bold": true
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "細節來自直接的 P2。較大範圍的 P4 context 提供另一種判讀依據。",
+              "fontSize": 25,
+              "typeface": "Noto Sans TC",
+              "color": "#007B80",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ],
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": []
+}

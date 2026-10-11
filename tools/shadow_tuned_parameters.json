@@ -1,0 +1,111 @@
+{
+  "source_filename": "CBHU0708054-A.JPG",
+  "model_sha256": "e2560e39d8d954fb032aceb2eccc016ed0762dbb3e66dfa5c1e3813ffd03fc59",
+  "baseline": {
+    "imgsz": 640,
+    "conf": 0.15,
+    "iou": 0.7
+  },
+  "regions": {
+    "left": [
+      24,
+      120,
+      432,
+      540
+    ],
+    "right": [
+      512,
+      420,
+      680,
+      534
+    ]
+  },
+  "contexts": {
+    "left": [
+      0,
+      60,
+      472,
+      582
+    ],
+    "right": [
+      440,
+      150,
+      720,
+      582
+    ]
+  },
+  "enhancement": {
+    "gamma": 0.75,
+    "clahe_clip": 2.0,
+    "shadow_threshold": 160
+  },
+  "candidate_conf": 0.005,
+  "max_det": 1200,
+  "agreement_iou": 0.25,
+  "min_mask_area": 12,
+  "banks": [
+    {
+      "name": "size960_square",
+      "imgsz": 960,
+      "rect": false,
+      "iou": 0.5
+    }
+  ],
+  "classes": {
+    "D": {
+      "class": "D",
+      "bank": "size960_square",
+      "threshold": 0.6,
+      "min_support": 2,
+      "merge_iou": 0.85,
+      "merge_policy": "preserve",
+      "tp": 3,
+      "fp": 16,
+      "f1": 0.13636363636363635,
+      "matched_ids": [
+        64,
+        73,
+        75
+      ],
+      "left_tp": 3,
+      "right_tp": 0
+    },
+    "R": {
+      "class": "R",
+      "bank": "size960_square",
+      "threshold": 0.12,
+      "min_support": 1,
+      "merge_iou": 0.5,
+      "merge_policy": "highest_confidence",
+      "tp": 14,
+      "fp": 46,
+      "f1": 0.21705426356589147,
+      "matched_ids": [
+        1,
+        5,
+        9,
+        24,
+        25,
+        28,
+        30,
+        31,
+        32,
+        33,
+        34,
+        39,
+        43,
+        49
+      ],
+      "left_tp": 10,
+      "right_tp": 1
+    }
+  },
+  "selected_from": "C:\\Users\\USER\\Documents\\iim_0905\\Yolov11_AttnRes\\runs\\segment_shadow_parameter_tuning\\run_20261001_140446_557440",
+  "selection_scope": "same-image parameter tuning using XML; not independent validation",
+  "image_shape": [
+    600,
+    800
+  ],
+  "model_path": "C:\\Users\\USER\\Downloads\\last0912.pt",
+  "source_path": "C:\\Users\\USER\\Desktop\\\u78a9\u8ad6\\\u8ca8\u6ac3-20221012T025654Z-001\\\u8ca8\u6ac3\\Container_damage Dataset\\train\\B\\CBHU0708054-A.JPG"
+}

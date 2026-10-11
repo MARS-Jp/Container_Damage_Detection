@@ -1,0 +1,22 @@
+{
+  "candidate_conf": 0.005,
+  "max_det": 1200,
+  "gamma": 0.55,
+  "clahe_clip": 3.0,
+  "shadow_threshold": 180,
+  "agreement_iou": 0.25,
+  "min_mask_area": 12,
+  "contexts": {
+    "left": [0.0, 0.15, 0.57, 0.97],
+    "right": [0.58, 0.5, 0.89, 0.97]
+  },
+  "banks": [
+    {"name": "focus960_iou070", "imgsz": 960, "rect": false, "iou": 0.7},
+    {"name": "focus1024_iou085", "imgsz": 1024, "rect": false, "iou": 0.85},
+    {"name": "focus640_iou085", "imgsz": 640, "rect": true, "iou": 0.85}
+  ],
+  "gates": [
+    {"name": "D008_R012", "D": 0.08, "R": 0.12, "min_support": 1, "merge_iou": 0.85},
+    {"name": "D004_R008_vote2", "D": 0.04, "R": 0.08, "min_support": 2, "merge_iou": 0.85}
+  ]
+}

@@ -14,6 +14,7 @@ Example (PowerShell):
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import sys
 from pathlib import Path
@@ -38,6 +39,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path, default=Path("runs/segment_by_class"), help="Output directory.")
     parser.add_argument("--imgsz", type=int, default=640, help="Inference image size.")
     parser.add_argument("--conf", type=float, default=0.25, help="Confidence threshold.")
+    parser.add_argument("--class-conf", nargs="+", default=[], help="Per-class thresholds, e.g. D=0.08 R=0.20.")
+    parser.add_argument("--save-metrics", action="store_true", help="Save prediction counts and mask areas as JSON.")
     parser.add_argument("--iou", type=float, default=0.7, help="NMS IoU threshold.")
     parser.add_argument("--device", default=None, help="Inference device, e.g. 0, 0,1, or cpu.")
     parser.add_argument("--alpha", type=float, default=0.35, help="Mask fill opacity (0 to 1).")
@@ -66,6 +69,63 @@ def safe_name(value: str) -> str:
     value = re.sub(r"[<>:\"/\\|?*\x00-\x1f]", "_", value.strip())
     value = value.rstrip(". ")
     return value or "unnamed"
+
+
+def class_thresholds(entries: list[str], names: dict[int, str], default: float) -> dict[int, float]:
+    """Resolve class names or IDs, preserving the global threshold for all other classes."""
+    if not 0.0 <= default <= 1.0:
+        raise ValueError("--conf must be between 0 and 1.")
+    thresholds = dict.fromkeys(names, default)
+    assigned = set()
+    for entry in entries:
+        key, separator, value = entry.partition("=")
+        if not separator:
+            raise ValueError(f"Expected CLASS=THRESHOLD, received {entry!r}.")
+        matches = [cid for cid, name in names.items() if key.casefold() in {str(cid), name.casefold()}]
+        if len(matches) != 1:
+            raise ValueError(f"Unknown or ambiguous class {key!r}; model names: {names}.")
+        threshold = float(value)
+        if not 0.0 <= threshold <= 1.0:
+            raise ValueError(f"Class threshold must be between 0 and 1: {entry!r}.")
+        class_id = matches[0]
+        if class_id in assigned:
+            raise ValueError(f"Duplicate threshold for class {names[class_id]!r}.")
+        thresholds[class_id] = threshold
+        assigned.add(class_id)
+    return thresholds
+
+
+def filter_class_scores(result: Any, thresholds: dict[int, float]) -> Any:
+    """Filter the complete Results object so boxes and masks retain the same indices."""
+    if result.boxes is None or len(result.boxes) == 0:
+        return result
+    scores = result.boxes.conf
+    limits = scores.new_tensor([thresholds[int(cid)] for cid in result.boxes.cls.tolist()])
+    return result[scores >= limits]
+
+
+def prediction_metrics(
+    masks: np.ndarray, classes: np.ndarray, names: dict[int, str], shape: tuple[int, int],
+) -> dict:
+    """Describe predictions without treating mask coverage or object counts as accuracy."""
+    height, width = shape
+    unions = {}
+    metrics = {}
+    for class_id, name in names.items():
+        selected = masks[classes == class_id]
+        union = selected.any(axis=0) if len(selected) else np.zeros(shape, dtype=bool)
+        pixels = int(union.sum())
+        unions[class_id] = union
+        metrics[str(class_id)] = {
+            "name": name, "count": len(selected), "union_pixels": pixels,
+            "coverage_percent": round(100 * pixels / (height * width), 4),
+        }
+    overlaps = {
+        f"{left}:{right}": int(np.logical_and(unions[left], unions[right]).sum())
+        for left in names for right in names if left < right
+        if np.any(unions[left] & unions[right])
+    }
+    return {"width": width, "height": height, "classes": metrics, "overlap_pixels": overlaps}
 
 
 def class_color(class_id: int) -> tuple[int, int, int]:
@@ -118,7 +178,7 @@ def draw_predictions(
             overlay = output.copy()
             cv2.drawContours(overlay, contours, -1, color, cv2.FILLED)
             cv2.addWeighted(overlay, args.alpha, output, 1.0 - args.alpha, 0, dst=output)
-        if contours:
+        if contours and args.no_fill:
             cv2.drawContours(output, contours, -1, color, args.line_width, lineType=cv2.LINE_AA)
 
         x1, y1, x2, y2 = np.rint(box).astype(int)
@@ -193,6 +253,12 @@ def save_result(result: Any, names: dict[int, str], output_dir: Path, index: int
 
     combined = draw_predictions(image, masks, boxes, classes, scores, None, args)
     write_image(image_dir / f"{stem}__all.jpg", combined)
+    if getattr(args, "save_metrics", False):
+        metrics = prediction_metrics(masks, classes, names, image.shape[:2])
+        metrics["source"] = str(result.path)
+        (image_dir / "prediction_metrics.json").write_text(
+            json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8",
+        )
     return prediction_count
 
 
@@ -212,12 +278,13 @@ def main() -> int:
     names = normalize_names(model.names)
     if not names:
         raise ValueError("The model has no classes.")
+    thresholds = class_thresholds(args.class_conf, names, args.conf)
 
     args.output.mkdir(parents=True, exist_ok=True)
     results = model.predict(
         source=args.source,
         imgsz=args.imgsz,
-        conf=args.conf,
+        conf=min(thresholds.values()),
         iou=args.iou,
         device=args.device,
         retina_masks=args.retina_masks,
@@ -229,6 +296,8 @@ def main() -> int:
     image_count = 0
     total_predictions = 0
     for image_count, result in enumerate(results, start=1):
+        if args.class_conf:
+            result = filter_class_scores(result, thresholds)
         total_predictions += save_result(result, names, args.output, image_count - 1, args)
 
     if image_count == 0:
