@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import torch
-import torch.nn as nn
+from torch import nn
 
 from .conv import Conv, IlluminationInvariantConv
 
@@ -14,9 +14,8 @@ __all__ = ("AdaptiveGatedIIMStem0910",)
 class AdaptiveGatedIIMStem0910(nn.Module):
     """Fuse RGB and illumination-invariant features with a learned spatial gate.
 
-    A zero-initialized gate starts at 0.5 everywhere. The factors of two make
-    the initial forward pass equivalent in scale to the original concatenation
-    stem while allowing darker regions to favor IIM features after learning.
+    A zero-initialized gate starts at 0.5 everywhere. The factors of two make the initial forward pass equivalent in
+    scale to the original concatenation stem while allowing darker regions to favor IIM features after learning.
     """
 
     def __init__(self, c1, c2, k=3, s=2, kernel_nums=8, kernel_size=3, gate_bias=0.0):

@@ -19,13 +19,17 @@ class ClassThresholdTests(unittest.TestCase):
 
     def test_filtering_keeps_matching_boxes_and_masks(self):
         names = {0: "B", 2: "D", 5: "R"}
-        boxes = torch.tensor([
-            [0, 0, 3, 3, 0.09, 2], [1, 1, 4, 4, 0.09, 5],
-            [2, 2, 5, 5, 0.30, 5], [3, 3, 6, 6, 0.12, 0],
-        ])
+        boxes = torch.tensor(
+            [
+                [0, 0, 3, 3, 0.09, 2],
+                [1, 1, 4, 4, 0.09, 5],
+                [2, 2, 5, 5, 0.30, 5],
+                [3, 3, 6, 6, 0.12, 0],
+            ]
+        )
         masks = torch.zeros((4, 8, 8))
         for index in range(4):
-            masks[index, index:index + 2, index:index + 2] = 1
+            masks[index, index : index + 2, index : index + 2] = 1
         result = Results(np.zeros((8, 8, 3), dtype=np.uint8), "image.jpg", names, boxes=boxes, masks=masks)
         filtered = filter_class_scores(result, {0: 0.15, 2: 0.08, 5: 0.20})
         self.assertTrue(torch.equal(filtered.boxes.data, boxes[[0, 2]]))

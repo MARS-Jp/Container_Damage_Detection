@@ -38,9 +38,7 @@
       "hlink": "#467886",
       "folHlink": "#96607D"
     },
-    "typefaces": [
-      "Noto Sans TC"
-    ]
+    "typefaces": ["Noto Sans TC"]
   },
   "inheritedLayers": [
     {
@@ -67,12 +65,7 @@
       "aid": "sh/vix836t0",
       "id": "1",
       "name": "title",
-      "bbox": [
-        60,
-        32,
-        1160,
-        72
-      ],
+      "bbox": [60, 32, 1160, 72],
       "geometry": "rect",
       "text": "03 原生 P2 的雙路遮罩解碼",
       "textPreview": "03 原生 P2 的雙路遮罩解碼",
@@ -132,12 +125,7 @@
       "aid": "sh/g36pwbu5",
       "id": "2",
       "name": "subtitle",
-      "bbox": [
-        62,
-        111,
-        1156,
-        48
-      ],
+      "bbox": [62, 111, 1156, 48],
       "geometry": "rect",
       "text": "繼承 02，保留原解碼器並加入直接處理 P2 的旁路",
       "textPreview": "繼承 02，保留原解碼器並加入直接處理 P2 的旁路",
@@ -194,12 +182,7 @@
       "aid": "sh/h4fq5gbq",
       "id": "3",
       "name": "footer",
-      "bbox": [
-        62,
-        663,
-        1156,
-        38
-      ],
+      "bbox": [62, 663, 1156, 38],
       "geometry": "rect",
       "text": "03 相較 02 新增 15,458 個參數。最終原型仍為 32×160×160，沒有新增偵測尺度。",
       "textPreview": "03 相較 02 新增 15,458 個參數。最終原型仍為 32×160×160，沒有新增偵測尺度。",
@@ -256,12 +239,7 @@
       "aid": "sh/6d47q1c3",
       "id": "4",
       "name": "decoder-heading",
-      "bbox": [
-        62,
-        181,
-        587,
-        43
-      ],
+      "bbox": [62, 181, 587, 43],
       "geometry": "rect",
       "text": "同一輸出解析度，兩種資訊路徑",
       "textPreview": "同一輸出解析度，兩種資訊路徑",
@@ -320,12 +298,7 @@
       "scope": "slide",
       "aid": "tb/29sryd47",
       "id": "5",
-      "bbox": [
-        62,
-        233,
-        583,
-        198
-      ],
+      "bbox": [62, 233, 583, 198],
       "text": "路徑 | 主要過程\n原路 | P3 80² 融合，再放大至 160²\n新增路 | P2 160² 直接投影與局部運算",
       "textPreview": "路徑 | 主要過程 | 原路 | P3 80² 融合，再放大至 160² | 新增路 | P2 160² 直接投影與局部運算",
       "rows": 3,
@@ -335,12 +308,7 @@
           "index": 1,
           "row": 1,
           "column": 1,
-          "bbox": [
-            62,
-            233,
-            124,
-            66
-          ],
+          "bbox": [62, 233, 124, 66],
           "text": "路徑",
           "textPreview": "路徑",
           "fillColor": "#153447",
@@ -371,12 +339,7 @@
           "index": 2,
           "row": 1,
           "column": 2,
-          "bbox": [
-            186,
-            233,
-            459,
-            66
-          ],
+          "bbox": [186, 233, 459, 66],
           "text": "主要過程",
           "textPreview": "主要過程",
           "fillColor": "#153447",
@@ -407,12 +370,7 @@
           "index": 3,
           "row": 2,
           "column": 1,
-          "bbox": [
-            62,
-            299,
-            124,
-            66
-          ],
+          "bbox": [62, 299, 124, 66],
           "text": "原路",
           "textPreview": "原路",
           "fillColor": "#FFFFFF",
@@ -443,12 +401,7 @@
           "index": 4,
           "row": 2,
           "column": 2,
-          "bbox": [
-            186,
-            299,
-            459,
-            66
-          ],
+          "bbox": [186, 299, 459, 66],
           "text": "P3 80² 融合，再放大至 160²",
           "textPreview": "P3 80² 融合，再放大至 160²",
           "fillColor": "#FFFFFF",
@@ -477,12 +430,7 @@
           "index": 5,
           "row": 3,
           "column": 1,
-          "bbox": [
-            62,
-            365,
-            124,
-            66
-          ],
+          "bbox": [62, 365, 124, 66],
           "text": "新增路",
           "textPreview": "新增路",
           "fillColor": "#F1F6F7",
@@ -513,12 +461,7 @@
           "index": 6,
           "row": 3,
           "column": 2,
-          "bbox": [
-            186,
-            365,
-            459,
-            66
-          ],
+          "bbox": [186, 365, 459, 66],
           "text": "P2 160² 直接投影與局部運算",
           "textPreview": "P2 160² 直接投影與局部運算",
           "fillColor": "#F1F6F7",
@@ -552,12 +495,7 @@
       "aid": "sh/8fmpsru9",
       "id": "6",
       "name": "bottleneck-note",
-      "bbox": [
-        62,
-        461,
-        583,
-        127
-      ],
+      "bbox": [62, 461, 583, 127],
       "geometry": "rect",
       "text": "原路徑中的 P2 會先縮小至 P3。\n新旁路讓 P2 細節保有原生網格，\n再與原 prototype 殘差相加。",
       "textPreview": "原路徑中的 P2 會先縮小至 P3。 | 新旁路讓 P2 細節保有原生網格， | 再與原 prototype 殘差相加。",
@@ -660,12 +598,7 @@
       "aid": "sh/tgfq1wbu",
       "id": "7",
       "name": "context-heading",
-      "bbox": [
-        696,
-        181,
-        522,
-        43
-      ],
+      "bbox": [696, 181, 522, 43],
       "geometry": "rect",
       "text": "P2 細節與 P4 上下文",
       "textPreview": "P2 細節與 P4 上下文",
@@ -725,12 +658,7 @@
       "aid": "sh/y947mhc7",
       "id": "8",
       "name": "native-p2",
-      "bbox": [
-        696,
-        233,
-        522,
-        50
-      ],
+      "bbox": [696, 233, 522, 50],
       "geometry": "rect",
       "text": "D = Conv₁×₁(F′P2)",
       "textPreview": "D = Conv₁×₁(F′P2)",
@@ -790,12 +718,7 @@
       "aid": "sh/jadovmts",
       "id": "9",
       "name": "native-p4",
-      "bbox": [
-        696,
-        302,
-        522,
-        50
-      ],
+      "bbox": [696, 302, 522, 50],
       "geometry": "rect",
       "text": "C₀ = Conv₁×₁(FP4)",
       "textPreview": "C₀ = Conv₁×₁(FP4)",
@@ -855,12 +778,7 @@
       "aid": "sh/3q5sb6ho",
       "id": "10",
       "name": "resize-context",
-      "bbox": [
-        696,
-        371,
-        522,
-        50
-      ],
+      "bbox": [696, 371, 522, 50],
       "geometry": "rect",
       "text": "C = Bilinear₁₆₀×₁₆₀(C₀)",
       "textPreview": "C = Bilinear₁₆₀×₁₆₀(C₀)",
@@ -920,12 +838,7 @@
       "aid": "sh/ipwr21g3",
       "id": "11",
       "name": "native-shapes",
-      "bbox": [
-        696,
-        442,
-        522,
-        137
-      ],
+      "bbox": [696, 442, 522, 137],
       "geometry": "rect",
       "text": "n 規模的 D、C 皆為 64×160×160。\nP4 原始尺寸是 128×40×40。\nBilinear 對齊上下文，不創造真實細節。",
       "textPreview": "n 規模的 D、C 皆為 64×160×160。 | P4 原始尺寸是 128×40×40。 | Bilinear 對齊上下文，不創造真實細節。",
@@ -1028,12 +941,7 @@
       "aid": "sh/5cnadwzu",
       "id": "12",
       "name": "native-meaning",
-      "bbox": [
-        62,
-        607,
-        1155,
-        43
-      ],
+      "bbox": [62, 607, 1155, 43],
       "geometry": "rect",
       "text": "細節來自直接的 P2。較大範圍的 P4 context 提供另一種判讀依據。",
       "textPreview": "細節來自直接的 P2。較大範圍的 P4 context 提供另一種判讀依據。",
