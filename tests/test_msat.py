@@ -8,7 +8,6 @@ import torch
 from ultralytics.nn.modules import MSAT
 from ultralytics.nn.tasks import SegmentationModel
 
-
 MODEL_CFG = Path("ultralytics/cfg/models/11_myself/yolo11-MSAT-V1.yaml")
 
 

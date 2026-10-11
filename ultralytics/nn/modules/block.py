@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from ultralytics.utils.torch_utils import fuse_conv_and_bn
 
@@ -19,9 +19,13 @@ __all__ = (
     "C3",
     "C3TR",
     "CIB",
+    "CSAR",
     "DFL",
     "ELAN1",
+    "MSAT",
     "PSA",
+    "SCA",
+    "SETA",
     "SPP",
     "SPPELAN",
     "SPPF",
@@ -29,18 +33,6 @@ __all__ = (
     "ADown",
     "Attention",
     "AttentionResiduals",
-    "SETA",
-    "CSAR",
-    "MultiStateCSAR",
-    "MSAT",
-    "MSATMultiLabel",
-    "CrossScaleAttention",
-    "PatchCSAR",
-    "FSAttentionResiduals",
-    "FSNetShuffle",
-    "FeatureShuffle",
-    "SCA",
-    "ScaleShuffle",
     "BNContrastiveHead",
     "Bottleneck",
     "BottleneckCSP",
@@ -54,10 +46,17 @@ __all__ = (
     "CBFuse",
     "CBLinear",
     "ContrastiveHead",
+    "CrossScaleAttention",
+    "FSAttentionResiduals",
+    "FSNetShuffle",
+    "FeatureShuffle",
     "GhostBottleneck",
     "HGBlock",
     "HGStem",
     "ImagePoolingAttn",
+    "MSATMultiLabel",
+    "MultiStateCSAR",
+    "PatchCSAR",
     "Proto",
     "Proto26MultiLabel",
     "RepC3",
@@ -65,6 +64,7 @@ __all__ = (
     "RepVGGDW",
     "ResNetLayer",
     "SCDown",
+    "ScaleShuffle",
     "TorchVision",
 )
 
@@ -1083,9 +1083,8 @@ class C3f(nn.Module):
 class AttentionResiduals2d(nn.Module):
     """Attention Residuals mixer for 2D feature maps.
 
-    This adapts depth-wise Attention Residuals to CNN feature states with shape
-    [B, C, H, W], applying a learned pseudo-query over previous states at each
-    spatial location.
+    This adapts depth-wise Attention Residuals to CNN feature states with shape [B, C, H, W], applying a learned
+    pseudo-query over previous states at each spatial location.
     """
 
     def __init__(self, c: int, eps: float = 1e-6):
@@ -1142,10 +1141,9 @@ class AttentionResiduals(nn.Module):
 class SETACore(nn.Module):
     """Scale-Equilibrium Transport Self-Attention for one 2D feature scale.
 
-    The module conserves local evidence with windowed doubly-stochastic attention,
-    models global semantics with a compact anchor grid, transports evidence in both
-    directions between local tokens and anchors, and routes the three outputs with
-    token-wise learned weights.
+    The module conserves local evidence with windowed doubly-stochastic attention, models global semantics with a
+    compact anchor grid, transports evidence in both directions between local tokens and anchors, and routes the three
+    outputs with token-wise learned weights.
     """
 
     def __init__(
@@ -1291,7 +1289,7 @@ class SETACore(nn.Module):
 
     def _local_attention(self, local: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """Apply local window Sinkhorn attention and return output, entropy, and local values."""
-        b, c, h, w = local.shape
+        b, _c, h, w = local.shape
         qkv = self.local_qkv(local).view(b, 3, self.num_heads, self.head_dim, h, w)
         q, k, value_map = qkv.unbind(dim=1)
         q, pad_h, pad_w = self._window_partition(q, self.window_size)
@@ -1530,8 +1528,8 @@ class ScaleShuffle(FeatureShuffle):
 class FSNetShuffle(nn.Module):
     """Multi-input FSNet-style shuffle layer for exchanging features across scales.
 
-    The layer returns one target-resolution tensor. Use multiple YAML rows with
-    different target indices when several shuffled scale outputs are needed.
+    The layer returns one target-resolution tensor. Use multiple YAML rows with different target indices when several
+    shuffled scale outputs are needed.
     """
 
     def __init__(self, ch: list[int], c2: int, target: int = 0, groups: int = 2, k: int = 3, refine: bool = True):
@@ -1613,10 +1611,9 @@ class FSAttentionResiduals(nn.Module):
 class SCA(nn.Module):
     """Scale-aware Channel Attention for multi-scale YOLO feature maps.
 
-    This module adapts the COP-Net SCA idea to the Ultralytics YAML graph. It
-    receives multiple feature maps, aligns them to a target scale, computes a
-    target-guided channel attention vector, and fuses the reweighted features
-    into one refined target-resolution output.
+    This module adapts the COP-Net SCA idea to the Ultralytics YAML graph. It receives multiple feature maps, aligns
+    them to a target scale, computes a target-guided channel attention vector, and fuses the reweighted features into
+    one refined target-resolution output.
     """
 
     def __init__(
@@ -1679,9 +1676,8 @@ class SCA(nn.Module):
 class CSAR(nn.Module):
     """Cross-Scale Attention Residual fusion for YOLO feature maps.
 
-    This module receives a list of feature maps, aligns them to a target feature
-    resolution, builds 1x1-conv query/key/value projections, attends over the
-    scale dimension, and adds a residual shortcut from the target feature.
+    This module receives a list of feature maps, aligns them to a target feature resolution, builds 1x1-conv
+    query/key/value projections, attends over the scale dimension, and adds a residual shortcut from the target feature.
     """
 
     def __init__(
@@ -1762,9 +1758,8 @@ class MultiStateCSAR(CSAR):
     """CSAR that keeps each input scale as a token state before learned state interaction.
 
     Each aligned source feature is treated as a different state of the same spatial token. A small MLP mixes the
-    explicit state axis, while a zero-initialized residual gate makes the module start with standard CSAR behavior.
-    The mixed states are aggregated only after query-key attention has assigned a content-dependent weight to each
-    state.
+    explicit state axis, while a zero-initialized residual gate makes the module start with standard CSAR behavior. The
+    mixed states are aggregated only after query-key attention has assigned a content-dependent weight to each state.
     """
 
     def __init__(
@@ -1790,7 +1785,7 @@ class MultiStateCSAR(CSAR):
         """
         super().__init__(ch, c2, num_heads, target, attn_ratio, shortcut)
         self.num_states = len(ch)
-        hidden_states = max(self.num_states, int(round(self.num_states * state_expansion)))
+        hidden_states = max(self.num_states, round(self.num_states * state_expansion))
         self.state_mixer = nn.Sequential(
             nn.Linear(self.num_states, hidden_states, bias=False),
             nn.GELU(),
@@ -1842,7 +1837,7 @@ class _MSATStateLayer(nn.Module):
         self.num_heads = num_heads
         self.head_dim = channels // num_heads
         self.scale = self.head_dim**-0.5
-        hidden_channels = max(channels, int(round(channels * ffn_ratio)))
+        hidden_channels = max(channels, round(channels * ffn_ratio))
         self.norm1 = nn.LayerNorm(channels)
         self.qkv = nn.Linear(channels, 3 * channels)
         self.proj = nn.Linear(channels, channels)
@@ -1888,7 +1883,7 @@ class _MSATWindowSpatialLayer(nn.Module):
         self.scale = self.head_dim**-0.5
         self.window_size = max(1, int(window_size))
         self.window_tokens = self.window_size**2
-        hidden_channels = max(channels, int(round(channels * ffn_ratio)))
+        hidden_channels = max(channels, round(channels * ffn_ratio))
 
         self.norm1 = nn.LayerNorm(channels)
         self.qkv = nn.Linear(channels, 3 * channels)
@@ -2044,8 +2039,8 @@ class MSAT(nn.Module):
 
     Input feature scales are aligned to the target resolution and retained as explicit states of each spatial token.
     State MHSA first exchanges information across scales at the same location. Windowed spatial MHSA then exchanges
-    local evidence between locations while preserving the state axis. Target-query attention pools the states only
-    after both Transformer axes have completed.
+    local evidence between locations while preserving the state axis. Target-query attention pools the states only after
+    both Transformer axes have completed.
     """
 
     def __init__(
@@ -2129,10 +2124,7 @@ class MSAT(nn.Module):
             raise ValueError(f"MSAT expected {self.num_states} inputs, but received {len(xs)}.")
         ref = xs[self.target]
         size = ref.shape[-2:]
-        states = [
-            projection(self._resize(feature, size))
-            for projection, feature in zip(self.input_proj, xs)
-        ]
+        states = [projection(self._resize(feature, size)) for projection, feature in zip(self.input_proj, xs)]
         tokens = torch.stack(states, dim=1).permute(0, 3, 4, 1, 2).contiguous()
         tokens = tokens + self.state_embedding
         tokens = self.state_layer(tokens)
@@ -2227,10 +2219,7 @@ class MSATMultiLabel(MSAT):
             raise ValueError(f"MSATMultiLabel expected {self.num_states} inputs, but received {len(xs)}.")
         ref = xs[self.target]
         size = ref.shape[-2:]
-        states = [
-            projection(self._resize(feature, size))
-            for projection, feature in zip(self.input_proj, xs)
-        ]
+        states = [projection(self._resize(feature, size)) for projection, feature in zip(self.input_proj, xs)]
         tokens = torch.stack(states, dim=1).permute(0, 3, 4, 1, 2).contiguous()
         tokens = tokens + self.state_embedding
         tokens = self.state_layer(tokens)
@@ -2248,10 +2237,8 @@ class MSATMultiLabel(MSAT):
 class PatchCSAR(CSAR):
     """Overlapping patch-based Cross-Scale Attention Residual fusion.
 
-    This is a lightweight adaptation of COP-Net's PCA/COSA mechanism. It runs
-    CSAR attention on overlapping patches at the same relative locations across
-    scales, then averages overlapping predictions back into the target feature
-    map.
+    This is a lightweight adaptation of COP-Net's PCA/COSA mechanism. It runs CSAR attention on overlapping patches at
+    the same relative locations across scales, then averages overlapping predictions back into the target feature map.
     """
 
     def __init__(
@@ -2295,8 +2282,8 @@ class PatchCSAR(CSAR):
     def _patch_boxes(self, h: int, w: int) -> list[tuple[int, int, int, int]]:
         """Build overlapping patch boxes for QuD, CeD, or FuD splitting."""
         ratio = min(max(self.patch_ratio, 0.1), 1.0)
-        ph = max(1, min(h, int(round(h * ratio))))
-        pw = max(1, min(w, int(round(w * ratio))))
+        ph = max(1, min(h, round(h * ratio)))
+        pw = max(1, min(w, round(w * ratio)))
         cy = max((h - ph) // 2, 0)
         cx = max((w - pw) // 2, 0)
         bottom = h - ph
@@ -2371,7 +2358,7 @@ class CrossScaleAttention(CSAR):
 
         target = getattr(self, "target", 0) % len(xs)
         ref = xs[target]
-        b, _, h, w = ref.shape
+        _b, _, h, w = ref.shape
         size = (h, w)
         aligned = [CSAR._resize(xi, size) for xi in xs]
 

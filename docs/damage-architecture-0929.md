@@ -6,27 +6,27 @@
 
 ## 1. 哪些部分保留，哪些部分增加
 
-| 部位 | 本次處理 |
-|---|---|
-| 入口原 RGB Conv | 保留計算、權重名稱與形狀，旁邊新增亮度細節殘差 |
-| layer 1～20 | 原定義、連接、索引完整保留，包含 AttentionResiduals、FSNetShuffle 與六個 CSAR |
-| layer 21～32 | 四個語意 token 分支與 Index 路由完整保留 |
-| head layer 33 | 原框、類別、mask coefficient 路徑保留；02／03 增加淺層輸入與融合 |
-| 原 Proto26MultiLabel | 原多尺度融合、轉置卷積上採樣、原型與輔助輸出權重保留 |
-| 03 的 prototype 旁路 | 新增 P2 投影與 P4 context 融合，在 P2 尺度輸出原型殘差 |
-| 類別與尺度 | 八類順序沿用 B/C/D/H/O/R/X/U；P3/P2/P4/P5 順序保留 |
-| 輸出 | 仍為標準框、類別、實例遮罩；640 輸入時 prototypes 為 160×160 |
+| 部位                 | 本次處理                                                                      |
+| -------------------- | ----------------------------------------------------------------------------- |
+| 入口原 RGB Conv      | 保留計算、權重名稱與形狀，旁邊新增亮度細節殘差                                |
+| layer 1～20          | 原定義、連接、索引完整保留，包含 AttentionResiduals、FSNetShuffle 與六個 CSAR |
+| layer 21～32         | 四個語意 token 分支與 Index 路由完整保留                                      |
+| head layer 33        | 原框、類別、mask coefficient 路徑保留；02／03 增加淺層輸入與融合              |
+| 原 Proto26MultiLabel | 原多尺度融合、轉置卷積上採樣、原型與輔助輸出權重保留                          |
+| 03 的 prototype 旁路 | 新增 P2 投影與 P4 context 融合，在 P2 尺度輸出原型殘差                        |
+| 類別與尺度           | 八類順序沿用 B/C/D/H/O/R/X/U；P3/P2/P4/P5 順序保留                            |
+| 輸出                 | 仍為標準框、類別、實例遮罩；640 輸入時 prototypes 為 160×160                  |
 
 因此，「主架構不動」在此指核心模組、主要連接和既有預測路徑保留；整個網路已因新增旁路而改變，不能再視為參數完全相同的六個設定。
 
 ## 2. 四組完整模型與訓練檔
 
-| 編號 | 完整模型 YAML | 配套訓練 YAML | 架構內容 |
-|---|---|---|---|
-| 00 | [00-baseline](../ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-00-baseline.yaml) | [00-baseline](../ultralytics/cfg/experiments/damage-arch-0929/00-baseline.yaml) | 原 semantic-token 架構，作為對照 |
-| 01 | [01-luma](../ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-01-luma.yaml) | [01-luma](../ultralytics/cfg/experiments/damage-arch-0929/01-luma.yaml) | 原架構＋亮度細節入口旁路 |
-| 02 | [02-shallow](../ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-02-shallow.yaml) | [02-shallow](../ultralytics/cfg/experiments/damage-arch-0929/02-shallow.yaml) | 01＋P2/P3 淺層直達頭部旁路 |
-| 03 | [03-dualproto](../ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-03-dualproto.yaml) | [03-dualproto](../ultralytics/cfg/experiments/damage-arch-0929/03-dualproto.yaml) | 02＋保留 P2 尺度的第二條遮罩解碼路徑 |
+| 編號 | 完整模型 YAML                                                                                | 配套訓練 YAML                                                                     | 架構內容                             |
+| ---- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------ |
+| 00   | [00-baseline](../ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-00-baseline.yaml)   | [00-baseline](../ultralytics/cfg/experiments/damage-arch-0929/00-baseline.yaml)   | 原 semantic-token 架構，作為對照     |
+| 01   | [01-luma](../ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-01-luma.yaml)           | [01-luma](../ultralytics/cfg/experiments/damage-arch-0929/01-luma.yaml)           | 原架構＋亮度細節入口旁路             |
+| 02   | [02-shallow](../ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-02-shallow.yaml)     | [02-shallow](../ultralytics/cfg/experiments/damage-arch-0929/02-shallow.yaml)     | 01＋P2/P3 淺層直達頭部旁路           |
+| 03   | [03-dualproto](../ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-03-dualproto.yaml) | [03-dualproto](../ultralytics/cfg/experiments/damage-arch-0929/03-dualproto.yaml) | 02＋保留 P2 尺度的第二條遮罩解碼路徑 |
 
 03 是本輪完整候選架構，00～02 用於分辨每一處新增路徑是否有幫助；編號不代表已驗證的準確率排名。比較時，各組都從同一 `last0926.pt` 出發，使用相同資料切分，不依次載入前一組的 best.pt。
 
@@ -120,18 +120,18 @@ D 保存較細的空間資訊；C 引入較大範圍的語意，幫助模型判�
 
 ## 5. 與 0928 loss 版本如何區分
 
-| 項目 | 0928 系列 | 本次 0929 系列 |
-|---|---|---|
-| 主要改動 | 陰影／一致性／範圍／邊界 loss 與解析度對照 | 新增入口、淺層直達、原型解碼旁路 |
-| 網路圖與參數 | 六組相同 | 01～03 逐步增加實際模組與連接 |
-| 推論成本 | 同解析度時沒有附加訓練 loss 成本 | 新旁路需要額外推論運算 |
-| 實驗控制 | 比較不同訓練方法 | 固定相同訓練方式比較架構 |
+| 項目         | 0928 系列                                  | 本次 0929 系列                   |
+| ------------ | ------------------------------------------ | -------------------------------- |
+| 主要改動     | 陰影／一致性／範圍／邊界 loss 與解析度對照 | 新增入口、淺層直達、原型解碼旁路 |
+| 網路圖與參數 | 六組相同                                   | 01～03 逐步增加實際模組與連接    |
+| 推論成本     | 同解析度時沒有附加訓練 loss 成本           | 新旁路需要額外推論運算           |
+| 實驗控制     | 比較不同訓練方法                           | 固定相同訓練方式比較架構         |
 
 本次四組均使用原本的多標籤分割 criterion，保留獨立 D/R 與原共現監督，沒有加入 `training_aux`。請不要直接把 0928 的 `training_aux` 貼進 02／03：目前該訓練管線刻意限制使用原 `Segment26MultiLabel` 頭，尚未宣稱與新增 head 的成對訓練相容。先完成架構比較，再決定是否另做結合實驗。
 
 ## 6. 訓練方法與權重移植
 
-使用這份專案的 Python 環境與 `yolo` 命令。訓練主機需同步新檔 [damage_architecture.py](../ultralytics/nn/modules/damage_architecture.py)、修改後的 [modules/__init__.py](../ultralytics/nn/modules/__init__.py)、[tasks.py](../ultralytics/nn/tasks.py)、八個 YAML，以及既有 `shadow_dent.py`、語意模組與其依賴。僅複製 YAML 到官方原版套件不會有新模組。
+使用這份專案的 Python 環境與 `yolo` 命令。訓練主機需同步新檔 [damage_architecture.py](../ultralytics/nn/modules/damage_architecture.py)、修改後的 [modules/**init**.py](../ultralytics/nn/modules/__init__.py)、[tasks.py](../ultralytics/nn/tasks.py)、八個 YAML，以及既有 `shadow_dent.py`、語意模組與其依賴。僅複製 YAML 到官方原版套件不會有新模組。
 
 四組訓練設定只有 model 與 name 不同，其他設定相同：imgsz=640、epochs=200、batch=4、AdamW、lr0=0.0003、seed=928、overlap_mask=false、mask_ratio=4、amp=false、compile=false。它們是控制實驗的起點，並非已驗證最佳參數。參數少量增加不代表執行時間只會增加相同比例；全影像局部平均與原生 P2 分支仍有計算與顯存成本。
 
@@ -188,12 +188,12 @@ $env:MKL_NUM_THREADS = '2'
 
 使用八類、n 規模與實際權重檢查，原 checkpoint 的 **999/999 個 state entries** 在四組中均同名同形載入並逐值一致；新分支另行初始化。
 
-| 版本 | 參數量 | 相較基底新增 | 新增比例 |
-|---|---:|---:|---:|
-| 00-baseline | 6,302,676 | 0 | 0.000% |
-| 01-luma | 6,303,638 | 962 | 0.015% |
-| 02-shallow | 6,378,586 | 75,910 | 1.204% |
-| 03-dualproto | 6,394,044 | 91,368 | 1.450% |
+| 版本         |    參數量 | 相較基底新增 | 新增比例 |
+| ------------ | --------: | -----------: | -------: |
+| 00-baseline  | 6,302,676 |            0 |   0.000% |
+| 01-luma      | 6,303,638 |          962 |   0.015% |
+| 02-shallow   | 6,378,586 |       75,910 |   1.204% |
+| 03-dualproto | 6,394,044 |       91,368 |   1.450% |
 
 四組皆完成 [1,3,640,640] 低亮度隨機輸入的 forward，框／類別／係數張量為 [1,44,34000]，prototype 為 [1,32,160,160]，數值皆有限。這是形狀與數值檢查，並非真實影像準確率測試，也未據此推算 FPS。
 
