@@ -14,33 +14,31 @@ scales: # model compound scaling constants
 # YOLO11-FSNetShuffle backbone
 backbone:
   # [from, repeats, module, args]
-  - [-1, 1, Conv, [64, 3, 2]]                  # 0-P1/2
-  - [-1, 1, Conv, [128, 3, 2]]                 # 1-P2/4 (主幹 P2 的 Conv)
+  - [-1, 1, Conv, [64, 3, 2]] # 0-P1/2
+  - [-1, 1, Conv, [128, 3, 2]] # 1-P2/4 (主幹 P2 的 Conv)
 
   # --- P2 融合層 ---
-  - [-1, 2, AttentionResiduals, [256, 0.25]]    # 2-P2/4, 接收 S 的輸出
-  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]]     # 3-P2/4, 綠色 S 模組 (融合 P1 與 P2)
-
+  - [-1, 2, AttentionResiduals, [256, 0.25]] # 2-P2/4, 接收 S 的輸出
+  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]] # 3-P2/4, 綠色 S 模組 (融合 P1 與 P2)
 
   # --- P3 融合層 ---
-  - [3, 1, Conv, [256, 3, 2]]                  # 4-P3/8, 從主幹 P2 的 Conv 繼續往下
-  
-  - [4, 2, AttentionResiduals, [512, 0.25]]    # 5-P3/8, 接收 S 的輸出
-  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]]     # 6-P3/8, 綠色 S 模組
-  
+  - [3, 1, Conv, [256, 3, 2]] # 4-P3/8, 從主幹 P2 的 Conv 繼續往下
+
+  - [4, 2, AttentionResiduals, [512, 0.25]] # 5-P3/8, 接收 S 的輸出
+  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]] # 6-P3/8, 綠色 S 模組
+
   # --- P4 融合層 ---
-  - [6, 1, Conv, [512, 3, 2]]                  # 7-P4/16, 從主幹 P3 的 Conv 繼續往下
-  - [7, 2, AttentionResiduals, [512]]          # 8-P4/16, 接收 S 的輸出
-  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]]  # 9-P4/16, 跨層綠色 S 模組
+  - [6, 1, Conv, [512, 3, 2]] # 7-P4/16, 從主幹 P3 的 Conv 繼續往下
+  - [7, 2, AttentionResiduals, [512]] # 8-P4/16, 接收 S 的輸出
+  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]] # 9-P4/16, 跨層綠色 S 模組
 
   # --- P5 融合層 ---
-  - [9, 1, Conv, [1024, 3, 2]]                 # 10-P5/32, 從主幹 P4 的 Conv 繼續往下
-  - [10, 2, AttentionResiduals, [1024]]        # 11-P5/32, 接收 S 的輸出
+  - [9, 1, Conv, [1024, 3, 2]] # 10-P5/32, 從主幹 P4 的 Conv 繼續往下
+  - [10, 2, AttentionResiduals, [1024]] # 11-P5/32, 接收 S 的輸出
   - [[10, 11], 1, FSNetShuffle, [1024, 2, 2]] # 12-P5/32, 跨層綠色 S 模組
-  
-  - [-1, 1, SPPF, [1024, 5]]                   # 13
-  - [-1, 2, C2PSA, [1024]]                     # 14-P5/32
 
+  - [-1, 1, SPPF, [1024, 5]] # 13
+  - [-1, 2, C2PSA, [1024]] # 14-P5/32
 
 # Five-scale CSAR -> FSNetShuffle -> CSAR segmentation head.
 # At imgsz=640 the five feature sizes are 160, 80, 40, 20 and 10.
@@ -49,24 +47,24 @@ head:
   - [14, 1, Conv, [1024, 3, 2]] # 15-P6/64
 
   # First CSAR stage: one output at every source resolution.
-  - [[3, 6, 9, 14, 15], 1, CSAR, [128, 4, 0, 0.5, True]]  # 16-P2/4  (160x160)
-  - [[3, 6, 9, 14, 15], 1, CSAR, [256, 4, 1, 0.5, True]]  # 17-P3/8  (80x80)
-  - [[3, 6, 9, 14, 15], 1, CSAR, [512, 4, 2, 0.5, True]]  # 18-P4/16 (40x40)
+  - [[3, 6, 9, 14, 15], 1, CSAR, [128, 4, 0, 0.5, True]] # 16-P2/4  (160x160)
+  - [[3, 6, 9, 14, 15], 1, CSAR, [256, 4, 1, 0.5, True]] # 17-P3/8  (80x80)
+  - [[3, 6, 9, 14, 15], 1, CSAR, [512, 4, 2, 0.5, True]] # 18-P4/16 (40x40)
   - [[3, 6, 9, 14, 15], 1, CSAR, [1024, 4, 3, 0.5, True]] # 19-P5/32 (20x20)
   - [[3, 6, 9, 14, 15], 1, CSAR, [1024, 4, 4, 0.5, True]] # 20-P6/64 (10x10)
 
   # Green circles in the diagram: exchange all first-stage CSAR features,
   # while retaining one output at each target resolution.
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [128, 0, 2]]  # 21-P2/4
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [256, 1, 2]]  # 22-P3/8
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [512, 2, 2]]  # 23-P4/16
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [128, 0, 2]] # 21-P2/4
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [256, 1, 2]] # 22-P3/8
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [512, 2, 2]] # 23-P4/16
   - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [1024, 3, 2]] # 24-P5/32
   - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [1024, 4, 2]] # 25-P6/64
 
   # Second CSAR stage after the five FSNetShuffle nodes.
-  - [[21, 22, 23, 24, 25], 1, CSAR, [128, 4, 0, 0.5, True]]  # 26-P2/4
-  - [[21, 22, 23, 24, 25], 1, CSAR, [256, 4, 1, 0.5, True]]  # 27-P3/8
-  - [[21, 22, 23, 24, 25], 1, CSAR, [512, 4, 2, 0.5, True]]  # 28-P4/16
+  - [[21, 22, 23, 24, 25], 1, CSAR, [128, 4, 0, 0.5, True]] # 26-P2/4
+  - [[21, 22, 23, 24, 25], 1, CSAR, [256, 4, 1, 0.5, True]] # 27-P3/8
+  - [[21, 22, 23, 24, 25], 1, CSAR, [512, 4, 2, 0.5, True]] # 28-P4/16
   - [[21, 22, 23, 24, 25], 1, CSAR, [1024, 4, 3, 0.5, True]] # 29-P5/32
   - [[21, 22, 23, 24, 25], 1, CSAR, [1024, 4, 4, 0.5, True]] # 30-P6/64
 
