@@ -24,10 +24,12 @@
 ### Task 1: 先輸出純塗色圖片
 
 **Files:**
+
 - Modify: tools/predict_shadow.py（parse_args、render、使用說明）
 - Verify: tests/test_predict_shadow.py（現有遮罩、IO、空預測與融合測試）
 
 **Interfaces:**
+
 - Consumes: `render(image: np.ndarray, detections: list[Detection], names: dict, args: argparse.Namespace) -> np.ndarray`。
 - Produces: 同簽名函數；只對 `detection.mask` 為真的像素做原有 alpha 混色。
 
@@ -56,42 +58,44 @@ return output
 ### Task 2: 三組參數的批次執行
 
 **Files:**
+
 - Modify: tools/predict_parameter_sweep.py
 - Modify: tests/test_predict_parameter_sweep.py
 - Create: docs/inference-three-group-comparison-1001.md
 
 **Interfaces:**
+
 - Consumes: `parse_args(argv: list[str] | None) -> argparse.Namespace`、`build_jobs(args: argparse.Namespace, run_dir: Path) -> list[dict]`、`run_job(job: dict) -> tuple[int, float]`。
 - Produces: jobs 新增 `group`；保留 `version/weight/source/output/log/command` 與實際參數。`--suite all --compare` 一次跑三組。
 
 - [x] **Step 1: 加入測試，確認 25 個工作與組別隔離**
 
 ```python
-args = sweep.parse_args(['--suite', 'all', '--weights', 'm.pt', '--source', 'i.jpg'])
-jobs = sweep.build_jobs(args, Path('output'))
+args = sweep.parse_args(["--suite", "all", "--weights", "m.pt", "--source", "i.jpg"])
+jobs = sweep.build_jobs(args, Path("output"))
 self.assertEqual(len(jobs), 25)
-self.assertEqual(len({job['output'] for job in jobs}), 25)
-self.assertEqual({job['group'] for job in jobs}, {'shadow', 'general', 'combined'})
+self.assertEqual(len({job["output"] for job in jobs}), 25)
+self.assertEqual({job["group"] for job in jobs}, {"shadow", "general", "combined"})
 for job in jobs:
-    self.assertIn('predict_shadow.py', job['command'][1])
-    self.assertNotIn('--show-scores', job['command'])
-    if job['group'] == 'general' or job['version'] == 'baseline':
-        self.assertEqual(job['views'], ['original'])
+    self.assertIn("predict_shadow.py", job["command"][1])
+    self.assertNotIn("--show-scores", job["command"])
+    if job["group"] == "general" or job["version"] == "baseline":
+        self.assertEqual(job["views"], ["original"])
 ```
 
 - [x] **Step 2: 定義各組 presets 與批次路徑**
 
 ```python
-GENERAL_TESTS = {name: {**settings, 'views': ['original']} for name, settings in PARAMETER_TESTS.items()}
+GENERAL_TESTS = {name: {**settings, "views": ["original"]} for name, settings in PARAMETER_TESTS.items()}
 COMBINED_TESTS = {
-    'baseline': {'views': ['original']},
-    'shadow_default': {},
-    'conf010': {'conf': 0.10},
-    'iou050': {'iou': 0.50},
-    'imgsz960': {'imgsz': 960},
-    'imgsz1280': {'imgsz': 1280},
-    'size960_conf010_iou050': {'imgsz': 960, 'conf': 0.10, 'iou': 0.50},
-    'size960_gamma045_shadow128': {'imgsz': 960, 'gamma': 0.45, 'shadow_threshold': 128},
+    "baseline": {"views": ["original"]},
+    "shadow_default": {},
+    "conf010": {"conf": 0.10},
+    "iou050": {"iou": 0.50},
+    "imgsz960": {"imgsz": 960},
+    "imgsz1280": {"imgsz": 1280},
+    "size960_conf010_iou050": {"imgsz": 960, "conf": 0.10, "iou": 0.50},
+    "size960_gamma045_shadow128": {"imgsz": 960, "gamma": 0.45, "shadow_threshold": 128},
 }
 ```
 
@@ -113,21 +117,23 @@ shadow 共 9 版：baseline、shadow_default、gamma_only、clahe_only、gamma04
 ### Task 3: 圖片比較與實際執行
 
 **Files:**
+
 - Create: tools/compare_shadow_sweep.py
 - Modify: tools/predict_shadow.py（predictions.json 補充原始遮罩聯集統計）
 - Modify: tests/test_predict_parameter_sweep.py
 - Modify: docs/inference-three-group-comparison-1001.md
 
 **Interfaces:**
+
 - Consumes: run_dir 下的 parameters.json、summary.csv、每張圖片的 predictions.json 與 `*__all.jpg`。
 - Produces: `create_comparisons(run_dir: Path) -> list[Path]`；輸出組內全圖/D/R 比較、細部比較、跨組總覽與 comparison_summary.csv。
 
 - [x] **Step 1: 用已成功工作的實際來源建立比較資料**
 
 ```python
-successful = {row['output'] for row in csv.DictReader(handle) if row['status'] == 'ok'}
+successful = {row["output"] for row in csv.DictReader(handle) if row["status"] == "ok"}
 # 每個 predictions.json 的 source 是展開後的原始圖片路徑，避免資料夾來源混淆。
-key = (str(Path(job['weight']).resolve()).casefold(), str(Path(report['source']).resolve()).casefold())
+key = (str(Path(job["weight"]).resolve()).casefold(), str(Path(report["source"]).resolve()).casefold())
 ```
 
 從二值遮罩計算同類 union_pixels 與 coverage_percent，不由 JPG 顏色估計。沿用 compare_parameter_sweep.draw_figure 的同位置裁切，caption 明確列出組別、版本、imgsz/conf/iou、視圖與增強參數。
@@ -153,12 +159,14 @@ key = (str(Path(job['weight']).resolve()).casefold(), str(Path(report['source'])
 ### 追加 Task 4: 排除指定圖片右側橘色柱子的 R 誤檢
 
 **Files:**
+
 - Create: tools/shadow_exclusion_regions.json
 - Modify: tools/predict_shadow.py
 - Modify: tools/predict_parameter_sweep.py
 - Test: tests/test_predict_shadow.py、tests/test_predict_parameter_sweep.py
 
 **Interfaces:**
+
 - `load_exclusion_rules(path: Path) -> list[dict]` 讀取 source/classes/polygon_normalized。
 - `exclusion_masks(source: Path, shape: tuple[int, int], names: dict, rules: list[dict]) -> tuple[dict, list]` 只匹配完整圖片路徑。
 - `exclude_background(detections: list[Detection], masks: dict[int, np.ndarray]) -> list[Detection]` 在融合前移除指定類別的排除區像素。
