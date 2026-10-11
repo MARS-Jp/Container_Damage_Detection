@@ -38,9 +38,7 @@
       "hlink": "#467886",
       "folHlink": "#96607D"
     },
-    "typefaces": [
-      "Noto Sans TC"
-    ]
+    "typefaces": ["Noto Sans TC"]
   },
   "inheritedLayers": [
     {
@@ -67,12 +65,7 @@
       "aid": "sh/yh8retcv",
       "id": "1",
       "name": "title",
-      "bbox": [
-        60,
-        32,
-        1160,
-        72
-      ],
+      "bbox": [60, 32, 1160, 72],
       "geometry": "rect",
       "text": "02 淺層特徵直達預測頭",
       "textPreview": "02 淺層特徵直達預測頭",
@@ -132,12 +125,7 @@
       "aid": "sh/lkzq9ob6",
       "id": "2",
       "name": "subtitle",
-      "bbox": [
-        62,
-        111,
-        1156,
-        48
-      ],
+      "bbox": [62, 111, 1156, 48],
       "geometry": "rect",
       "text": "繼承 01 入口旁路，再加入 FSNet 的 P3 與 P2 來源",
       "textPreview": "繼承 01 入口旁路，再加入 FSNet 的 P3 與 P2 來源",
@@ -194,12 +182,7 @@
       "aid": "sh/kjq9gjul",
       "id": "3",
       "name": "footer",
-      "bbox": [
-        62,
-        663,
-        1156,
-        38
-      ],
+      "bbox": [62, 663, 1156, 38],
       "geometry": "rect",
       "text": "02 相較 01 新增 74,948 個參數。新增特徵影響框、分類、係數與原型。",
       "textPreview": "02 相較 01 新增 74,948 個參數。新增特徵影響框、分類、係數與原型。",
@@ -256,12 +239,7 @@
       "aid": "sh/bex83et4",
       "id": "4",
       "name": "routes-heading",
-      "bbox": [
-        62,
-        181,
-        576,
-        43
-      ],
+      "bbox": [62, 181, 576, 43],
       "geometry": "rect",
       "text": "兩條新增連接",
       "textPreview": "兩條新增連接",
@@ -320,12 +298,7 @@
       "scope": "slide",
       "aid": "tb/7idkbit0",
       "id": "5",
-      "bbox": [
-        62,
-        234,
-        566,
-        196
-      ],
+      "bbox": [62, 234, 566, 196],
       "text": "尺度 | 原 head 特徵 | 新增 FSNet\nP3 | layer 22 | layer 6\nP2 | layer 25 | layer 3",
       "textPreview": "尺度 | 原 head 特徵 | 新增 FSNet | P3 | layer 22 | layer 6 | P2 | layer 25 | layer 3",
       "rows": 3,
@@ -335,12 +308,7 @@
           "index": 1,
           "row": 1,
           "column": 1,
-          "bbox": [
-            62,
-            234,
-            112,
-            65.33
-          ],
+          "bbox": [62, 234, 112, 65.33],
           "text": "尺度",
           "textPreview": "尺度",
           "fillColor": "#153447",
@@ -371,12 +339,7 @@
           "index": 2,
           "row": 1,
           "column": 2,
-          "bbox": [
-            174,
-            234,
-            229,
-            65.33
-          ],
+          "bbox": [174, 234, 229, 65.33],
           "text": "原 head 特徵",
           "textPreview": "原 head 特徵",
           "fillColor": "#153447",
@@ -407,12 +370,7 @@
           "index": 3,
           "row": 1,
           "column": 3,
-          "bbox": [
-            403,
-            234,
-            225,
-            65.33
-          ],
+          "bbox": [403, 234, 225, 65.33],
           "text": "新增 FSNet",
           "textPreview": "新增 FSNet",
           "fillColor": "#153447",
@@ -443,12 +401,7 @@
           "index": 4,
           "row": 2,
           "column": 1,
-          "bbox": [
-            62,
-            299.33,
-            112,
-            65.33
-          ],
+          "bbox": [62, 299.33, 112, 65.33],
           "text": "P3",
           "textPreview": "P3",
           "fillColor": "#FFFFFF",
@@ -479,12 +432,7 @@
           "index": 5,
           "row": 2,
           "column": 2,
-          "bbox": [
-            174,
-            299.33,
-            229,
-            65.33
-          ],
+          "bbox": [174, 299.33, 229, 65.33],
           "text": "layer 22",
           "textPreview": "layer 22",
           "fillColor": "#FFFFFF",
@@ -513,12 +461,7 @@
           "index": 6,
           "row": 2,
           "column": 3,
-          "bbox": [
-            403,
-            299.33,
-            225,
-            65.33
-          ],
+          "bbox": [403, 299.33, 225, 65.33],
           "text": "layer 6",
           "textPreview": "layer 6",
           "fillColor": "#FFFFFF",
@@ -547,12 +490,7 @@
           "index": 7,
           "row": 3,
           "column": 1,
-          "bbox": [
-            62,
-            364.67,
-            112,
-            65.33
-          ],
+          "bbox": [62, 364.67, 112, 65.33],
           "text": "P2",
           "textPreview": "P2",
           "fillColor": "#F1F6F7",
@@ -583,12 +521,7 @@
           "index": 8,
           "row": 3,
           "column": 2,
-          "bbox": [
-            174,
-            364.67,
-            229,
-            65.33
-          ],
+          "bbox": [174, 364.67, 229, 65.33],
           "text": "layer 25",
           "textPreview": "layer 25",
           "fillColor": "#F1F6F7",
@@ -617,12 +550,7 @@
           "index": 9,
           "row": 3,
           "column": 3,
-          "bbox": [
-            403,
-            364.67,
-            225,
-            65.33
-          ],
+          "bbox": [403, 364.67, 225, 65.33],
           "text": "layer 3",
           "textPreview": "layer 3",
           "fillColor": "#F1F6F7",
@@ -656,12 +584,7 @@
       "aid": "sh/xgzq5oba",
       "id": "6",
       "name": "routes-note",
-      "bbox": [
-        62,
-        459,
-        570,
-        120
-      ],
+      "bbox": [62, 459, 570, 120],
       "geometry": "rect",
       "text": "P3 融合後：128×80×80\nP2 融合後：64×160×160\n以上為 n 規模、640 輸入。",
       "textPreview": "P3 融合後：128×80×80 | P2 融合後：64×160×160 | 以上為 n 規模、640 輸入。",
@@ -764,12 +687,7 @@
       "aid": "sh/cf69cjup",
       "id": "7",
       "name": "difference-heading",
-      "bbox": [
-        680,
-        181,
-        538,
-        43
-      ],
+      "bbox": [680, 181, 538, 43],
       "geometry": "rect",
       "text": "投影後保留局部差異",
       "textPreview": "投影後保留局部差異",
@@ -829,12 +747,7 @@
       "aid": "sh/va18fyt8",
       "id": "8",
       "name": "shallow-project",
-      "bbox": [
-        680,
-        232,
-        538,
-        50
-      ],
+      "bbox": [680, 232, 538, 50],
       "geometry": "rect",
       "text": "S = Conv₁×₁(Sraw)",
       "textPreview": "S = Conv₁×₁(Sraw)",
@@ -894,12 +807,7 @@
       "aid": "sh/upsrmdcn",
       "id": "9",
       "name": "difference3",
-      "bbox": [
-        680,
-        303,
-        538,
-        50
-      ],
+      "bbox": [680, 303, 538, 50],
       "geometry": "rect",
       "text": "Δ₃ = S − Avg₃(S)",
       "textPreview": "Δ₃ = S − Avg₃(S)",
@@ -959,12 +867,7 @@
       "aid": "sh/wbu94re5",
       "id": "10",
       "name": "difference7",
-      "bbox": [
-        680,
-        365,
-        538,
-        50
-      ],
+      "bbox": [680, 365, 538, 50],
       "geometry": "rect",
       "text": "Δ₇ = S − Avg₇(S)",
       "textPreview": "Δ₇ = S − Avg₇(S)",
@@ -1024,12 +927,7 @@
       "aid": "sh/hc3qxwvq",
       "id": "11",
       "name": "difference-meaning",
-      "bbox": [
-        680,
-        432,
-        538,
-        128
-      ],
+      "bbox": [680, 432, 538, 128],
       "geometry": "rect",
       "text": "S 是學習式特徵，可正可負。\n此處扣掉局部平均，不做亮度除法。\n均勻特徵的差分接近零。",
       "textPreview": "S 是學習式特徵，可正可負。 | 此處扣掉局部平均，不做亮度除法。 | 均勻特徵的差分接近零。",
@@ -1132,12 +1030,7 @@
       "aid": "sh/u9cr21wz",
       "id": "12",
       "name": "p2-existing",
-      "bbox": [
-        62,
-        606,
-        1155,
-        43
-      ],
+      "bbox": [62, 606, 1155, 43],
       "geometry": "rect",
       "text": "原模型已含 P2。此版再加入 layer 3 的 FSNet 特徵，保留原語意路徑。",
       "textPreview": "原模型已含 P2。此版再加入 layer 3 的 FSNet 特徵，保留原語意路徑。",

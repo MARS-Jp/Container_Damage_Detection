@@ -10,12 +10,12 @@ The default preset is specific to CBHU0708054-A and last0912.pt.
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
 import hashlib
 import json
-from pathlib import Path
 import shutil
 import sys
+from datetime import datetime
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -66,12 +66,17 @@ def apply_recipes(baseline, candidate_banks, preset):
         recipe = preset["classes"][name]
         old = [d for d in baseline if int(d.box[5]) == cid]
         raw = [d for d in candidate_banks[recipe["bank"]] if int(d.box[5]) == cid]
-        gate = {"D": 1., "R": 1., "min_support": recipe["min_support"], name: recipe["threshold"]}
+        gate = {"D": 1.0, "R": 1.0, "min_support": recipe["min_support"], name: recipe["threshold"]}
         accepted, support = consensus_candidates(raw, gate, preset["agreement_iou"], preset["min_mask_area"])
         selected = merge_local_candidates(old, accepted, recipe["merge_iou"], recipe["merge_policy"], preset["regions"])
         combined += selected
-        logs[name] = {"baseline_count": len(old), "raw_candidates": len(raw), "accepted_before_merge": len(accepted),
-                      "support_counts": support, "merged_count": len(selected)}
+        logs[name] = {
+            "baseline_count": len(old),
+            "raw_candidates": len(raw),
+            "accepted_before_merge": len(accepted),
+            "support_counts": support,
+            "merged_count": len(selected),
+        }
     return sorted(combined, key=lambda d: -float(d.box[4])), logs
 
 
@@ -109,10 +114,11 @@ def main():
     model_hash = hashlib.sha256(args.model.read_bytes()).hexdigest()
     if model_hash != preset["model_sha256"]:
         raise ValueError("Checkpoint differs from the model used to select this preset")
-    args.alpha = .35
+    args.alpha = 0.35
     for name, value in preset["enhancement"].items():
         setattr(args, name, value)
     from ultralytics import YOLO
+
     model = YOLO(str(args.model))
     names = normalize_names(model.names)
     if model.task != "segment" or names.get(2) != "D" or names.get(5) != "R":
@@ -122,25 +128,49 @@ def main():
     output = args.output / datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
     output.mkdir(parents=True)
     shutil.copy2(args.preset, output / "preset.json")
-    settings = {**vars(args), "model_sha256": model_hash, "image_sha256": hashlib.sha256(args.source.read_bytes()).hexdigest(),
-                "excluded_regions": matched, "retina_masks": True, "alpha": .35, "views": ["original", "gamma", "clahe", "flip"],
-                "baseline_multi_label": False, "crop_multi_label": True, "annotation_used_at_inference": False}
-    (output / "settings.json").write_text(json.dumps(settings, indent=2, default=str, ensure_ascii=False), encoding="utf-8")
+    settings = {
+        **vars(args),
+        "model_sha256": model_hash,
+        "image_sha256": hashlib.sha256(args.source.read_bytes()).hexdigest(),
+        "excluded_regions": matched,
+        "retina_masks": True,
+        "alpha": 0.35,
+        "views": ["original", "gamma", "clahe", "flip"],
+        "baseline_multi_label": False,
+        "crop_multi_label": True,
+        "annotation_used_at_inference": False,
+    }
+    (output / "settings.json").write_text(
+        json.dumps(settings, indent=2, default=str, ensure_ascii=False), encoding="utf-8"
+    )
     print(f"OUTPUT={output}", flush=True)
     DamageSegmentationPredictor.multi_label = False
     DamageSegmentationPredictor.collect_auxiliary = False
-    result = model.predict(image, predictor=DamageSegmentationPredictor, **preset["baseline"],
-        rect=True, device=args.device, retina_masks=True, max_det=1000, classes=None, verbose=False, save=False)[0]
+    result = model.predict(
+        image,
+        predictor=DamageSegmentationPredictor,
+        **preset["baseline"],
+        rect=True,
+        device=args.device,
+        retina_masks=True,
+        max_det=1000,
+        classes=None,
+        verbose=False,
+        save=False,
+    )[0]
     baseline = exclude_background(extract_detections(result, "baseline", image.shape[:2]), excluded)
     del result
     save_predictions(output / "baseline", image, args.source, names, baseline, args)
     banks, view_logs = {}, {}
     for bank in preset["banks"]:
-        banks[bank["name"]], view_logs[bank["name"]] = infer_bank(model, image, bank, preset, args,
-            preset["contexts"], preset["regions"], excluded)
+        banks[bank["name"]], view_logs[bank["name"]] = infer_bank(
+            model, image, bank, preset, args, preset["contexts"], preset["regions"], excluded
+        )
     selected, selection_logs = apply_recipes(baseline, banks, preset)
     save_predictions(output / "tuned", image, args.source, names, selected, args)
-    (output / "inference_log.json").write_text(json.dumps({"views": view_logs, "selection": selection_logs}, indent=2), encoding="utf-8")
+    (output / "inference_log.json").write_text(
+        json.dumps({"views": view_logs, "selection": selection_logs}, indent=2), encoding="utf-8"
+    )
     print("COUNTS=" + json.dumps({name: data["merged_count"] for name, data in selection_logs.items()}), flush=True)
     print(f"COMPLETE={output}", flush=True)
 

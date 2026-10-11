@@ -12,7 +12,6 @@ import unittest
 from pathlib import Path
 from types import SimpleNamespace
 
-import cv2
 import numpy as np
 
 from tools.predict_shadow import (
@@ -87,8 +86,7 @@ class ShadowInferenceTests(unittest.TestCase):
 
     def test_exclusion_is_bound_to_full_source_path_not_filename(self):
         source = Path("original/image.jpg").resolve()
-        rule = {"source": str(source), "classes": ["R"],
-                "polygon_normalized": [[0.75, 0], [1, 0], [1, 1], [0.75, 1]]}
+        rule = {"source": str(source), "classes": ["R"], "polygon_normalized": [[0.75, 0], [1, 0], [1, 1], [0.75, 1]]}
         masks, matched = exclusion_masks(source, (32, 64), {2: "D", 5: "R"}, [rule])
         self.assertEqual(matched, [rule])
         self.assertEqual(set(masks), {5})
