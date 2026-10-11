@@ -4,10 +4,9 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from contextlib import contextmanager
 from pathlib import Path
-import sys
-
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -23,7 +22,6 @@ from ultralytics.nn import tasks as nn_tasks
 from ultralytics.nn.modules.adaptive_iim_0910 import AdaptiveGatedIIMStem0910
 from ultralytics.nn.modules.segment_query_0910 import Segment26ClassQuery0910
 from ultralytics.utils import RANK
-
 
 MODEL_CFG = ROOT / "ultralytics/cfg/models/11_myself/yolo11-6csar-0910iim.yaml"
 
