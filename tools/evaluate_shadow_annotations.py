@@ -9,11 +9,11 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime
 import json
-from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
+from datetime import datetime
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -40,8 +40,14 @@ def read_annotation(path: Path, origin: int = 1) -> dict:
         if obj.findtext("difficult", "0") != "0":
             raise ValueError("Difficult annotations require an explicit ignore policy; this evaluator expects none.")
         objects.append({"id": index, "class_name": obj.findtext("name"), "box_xyxy": box})
-    return {"filename": root.findtext("filename"), "width": width, "height": height,
-            "annotation": str(path.resolve()), "coordinate_origin": origin, "objects": objects}
+    return {
+        "filename": root.findtext("filename"),
+        "width": width,
+        "height": height,
+        "annotation": str(path.resolve()),
+        "coordinate_origin": origin,
+        "objects": objects,
+    }
 
 
 def box_iou(left, right) -> float:
@@ -56,8 +62,11 @@ def match_boxes(annotations: list[dict], detections: list[dict], threshold: floa
     """Map GT indices to prediction indices, allowing each box to match only once."""
     matched = {}
     for prediction in sorted(range(len(detections)), key=lambda i: -detections[i]["confidence"]):
-        candidates = [i for i, gt in enumerate(annotations)
-                      if i not in matched and gt["class_name"] == detections[prediction]["class_name"]]
+        candidates = [
+            i
+            for i, gt in enumerate(annotations)
+            if i not in matched and gt["class_name"] == detections[prediction]["class_name"]
+        ]
         if not candidates:
             continue
         target = max(candidates, key=lambda i: box_iou(annotations[i]["box_xyxy"], detections[prediction]["box_xyxy"]))
@@ -78,27 +87,47 @@ def evaluate(annotation: dict, report: dict, threshold: float = 0.5) -> tuple[li
     classes = sorted({obj["class_name"] for obj in gt} | {d["class_name"] for d in detections})
     for region, bounds in {"full": (0, 0, 1.001, 1.001), **REGIONS}.items():
         for name in classes:
-            selected = [i for i, obj in enumerate(gt) if obj["class_name"] == name
-                        and in_roi(obj["box_xyxy"], bounds, annotation["width"], annotation["height"])]
+            selected = [
+                i
+                for i, obj in enumerate(gt)
+                if obj["class_name"] == name
+                and in_roi(obj["box_xyxy"], bounds, annotation["width"], annotation["height"])
+            ]
             tp = sum(index in matched for index in selected)
             predicted = sum(d["class_name"] == name for d in detections)
             # Regional recall is defined by the GT center, using the same global one-to-one matches.
             # Precision is only reported for the full image to avoid boundary-assignment ambiguity.
-            rows.append({"region": region, "class": name, "annotated": len(selected), "matched": tp,
-                         "missed": len(selected) - tp,
-                         "recall": round(tp / len(selected), 4) if selected else "",
-                         "predicted": predicted if region == "full" else "",
-                         "unmatched_predictions": predicted - tp if region == "full" else "",
-                         "precision": round(tp / predicted, 4) if region == "full" and predicted else ""})
+            rows.append(
+                {
+                    "region": region,
+                    "class": name,
+                    "annotated": len(selected),
+                    "matched": tp,
+                    "missed": len(selected) - tp,
+                    "recall": round(tp / len(selected), 4) if selected else "",
+                    "predicted": predicted if region == "full" else "",
+                    "unmatched_predictions": predicted - tp if region == "full" else "",
+                    "precision": round(tp / predicted, 4) if region == "full" and predicted else "",
+                }
+            )
     for index, obj in enumerate(gt):
         if index in matched:
             continue
         same = [d for d in detections if d["class_name"] == obj["class_name"]]
         best = max(same, key=lambda d: box_iou(obj["box_xyxy"], d["box_xyxy"]), default=None)
-        missed.append({**obj, "best_same_class_iou": round(box_iou(obj["box_xyxy"], best["box_xyxy"]), 4) if best else 0,
-                       "best_same_class_score": best["confidence"] if best else 0,
-                       "region": "+".join(name for name, roi in REGIONS.items()
-                                          if in_roi(obj["box_xyxy"], roi, annotation["width"], annotation["height"])) or "other"})
+        missed.append(
+            {
+                **obj,
+                "best_same_class_iou": round(box_iou(obj["box_xyxy"], best["box_xyxy"]), 4) if best else 0,
+                "best_same_class_score": best["confidence"] if best else 0,
+                "region": "+".join(
+                    name
+                    for name, roi in REGIONS.items()
+                    if in_roi(obj["box_xyxy"], roi, annotation["width"], annotation["height"])
+                )
+                or "other",
+            }
+        )
     return rows, missed
 
 
@@ -122,9 +151,13 @@ def evaluate_runs(annotation: dict, runs: list[Path], output: Path, threshold: f
                         raise ValueError(f"Image dimensions disagree with XML: {source}")
                 checked_sources.add(source)
             job = next((j for j in jobs if Path(j["output"]) in path.parents), {})
-            identity = {"run": run.name, "group": job.get("group", "recall"),
-                        "version": job.get("version", report.get("version", path.parent.name)),
-                        "source": str(source), "prediction_file": str(path.resolve())}
+            identity = {
+                "run": run.name,
+                "group": job.get("group", "recall"),
+                "version": job.get("version", report.get("version", path.parent.name)),
+                "source": str(source),
+                "prediction_file": str(path.resolve()),
+            }
             scores, missed = evaluate(annotation, report, threshold)
             rows.extend({**identity, **score} for score in scores)
             missed_all.extend({**identity, **item} for item in missed)
@@ -132,29 +165,49 @@ def evaluate_runs(annotation: dict, runs: list[Path], output: Path, threshold: f
     if not rows:
         raise ValueError("No prediction reports matched this annotation filename")
     output.mkdir(parents=True, exist_ok=False)
-    (output / "annotation_snapshot.json").write_text(json.dumps(annotation, ensure_ascii=False, indent=2), encoding="utf-8")
-    (output / "evaluation.json").write_text(json.dumps({
-        "iou_threshold": threshold, "matching": "same-class confidence-ordered one-to-one",
-        "scope": "single-image bbox evaluation; no segmentation ground truth",
-        "results": evaluated,
-    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    (output / "annotation_snapshot.json").write_text(
+        json.dumps(annotation, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    (output / "evaluation.json").write_text(
+        json.dumps(
+            {
+                "iou_threshold": threshold,
+                "matching": "same-class confidence-ordered one-to-one",
+                "scope": "single-image bbox evaluation; no segmentation ground truth",
+                "results": evaluated,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ),
+        encoding="utf-8",
+    )
     for filename, values in (("summary.csv", rows), ("missed_annotations.csv", missed_all)):
         with (output / filename).open("w", encoding="utf-8-sig", newline="") as handle:
             if values:
                 writer = csv.DictWriter(handle, fieldnames=list(values[0]))
                 writer.writeheader()
                 writer.writerows(values)
-    lines = ["# XML 標記比對", "",
-             f"標記：`{annotation['annotation']}`；{len(annotation['objects'])} 個框。",
-             f"同類別依信心分數排序、一對一匹配，IoU ≥ {threshold:g}；VOC 起始座標使用 {annotation['coordinate_origin']}。",
-             "XML 只有框，不能計算分割遮罩準確率。這是同一張圖片上的回測，不代表驗證集表現。",
-             "區域召回依標記框中心位置分組；未匹配預測可能是誤檢、重複或定位不夠準。", "",
-             "| 組別／版本 | 左 MSC D 命中／標記 | 右下 D 命中／標記 | 右下 R 命中／標記 | 全圖 D 命中／預測 | 全圖 R 命中／預測 |",
-             "|---|---:|---:|---:|---:|---:|"]
+    lines = [
+        "# XML 標記比對",
+        "",
+        f"標記：`{annotation['annotation']}`；{len(annotation['objects'])} 個框。",
+        f"同類別依信心分數排序、一對一匹配，IoU ≥ {threshold:g}；VOC 起始座標使用 {annotation['coordinate_origin']}。",
+        "XML 只有框，不能計算分割遮罩準確率。這是同一張圖片上的回測，不代表驗證集表現。",
+        "區域召回依標記框中心位置分組；未匹配預測可能是誤檢、重複或定位不夠準。",
+        "",
+        "| 組別／版本 | 左 MSC D 命中／標記 | 右下 D 命中／標記 | 右下 R 命中／標記 | 全圖 D 命中／預測 | 全圖 R 命中／預測 |",
+        "|---|---:|---:|---:|---:|---:|",
+    ]
     for result in evaluated:
         values = {(r["region"], r["class"]): r for r in result["metrics"]}
         cells = []
-        for region, name in (("left_MSC", "D"), ("right_shadow", "D"), ("right_shadow", "R"), ("full", "D"), ("full", "R")):
+        for region, name in (
+            ("left_MSC", "D"),
+            ("right_shadow", "D"),
+            ("right_shadow", "R"),
+            ("full", "D"),
+            ("full", "R"),
+        ):
             metric = values.get((region, name), {"matched": 0, "annotated": 0, "predicted": 0})
             denominator = metric["predicted"] if region == "full" else metric["annotated"]
             cells.append(f"{metric['matched']} / {denominator}")
@@ -167,6 +220,7 @@ def evaluate_runs(annotation: dict, runs: list[Path], output: Path, threshold: f
 def compare_targets(annotation: dict, baseline_path: Path, candidate_path: Path, output: Path) -> Path:
     """Show annotation-centered crops of original and model outputs; never draw GT as predictions."""
     from PIL import Image
+
     from tools.compare_parameter_sweep import font_manager, plt
 
     before = json.loads(baseline_path.read_text(encoding="utf-8"))
@@ -176,12 +230,26 @@ def compare_targets(annotation: dict, baseline_path: Path, candidate_path: Path,
     gt = annotation["objects"]
     matched_before, matched_after = match_boxes(gt, before["detections"]), match_boxes(gt, after["detections"])
     changed = [i for i in matched_after if i not in matched_before and gt[i]["class_name"] == "D"][:2]
-    left = [i for i, obj in enumerate(gt) if i not in matched_after and obj["class_name"] == "D"
-            and in_roi(obj["box_xyxy"], REGIONS["left_MSC"], annotation["width"], annotation["height"])][:2]
-    right = [i for i, obj in enumerate(gt) if obj["class_name"] == "D"
-             and in_roi(obj["box_xyxy"], REGIONS["right_shadow"], annotation["width"], annotation["height"])][:2]
-    rust = [i for i, obj in enumerate(gt) if i not in matched_after and obj["class_name"] == "R"
-            and in_roi(obj["box_xyxy"], REGIONS["right_shadow"], annotation["width"], annotation["height"])][:1]
+    left = [
+        i
+        for i, obj in enumerate(gt)
+        if i not in matched_after
+        and obj["class_name"] == "D"
+        and in_roi(obj["box_xyxy"], REGIONS["left_MSC"], annotation["width"], annotation["height"])
+    ][:2]
+    right = [
+        i
+        for i, obj in enumerate(gt)
+        if obj["class_name"] == "D"
+        and in_roi(obj["box_xyxy"], REGIONS["right_shadow"], annotation["width"], annotation["height"])
+    ][:2]
+    rust = [
+        i
+        for i, obj in enumerate(gt)
+        if i not in matched_after
+        and obj["class_name"] == "R"
+        and in_roi(obj["box_xyxy"], REGIONS["right_shadow"], annotation["width"], annotation["height"])
+    ][:1]
     selected = list(dict.fromkeys(changed + left + right + rust))
     if not selected:
         raise ValueError("No target annotations in the configured regions")
@@ -189,8 +257,11 @@ def compare_targets(annotation: dict, baseline_path: Path, candidate_path: Path,
     if font.is_file():
         font_manager.fontManager.addfont(str(font))
         plt.rcParams["font.family"] = font_manager.FontProperties(fname=str(font)).get_name()
-    paths = [Path(before["source"]), next(baseline_path.parent.glob("*__all.jpg")),
-             next(candidate_path.parent.glob("*__all.jpg"))]
+    paths = [
+        Path(before["source"]),
+        next(baseline_path.parent.glob("*__all.jpg")),
+        next(candidate_path.parent.glob("*__all.jpg")),
+    ]
     images = []
     for path in paths:
         with Image.open(path) as image:
@@ -199,8 +270,12 @@ def compare_targets(annotation: dict, baseline_path: Path, candidate_path: Path,
     for row, index in enumerate(selected):
         obj = gt[index]
         x1, y1, x2, y2 = obj["box_xyxy"]
-        bounds = (max(0, int(x1) - 8), max(0, int(y1) - 8),
-                  min(annotation["width"], int(x2) + 8), min(annotation["height"], int(y2) + 8))
+        bounds = (
+            max(0, int(x1) - 8),
+            max(0, int(y1) - 8),
+            min(annotation["width"], int(x2) + 8),
+            min(annotation["height"], int(y2) + 8),
+        )
         for column, (image, label) in enumerate(zip(images, ("原圖", "既有三視圖", "局部低門檻診斷"))):
             axis = axes[row, column]
             axis.imshow(image.crop(bounds), interpolation="nearest")
