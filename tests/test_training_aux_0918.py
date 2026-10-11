@@ -274,7 +274,9 @@ def test_each_variant_forward_backward_batch_unchanged_and_one_network_pass(vari
     batch = make_batch()
     original_batch = {key: value.clone() for key, value in batch.items()}
     observed_batch_sizes = []
-    handle = model.model[0].register_forward_pre_hook(lambda _module, args: observed_batch_sizes.append(args[0].shape[0]))
+    handle = model.model[0].register_forward_pre_hook(
+        lambda _module, args: observed_batch_sizes.append(args[0].shape[0])
+    )
     try:
         loss, items = model(batch)
     finally:
@@ -366,7 +368,9 @@ def test_full_eval_has_no_shadow_pass_or_auxiliary_loss(reference_model):
     model.eval()
     batch = make_batch()
     observed_batch_sizes = []
-    handle = model.model[0].register_forward_pre_hook(lambda _module, args: observed_batch_sizes.append(args[0].shape[0]))
+    handle = model.model[0].register_forward_pre_hook(
+        lambda _module, args: observed_batch_sizes.append(args[0].shape[0])
+    )
     try:
         with torch.no_grad():
             predictions = model(batch["img"])

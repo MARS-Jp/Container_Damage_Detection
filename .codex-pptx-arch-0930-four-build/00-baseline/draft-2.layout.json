@@ -38,9 +38,7 @@
       "hlink": "#467886",
       "folHlink": "#96607D"
     },
-    "typefaces": [
-      "Noto Sans TC"
-    ]
+    "typefaces": ["Noto Sans TC"]
   },
   "inheritedLayers": [
     {
@@ -67,12 +65,7 @@
       "aid": "sh/1s7a1czi",
       "id": "1",
       "name": "title",
-      "bbox": [
-        60,
-        32,
-        1160,
-        72
-      ],
+      "bbox": [60, 32, 1160, 72],
       "geometry": "rect",
       "text": "00 類別查詢與最終實例遮罩",
       "textPreview": "00 類別查詢與最終實例遮罩",
@@ -132,12 +125,7 @@
       "aid": "sh/epwrqx0r",
       "id": "2",
       "name": "subtitle",
-      "bbox": [
-        62,
-        111,
-        1156,
-        48
-      ],
+      "bbox": [62, 111, 1156, 48],
       "geometry": "rect",
       "text": "空間注意力、各類獨立回應及原 prototype 解碼",
       "textPreview": "空間注意力、各類獨立回應及原 prototype 解碼",
@@ -194,12 +182,7 @@
       "aid": "sh/zq5sz2hc",
       "id": "3",
       "name": "footer",
-      "bbox": [
-        62,
-        663,
-        1156,
-        38
-      ],
+      "bbox": [62, 663, 1156, 38],
       "geometry": "rect",
       "text": "基準參數 6,302,676。四版共用原分割 loss，沒有啟用 0928 的 training_aux。",
       "textPreview": "基準參數 6,302,676。四版共用原分割 loss，沒有啟用 0928 的 training_aux。",
@@ -256,12 +239,7 @@
       "aid": "sh/cne9oni1",
       "id": "4",
       "name": "token-heading",
-      "bbox": [
-        62,
-        181,
-        560,
-        43
-      ],
+      "bbox": [62, 181, 560, 43],
       "geometry": "rect",
       "text": "八個類別 token，各自讀取影像",
       "textPreview": "八個類別 token，各自讀取影像",
@@ -321,12 +299,7 @@
       "aid": "sh/donqxsz6",
       "id": "5",
       "name": "token-attention",
-      "bbox": [
-        62,
-        233,
-        560,
-        50
-      ],
+      "bbox": [62, 233, 560, 50],
       "geometry": "rect",
       "text": "A = softmax空間(QKᵥᵀ / √32)",
       "textPreview": "A = softmax空間(QKᵥᵀ / √32)",
@@ -386,12 +359,7 @@
       "aid": "sh/q1wrmx0v",
       "id": "6",
       "name": "token-attention-note",
-      "bbox": [
-        62,
-        290,
-        560,
-        46
-      ],
+      "bbox": [62, 290, 560, 46],
       "geometry": "rect",
       "text": "四個 heads 各 32 維，更新 token T′。",
       "textPreview": "四個 heads 各 32 維，更新 token T′。",
@@ -448,12 +416,7 @@
       "aid": "sh/r258v2hg",
       "id": "7",
       "name": "token-response",
-      "bbox": [
-        62,
-        337,
-        560,
-        50
-      ],
+      "bbox": [62, 337, 560, 50],
       "geometry": "rect",
       "text": "r = σ(Q′K′ᵀ / √128 + b)",
       "textPreview": "r = σ(Q′K′ᵀ / √128 + b)",
@@ -513,12 +476,7 @@
       "aid": "sh/4zu9knip",
       "id": "8",
       "name": "token-response-note",
-      "bbox": [
-        62,
-        392,
-        560,
-        43
-      ],
+      "bbox": [62, 392, 560, 43],
       "geometry": "rect",
       "text": "D、R 各自取 sigmoid，可同位置共存。",
       "textPreview": "D、R 各自取 sigmoid，可同位置共存。",
@@ -575,12 +533,7 @@
       "aid": "sh/50nqtsza",
       "id": "9",
       "name": "mask-heading",
-      "bbox": [
-        675,
-        181,
-        543,
-        43
-      ],
+      "bbox": [675, 181, 543, 43],
       "geometry": "rect",
       "text": "原型由 P3 融合後上採樣",
       "textPreview": "原型由 P3 融合後上採樣",
@@ -640,12 +593,7 @@
       "aid": "sh/90n290vy",
       "id": "10",
       "name": "mask-combination",
-      "bbox": [
-        675,
-        234,
-        543,
-        50
-      ],
+      "bbox": [675, 234, 543, 50],
       "geometry": "rect",
       "text": "zᵢ = Σₖ cᵢₖPₖ，pᵢ = σ(zᵢ)",
       "textPreview": "zᵢ = Σₖ cᵢₖPₖ，pᵢ = σ(zᵢ)",
@@ -705,12 +653,7 @@
       "aid": "sh/8fel0vet",
       "id": "11",
       "name": "mask-note",
-      "bbox": [
-        675,
-        296,
-        543,
-        127
-      ],
+      "bbox": [675, 296, 543, 127],
       "geometry": "rect",
       "text": "32 張共享原型，配合每個實例的係數。\nP2 160² 在原路徑先縮至 P3 80²，\n再由轉置卷積產生 160² 原型。",
       "textPreview": "32 張共享原型，配合每個實例的係數。 | P2 160² 在原路徑先縮至 P3 80²， | 再由轉置卷積產生 160² 原型。",
@@ -812,12 +755,7 @@
       "scope": "slide",
       "aid": "tb/c3q1c7a1",
       "id": "12",
-      "bbox": [
-        62,
-        462,
-        1156,
-        160
-      ],
+      "bbox": [62, 462, 1156, 160],
       "text": "運算 | 對陰影凹損的可能作用 | 仍需驗證的限制\n多尺度與 token | 利用局部形狀及類別上下文 | 注意力不能補出不可見資訊\npᵢ = σ(zᵢ) | 將共享原型組合成實例遮罩 | 仍受候選框、配對與標記影響",
       "textPreview": "運算 | 對陰影凹損的可能作用 | 仍需驗證的限制 | 多尺度與 token | 利用局部形狀及類別上下文 | 注意力不能補出不可見資訊 | pᵢ = σ(zᵢ) | 將共享原型組合成實例遮罩 | 仍受候選框、配對與標記影響",
       "rows": 3,
@@ -827,12 +765,7 @@
           "index": 1,
           "row": 1,
           "column": 1,
-          "bbox": [
-            62,
-            462,
-            260,
-            53.33
-          ],
+          "bbox": [62, 462, 260, 53.33],
           "text": "運算",
           "textPreview": "運算",
           "fillColor": "#153447",
@@ -863,12 +796,7 @@
           "index": 2,
           "row": 1,
           "column": 2,
-          "bbox": [
-            322,
-            462,
-            448,
-            53.33
-          ],
+          "bbox": [322, 462, 448, 53.33],
           "text": "對陰影凹損的可能作用",
           "textPreview": "對陰影凹損的可能作用",
           "fillColor": "#153447",
@@ -899,12 +827,7 @@
           "index": 3,
           "row": 1,
           "column": 3,
-          "bbox": [
-            770,
-            462,
-            448,
-            53.33
-          ],
+          "bbox": [770, 462, 448, 53.33],
           "text": "仍需驗證的限制",
           "textPreview": "仍需驗證的限制",
           "fillColor": "#153447",
@@ -935,12 +858,7 @@
           "index": 4,
           "row": 2,
           "column": 1,
-          "bbox": [
-            62,
-            515.33,
-            260,
-            53.33
-          ],
+          "bbox": [62, 515.33, 260, 53.33],
           "text": "多尺度與 token",
           "textPreview": "多尺度與 token",
           "fillColor": "#FFFFFF",
@@ -971,12 +889,7 @@
           "index": 5,
           "row": 2,
           "column": 2,
-          "bbox": [
-            322,
-            515.33,
-            448,
-            53.33
-          ],
+          "bbox": [322, 515.33, 448, 53.33],
           "text": "利用局部形狀及類別上下文",
           "textPreview": "利用局部形狀及類別上下文",
           "fillColor": "#FFFFFF",
@@ -1005,12 +918,7 @@
           "index": 6,
           "row": 2,
           "column": 3,
-          "bbox": [
-            770,
-            515.33,
-            448,
-            53.33
-          ],
+          "bbox": [770, 515.33, 448, 53.33],
           "text": "注意力不能補出不可見資訊",
           "textPreview": "注意力不能補出不可見資訊",
           "fillColor": "#FFFFFF",
@@ -1039,12 +947,7 @@
           "index": 7,
           "row": 3,
           "column": 1,
-          "bbox": [
-            62,
-            568.67,
-            260,
-            53.33
-          ],
+          "bbox": [62, 568.67, 260, 53.33],
           "text": "pᵢ = σ(zᵢ)",
           "textPreview": "pᵢ = σ(zᵢ)",
           "fillColor": "#F1F6F7",
@@ -1075,12 +978,7 @@
           "index": 8,
           "row": 3,
           "column": 2,
-          "bbox": [
-            322,
-            568.67,
-            448,
-            53.33
-          ],
+          "bbox": [322, 568.67, 448, 53.33],
           "text": "將共享原型組合成實例遮罩",
           "textPreview": "將共享原型組合成實例遮罩",
           "fillColor": "#F1F6F7",
@@ -1109,12 +1007,7 @@
           "index": 9,
           "row": 3,
           "column": 3,
-          "bbox": [
-            770,
-            568.67,
-            448,
-            53.33
-          ],
+          "bbox": [770, 568.67, 448, 53.33],
           "text": "仍受候選框、配對與標記影響",
           "textPreview": "仍受候選框、配對與標記影響",
           "fillColor": "#F1F6F7",

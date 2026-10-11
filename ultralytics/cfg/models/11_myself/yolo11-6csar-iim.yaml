@@ -15,39 +15,39 @@ scales: # model compound scaling constants
 # IIMStem: RGB stem || YOLA IIM (8 shared zero-mean 3x3 kernels per RGB pair) -> Concat -> 1x1 Conv.
 backbone:
   # [from, repeats, module, args]
-  - [-1, 1, IIMStem, [64, 3, 2, 8, 3]]        # 0-P1/2, dual RGB/IIM stem and 1x1 fusion
-  - [-1, 1, Conv, [128, 3, 2]]                 # 1-P2/4 (main P2 Conv)
+  - [-1, 1, IIMStem, [64, 3, 2, 8, 3]] # 0-P1/2, dual RGB/IIM stem and 1x1 fusion
+  - [-1, 1, Conv, [128, 3, 2]] # 1-P2/4 (main P2 Conv)
 
   # P2 fusion
-  - [-1, 2, AttentionResiduals, [256, 0.25]]    # 2-P2/4
-  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]]     # 3-P2/4
+  - [-1, 2, AttentionResiduals, [256, 0.25]] # 2-P2/4
+  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]] # 3-P2/4
 
   # P3 fusion
-  - [3, 1, Conv, [256, 3, 2]]                  # 4-P3/8
-  - [4, 2, AttentionResiduals, [512, 0.25]]    # 5-P3/8
-  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]]     # 6-P3/8
+  - [3, 1, Conv, [256, 3, 2]] # 4-P3/8
+  - [4, 2, AttentionResiduals, [512, 0.25]] # 5-P3/8
+  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]] # 6-P3/8
 
   # P4 fusion
-  - [6, 1, Conv, [512, 3, 2]]                  # 7-P4/16
-  - [7, 2, AttentionResiduals, [512]]          # 8-P4/16
-  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]]     # 9-P4/16
+  - [6, 1, Conv, [512, 3, 2]] # 7-P4/16
+  - [7, 2, AttentionResiduals, [512]] # 8-P4/16
+  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]] # 9-P4/16
 
   # P5 fusion
-  - [9, 1, Conv, [1024, 3, 2]]                 # 10-P5/32
-  - [10, 2, AttentionResiduals, [1024]]        # 11-P5/32
+  - [9, 1, Conv, [1024, 3, 2]] # 10-P5/32
+  - [10, 2, AttentionResiduals, [1024]] # 11-P5/32
   - [[10, 11], 1, FSNetShuffle, [1024, 2, 2]] # 12-P5/32
 
-  - [-1, 1, SPPF, [1024, 5]]                   # 13
-  - [-1, 2, C2PSA, [1024]]                     # 14-P5/32
+  - [-1, 1, SPPF, [1024, 5]] # 13
+  - [-1, 2, C2PSA, [1024]] # 14-P5/32
 
 # Two-stage CSAR segmentation head inherited from yolo11-6csar.yaml.
 head:
-  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 1, 0.5, True]]   # 15-P3/8
-  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 2, 0.5, True]]   # 16-P4/16
-  - [[3, 6, 9, 14], 1, CSAR, [1024, 4, 3, 0.5, True]]  # 17-P5/32
+  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 1, 0.5, True]] # 15-P3/8
+  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 2, 0.5, True]] # 16-P4/16
+  - [[3, 6, 9, 14], 1, CSAR, [1024, 4, 3, 0.5, True]] # 17-P5/32
 
-  - [[3, 15, 16, 17], 1, CSAR, [512, 4, 1, 0.5, True]]   # 18-P3/8
-  - [[3, 15, 16, 17], 1, CSAR, [512, 4, 2, 0.5, True]]   # 19-P4/16
-  - [[3, 15, 16, 17], 1, CSAR, [1024, 4, 3, 0.5, True]]  # 20-P5/32
+  - [[3, 15, 16, 17], 1, CSAR, [512, 4, 1, 0.5, True]] # 18-P3/8
+  - [[3, 15, 16, 17], 1, CSAR, [512, 4, 2, 0.5, True]] # 19-P4/16
+  - [[3, 15, 16, 17], 1, CSAR, [1024, 4, 3, 0.5, True]] # 20-P5/32
 
-  - [[18, 19, 20], 1, Segment26, [nc, 32, 256]]  # 21-Segment26(P3, P4, P5)
+  - [[18, 19, 20], 1, Segment26, [nc, 32, 256]] # 21-Segment26(P3, P4, P5)
