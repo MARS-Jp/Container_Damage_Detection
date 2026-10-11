@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import torch
-import torch.nn as nn
+from torch import nn
 
 __all__ = ("DamageSemanticAttention",)
 
@@ -12,13 +12,13 @@ __all__ = ("DamageSemanticAttention",)
 class DamageSemanticAttention(nn.Module):
     """Refine a feature map with supervised damage tokens and token-to-visual cross-attention.
 
-    Each row of ``damage_tokens`` corresponds to a dataset class ID. These are learned class embeddings,
-    not pretrained text embeddings. Queries attend over spatial positions independently for each class;
-    the dense response uses sigmoid rather than a softmax over classes, allowing damage overlap.
+    Each row of ``damage_tokens`` corresponds to a dataset class ID. These are learned class embeddings, not pretrained
+    text embeddings. Queries attend over spatial positions independently for each class; the dense response uses sigmoid
+    rather than a softmax over classes, allowing damage overlap.
 
-    Returns ``(enhanced_feature, multilabel_logits)`` for explicit routing through YAML Index layers.
-    The residual visual path feeds the YOLO head, while both segmentation and multi-label losses train
-    the semantic branch. Attention storage grows as O(num_classes * H * W), not O((H * W) ** 2).
+    Returns ``(enhanced_feature, multilabel_logits)`` for explicit routing through YAML Index layers. The residual
+    visual path feeds the YOLO head, while both segmentation and multi-label losses train the semantic branch. Attention
+    storage grows as O(num_classes * H * W), not O((H * W) ** 2).
     """
 
     def __init__(
