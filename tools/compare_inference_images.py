@@ -1,4 +1,4 @@
-"""將多個模型對同一張圖片的推論結果排版後並列比較。
+"""將多個模型對同一張圖片的推論結果排版後並列比較。.
 
 一般使用時只需修改下方「使用者設定區」中的 IMAGE_NAME 與
 COMPARE_FOLDERS，然後執行：
@@ -16,19 +16,18 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
-
 # ============================ 使用者設定區 ============================
 # 要比較的圖片檔名（包含副檔名）。
 IMAGE_NAME = "CBHU0708054-A__all.jpg"
 
-#IMAGE_NAME = "IMAG0749__all.jpg"
+# IMAGE_NAME = "IMAG0749__all.jpg"
 
 # 所有模型推論結果的共同根目錄。
 RESULT_ROOT = Path(r"C:\Users\USER\Documents\推論結果")
 
 # 要比較的資料夾，數量不限。路徑相對於 RESULT_ROOT；順序會對應到各顯示位置。
 COMPARE_FOLDERS = [
-    #Path(r"0905-10csar\predict-2"),
+    # Path(r"0905-10csar\predict-2"),
     Path(r"0926推論結果\predict-2"),
     Path(r"0929-1推論結果\predict-2"),
 ]
@@ -52,7 +51,7 @@ LABEL_COLOR = (255, 255, 255, 255)
 
 
 def parse_args() -> argparse.Namespace:
-    """提供少量命令列覆寫；直接修改上方變數仍是主要使用方式。"""
+    """提供少量命令列覆寫；直接修改上方變數仍是主要使用方式。."""
     parser = argparse.ArgumentParser(description="並列比較多個資料夾內的同名推論圖片。")
     parser.add_argument("--no-show", action="store_true", help="只儲存合成圖，不開啟顯示視窗")
     parser.add_argument("--output", type=Path, default=None, help="自訂合成圖輸出路徑")
@@ -60,7 +59,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def layout_for(image_count: int) -> tuple[int, int]:
-    """回傳 (列數, 欄數)，2 張橫排、3 張三等份、4 張 2x2，其餘近似方形。"""
+    """回傳 (列數, 欄數)，2 張橫排、3 張三等份、4 張 2x2，其餘近似方形。."""
     if image_count <= 0:
         raise ValueError("至少需要一個比較資料夾。")
     if image_count <= 3:
@@ -74,14 +73,14 @@ def layout_for(image_count: int) -> tuple[int, int]:
 
 
 def grid_position(index: int, image_count: int, columns: int) -> tuple[int, int]:
-    """取得陣列項目的格子座標；4 張依左上、左下、右上、右下排列。"""
+    """取得陣列項目的格子座標；4 張依左上、左下、右上、右下排列。."""
     if image_count == 4:
         return index % 2, index // 2
     return divmod(index, columns)
 
 
 def find_image(folder: Path, image_name: str) -> Path:
-    """先找資料夾根層，再遞迴尋找唯一一張同名圖片。"""
+    """先找資料夾根層，再遞迴尋找唯一一張同名圖片。."""
     if not folder.is_dir():
         raise FileNotFoundError(f"找不到比較資料夾：{folder}")
 
@@ -102,7 +101,7 @@ def find_image(folder: Path, image_name: str) -> Path:
 
 
 def load_font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
-    """優先使用 Windows 繁中文字型，其他系統則使用常見的 DejaVu Sans。"""
+    """優先使用 Windows 繁中文字型，其他系統則使用常見的 DejaVu Sans。."""
     font_candidates = (
         Path(r"C:\Windows\Fonts\msjhbd.ttc"),
         Path(r"C:\Windows\Fonts\msjh.ttc"),
@@ -117,7 +116,7 @@ def load_font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
 def fit_label(
     label: str, draw: ImageDraw.ImageDraw, max_width: int, start_size: int
 ) -> tuple[str, ImageFont.ImageFont]:
-    """縮小或截短過長標籤，確保左上角的資料夾名稱不超出圖片。"""
+    """縮小或截短過長標籤，確保左上角的資料夾名稱不超出圖片。."""
     horizontal_padding = 24
     available_width = max(1, max_width - horizontal_padding * 2)
 
@@ -134,7 +133,7 @@ def fit_label(
 
 
 def add_folder_label(image: Image.Image, label: str) -> Image.Image:
-    """在圖片左上角繪製半透明的資料夾名稱。"""
+    """在圖片左上角繪製半透明的資料夾名稱。."""
     labeled = image.convert("RGBA")
     overlay = Image.new("RGBA", labeled.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
@@ -154,15 +153,13 @@ def add_folder_label(image: Image.Image, label: str) -> Image.Image:
 
 
 def open_rgb(path: Path) -> Image.Image:
-    """讀圖並套用 EXIF 方向資訊，避免手機照片旋轉錯誤。"""
+    """讀圖並套用 EXIF 方向資訊，避免手機照片旋轉錯誤。."""
     with Image.open(path) as source:
         return ImageOps.exif_transpose(source).convert("RGB")
 
 
-def build_comparison(
-    folder_entries: list[Path], image_name: str
-) -> tuple[Image.Image, list[Path]]:
-    """載入各資料夾的同名圖片並建立等分比較圖。"""
+def build_comparison(folder_entries: list[Path], image_name: str) -> tuple[Image.Image, list[Path]]:
+    """載入各資料夾的同名圖片並建立等分比較圖。."""
     if not folder_entries:
         raise ValueError("COMPARE_FOLDERS 至少要填入一個資料夾。")
     if Path(image_name).suffix.lower() not in SUPPORTED_SUFFIXES:
@@ -177,8 +174,7 @@ def build_comparison(
     source_images = [open_rgb(image_path) for _, image_path in resolved_entries]
     resampling = getattr(Image, "Resampling", Image)
     resized_images = [
-        ImageOps.contain(image, (MAX_CELL_WIDTH, MAX_CELL_HEIGHT), resampling.LANCZOS)
-        for image in source_images
+        ImageOps.contain(image, (MAX_CELL_WIDTH, MAX_CELL_HEIGHT), resampling.LANCZOS) for image in source_images
     ]
     # 依縮放後的實際尺寸決定格子大小，避免直式圖片左右產生大量空白。
     cell_width = max(image.width for image in resized_images)
@@ -199,7 +195,7 @@ def build_comparison(
 
 
 def show_comparison(comparison: Image.Image) -> None:
-    """使用作業系統預設的圖片檢視器顯示結果。"""
+    """使用作業系統預設的圖片檢視器顯示結果。."""
     comparison.show(title=f"Inference comparison - {IMAGE_NAME}")
 
 

@@ -14,13 +14,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 # ======================== Edit these defaults as needed ========================
 # Model paths
 WEIGHT_SOURCES = [
-    #r"C:\Users\USER\Downloads\best0907-10csar.pt",
-    #r"C:\Users\USER\Downloads\best0907-p2.pt"
-    #r"C:\Users\USER\Downloads\best0902-2.pt",
+    # r"C:\Users\USER\Downloads\best0907-10csar.pt",
+    # r"C:\Users\USER\Downloads\best0907-p2.pt"
+    # r"C:\Users\USER\Downloads\best0902-2.pt",
     r"C:\Users\USER\Downloads\best0929-3.pt",  # Active baseline restored on 2026-09-18.
 ]
 
@@ -42,7 +41,7 @@ CONFIDENCE = 0.15
 IOU_THRESHOLD = 0.7
 DEVICE = "0"  # Examples: "0", "cpu", "0,1"
 RETINA_MASKS = True
-# ============================================================================== 
+# ==============================================================================
 
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -57,9 +56,7 @@ def resolve_path(value: str | Path) -> Path:
 
 def parse_args() -> argparse.Namespace:
     """Parse command-line overrides for the editable defaults above."""
-    parser = argparse.ArgumentParser(
-        description="Run class-colored segmentation for multiple models and sources."
-    )
+    parser = argparse.ArgumentParser(description="Run class-colored segmentation for multiple models and sources.")
     parser.add_argument(
         "--weights",
         nargs="+",
@@ -175,9 +172,7 @@ def main() -> int:
                 continue
 
             if result.returncode != 0:
-                failures.append(
-                    f"{weight.name} × {source.name}: exit {result.returncode}"
-                )
+                failures.append(f"{weight.name} × {source.name}: exit {result.returncode}")
 
     print(f"\n全部 {total} 組工作已執行完畢。")
     if failures:
