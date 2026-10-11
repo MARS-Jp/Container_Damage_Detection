@@ -36,10 +36,12 @@
 ### Task 1: Freeze the Network Graph in a New YAML
 
 **Files:**
+
 - Create: `ultralytics/cfg/models/11_myself/yolo11-6csar-0909iim-tuned.yaml`
 - Test: `tests/test_yolo11_6csar_0909iim.py`
 
 **Interfaces:**
+
 - Consumes: `yaml_model_load(path) -> dict` and the complete `backbone`/`head` lists from the 0906 YAML.
 - Produces: `MODEL_CFG_0909: Path` pointing to a graph-identical model configuration.
 
@@ -75,16 +77,16 @@ Copy `nc`, `scales`, `backbone`, and `head` exactly from the 0906 YAML. Change o
 
 ```yaml
 mms:
-  loss: asl
-  gamma_pos: 1.0
-  gamma_neg: 4.0
-  clip: 0.05
-  pixel_gain: 0.15
-  cooccurrence_weight: 2.0
-  main_cls_asl: false
-  main_gamma_pos: 1.0
-  main_gamma_neg: 4.0
-  main_clip: 0.05
+    loss: asl
+    gamma_pos: 1.0
+    gamma_neg: 4.0
+    clip: 0.05
+    pixel_gain: 0.15
+    cooccurrence_weight: 2.0
+    main_cls_asl: false
+    main_gamma_pos: 1.0
+    main_gamma_neg: 4.0
+    main_clip: 0.05
 ```
 
 The lower `pixel_gain` prevents the auxiliary branch from dominating the standard instance-segmentation objective. `main_cls_asl` starts disabled so the first 0909 run remains an interpretable auxiliary-loss baseline.
@@ -105,18 +107,21 @@ git commit -m "test: freeze 0909 model graph"
 ### Task 2: Make ASL Scope Explicit Without Changing Mask Reconstruction
 
 **Files:**
+
 - Create: `tools/train_yolo11_6csar_0909iim.py`
 - Modify: `tests/test_yolo11_6csar_0909iim.py`
 
 **Interfaces:**
+
 - Consumes: `AsymmetricLoss`, `MMSASLSegmentationLoss`, `MMSASLSegmentationModel`, and `MMSASLTrainer` from `tools.train_yolo11_6csar_0906iim`.
 - Produces: `TunedMMSASLLoss`, `TunedMMSASLModel`, and `TunedMMSASLTrainer`.
 
 - [ ] **Step 1: Write a failing test for main-class ASL opt-in**
 
 ```python
-from tools.train_yolo11_6csar_0906iim import AsymmetricLoss
 from tools.train_yolo11_6csar_0909iim import TunedMMSASLModel
+
+from tools.train_yolo11_6csar_0906iim import AsymmetricLoss
 
 
 def test_main_classification_asl_is_opt_in_and_mask_loss_is_unchanged():
@@ -181,10 +186,12 @@ git commit -m "feat: make main classification ASL optional"
 ### Task 3: Add Reproducible Training and Warm-Start Controls
 
 **Files:**
+
 - Modify: `tools/train_yolo11_6csar_0909iim.py`
 - Modify: `tests/test_yolo11_6csar_0909iim.py`
 
 **Interfaces:**
+
 - Consumes: command-line values and `MMSASLTrainer.get_model(cfg, weights, verbose)`.
 - Produces: `parse_args(argv=None) -> argparse.Namespace` and `build_overrides(args) -> dict`.
 
@@ -192,12 +199,18 @@ git commit -m "feat: make main classification ASL optional"
 
 ```python
 def test_training_overrides_are_reproducible_and_keep_independent_masks():
-    args = parse_args([
-        "--data", "/home/d11405003/dataset/data.yaml",
-        "--pretrained-weights", "/home/d11405003/weights/best0905-6csar-p2.pt",
-        "--batch", "8",
-        "--cls-pw", "0.5",
-    ])
+    args = parse_args(
+        [
+            "--data",
+            "/home/d11405003/dataset/data.yaml",
+            "--pretrained-weights",
+            "/home/d11405003/weights/best0905-6csar-p2.pt",
+            "--batch",
+            "8",
+            "--cls-pw",
+            "0.5",
+        ]
+    )
     overrides = build_overrides(args)
     assert overrides["overlap_mask"] is False
     assert overrides["patience"] == 0
@@ -262,11 +275,13 @@ git commit -m "feat: add controlled 0909 segmentation trainer"
 ### Task 4: Add Optional Local-Shadow Augmentation
 
 **Files:**
+
 - Create: `tools/shadow_augmentation_0909iim.py`
 - Modify: `tools/train_yolo11_6csar_0909iim.py`
 - Modify: `tests/test_yolo11_6csar_0909iim.py`
 
 **Interfaces:**
+
 - Produces: `apply_random_shadow(images, probability, strength_min, strength_max, generator=None) -> torch.Tensor`.
 - Consumes: normalized image tensors shaped `[B, C, H, W]` in `[0, 1]` after the parent trainer's `preprocess_batch()`.
 
@@ -336,10 +351,12 @@ git commit -m "feat: add opt-in local shadow augmentation"
 ### Task 5: Add Per-Class Confidence Thresholds for D and R
 
 **Files:**
+
 - Create: `tools/predict_seg_by_class_0909iim.py`
 - Modify: `tests/test_yolo11_6csar_0909iim.py`
 
 **Interfaces:**
+
 - Consumes: normal Ultralytics `Results`, model class names, and the legacy checkpoint alias behavior from the 0906 predictor.
 - Produces: `parse_class_thresholds(values, names) -> dict[int, float]` and `keep_prediction(class_id, score, global_conf, thresholds) -> bool`.
 
@@ -388,11 +405,13 @@ git commit -m "feat: add class-specific segmentation thresholds"
 ### Task 6: Run One-Variable-at-a-Time Ablations
 
 **Files:**
+
 - Verify: `/home/d11405003/dataset/data.yaml`
 - Verify outputs: `runs/segment/0909-*`
 - No source files change in this task.
 
 **Interfaces:**
+
 - Consumes: the 0909 trainer and fixed dataset YAML.
 - Produces: directly comparable `results.csv`, `best.pt`, D-class validation metrics, and shadow-image predictions.
 

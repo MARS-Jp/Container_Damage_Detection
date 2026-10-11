@@ -16,53 +16,53 @@ backbone:
   # RGB/IIM base + bounded, gated luminance/contrast/gradient residual.
   # Args: [c2, stem kernel, stride, IIM kernels, IIM kernel size, detail scale].
   - [-1, 1, ShadowIIMStem, [64, 3, 2, 8, 3, 0.1]] # 0-P1/2
-  - [-1, 1, Conv, [128, 3, 2]]                    # 1-P2/4
-  - [-1, 2, AttentionResiduals, [256, 0.25]]      # 2-P2/4
-  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]]        # 3-P2/4; shallow detail source
-  - [3, 1, Conv, [256, 3, 2]]                    # 4-P3/8
-  - [4, 2, AttentionResiduals, [512, 0.25]]       # 5-P3/8
-  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]]        # 6-P3/8; shallow detail source
-  - [6, 1, Conv, [512, 3, 2]]                    # 7-P4/16
-  - [7, 2, AttentionResiduals, [512]]             # 8-P4/16
-  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]]        # 9-P4/16
-  - [9, 1, Conv, [1024, 3, 2]]                   # 10-P5/32
-  - [10, 2, AttentionResiduals, [1024]]           # 11-P5/32
-  - [[10, 11], 1, FSNetShuffle, [1024, 2, 2]]     # 12-P5/32
-  - [-1, 1, SPPF, [1024, 5]]                     # 13
-  - [-1, 2, C2PSA, [1024]]                       # 14-P5/32
+  - [-1, 1, Conv, [128, 3, 2]] # 1-P2/4
+  - [-1, 2, AttentionResiduals, [256, 0.25]] # 2-P2/4
+  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]] # 3-P2/4; shallow detail source
+  - [3, 1, Conv, [256, 3, 2]] # 4-P3/8
+  - [4, 2, AttentionResiduals, [512, 0.25]] # 5-P3/8
+  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]] # 6-P3/8; shallow detail source
+  - [6, 1, Conv, [512, 3, 2]] # 7-P4/16
+  - [7, 2, AttentionResiduals, [512]] # 8-P4/16
+  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]] # 9-P4/16
+  - [9, 1, Conv, [1024, 3, 2]] # 10-P5/32
+  - [10, 2, AttentionResiduals, [1024]] # 11-P5/32
+  - [[10, 11], 1, FSNetShuffle, [1024, 2, 2]] # 12-P5/32
+  - [-1, 1, SPPF, [1024, 5]] # 13
+  - [-1, 2, C2PSA, [1024]] # 14-P5/32
 
 head:
   - [14, 1, Conv, [1024, 3, 2]] # 15-P6/64
 
   # First CSAR stage, unchanged.
-  - [[3, 6, 9, 14, 15], 1, CSAR, [128, 4, 0, 0.5, True]]  # 16-P2/4
-  - [[3, 6, 9, 14, 15], 1, CSAR, [256, 4, 1, 0.5, True]]  # 17-P3/8
-  - [[3, 6, 9, 14, 15], 1, CSAR, [512, 4, 2, 0.5, True]]  # 18-P4/16
+  - [[3, 6, 9, 14, 15], 1, CSAR, [128, 4, 0, 0.5, True]] # 16-P2/4
+  - [[3, 6, 9, 14, 15], 1, CSAR, [256, 4, 1, 0.5, True]] # 17-P3/8
+  - [[3, 6, 9, 14, 15], 1, CSAR, [512, 4, 2, 0.5, True]] # 18-P4/16
   - [[3, 6, 9, 14, 15], 1, CSAR, [1024, 4, 3, 0.5, True]] # 19-P5/32
   - [[3, 6, 9, 14, 15], 1, CSAR, [1024, 4, 4, 0.5, True]] # 20-P6/64
 
   # Five-scale exchange, unchanged.
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [128, 0, 2]]  # 21-P2/4
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [256, 1, 2]]  # 22-P3/8
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [512, 2, 2]]  # 23-P4/16
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [128, 0, 2]] # 21-P2/4
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [256, 1, 2]] # 22-P3/8
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [512, 2, 2]] # 23-P4/16
   - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [1024, 3, 2]] # 24-P5/32
   - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [1024, 4, 2]] # 25-P6/64
 
   # Second CSAR stage, unchanged.
-  - [[21, 22, 23, 24, 25], 1, CSAR, [128, 4, 0, 0.5, True]]  # 26-P2/4
-  - [[21, 22, 23, 24, 25], 1, CSAR, [256, 4, 1, 0.5, True]]  # 27-P3/8
-  - [[21, 22, 23, 24, 25], 1, CSAR, [512, 4, 2, 0.5, True]]  # 28-P4/16
+  - [[21, 22, 23, 24, 25], 1, CSAR, [128, 4, 0, 0.5, True]] # 26-P2/4
+  - [[21, 22, 23, 24, 25], 1, CSAR, [256, 4, 1, 0.5, True]] # 27-P3/8
+  - [[21, 22, 23, 24, 25], 1, CSAR, [512, 4, 2, 0.5, True]] # 28-P4/16
   - [[21, 22, 23, 24, 25], 1, CSAR, [1024, 4, 3, 0.5, True]] # 29-P5/32
   - [[21, 22, 23, 24, 25], 1, CSAR, [1024, 4, 4, 0.5, True]] # 30-P6/64
 
   # Existing MSATMultiLabel features and auxiliary supervision are retained.
-  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [128, nc, 4, 0, 0, 2.0, 8, True]]  # 31
+  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [128, nc, 4, 0, 0, 2.0, 8, True]] # 31
   - [31, 1, Index, [-1, 0]] # 32-P2 fused
   - [31, 1, Index, [nc, 1]] # 33-P2 auxiliary
-  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [256, nc, 4, 1, 0, 2.0, 8, True]]  # 34
+  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [256, nc, 4, 1, 0, 2.0, 8, True]] # 34
   - [34, 1, Index, [-1, 0]] # 35-P3 fused
   - [34, 1, Index, [nc, 1]] # 36-P3 auxiliary
-  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [512, nc, 4, 2, 0, 2.0, 8, True]]  # 37
+  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [512, nc, 4, 2, 0, 2.0, 8, True]] # 37
   - [37, 1, Index, [-1, 0]] # 38-P4 fused
   - [37, 1, Index, [nc, 1]] # 39-P4 auxiliary
   - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [1024, nc, 4, 3, 0, 2.0, 8, True]] # 40
@@ -77,4 +77,9 @@ head:
   # Detection order is still P3/P2/P4/P5/P6. Prototypes fuse directly at P2 (stride 4).
   # Args: [nc, masks, prototypes, multi-label gain, co-occurrence increment,
   #        detail scale, boundary gain, use_dcn]. No rust-required gate.
-  - [[35, 32, 38, 41, 44, 36, 33, 39, 42, 45, 6, 3], 1, Segment26MultiLabelBoundary, [nc, 32, 256, 0.5, 2.0, 0.1, 0.2, False]] # 46
+  - [
+      [35, 32, 38, 41, 44, 36, 33, 39, 42, 45, 6, 3],
+      1,
+      Segment26MultiLabelBoundary,
+      [nc, 32, 256, 0.5, 2.0, 0.1, 0.2, False],
+    ] # 46

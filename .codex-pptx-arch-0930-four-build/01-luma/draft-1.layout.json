@@ -38,9 +38,7 @@
       "hlink": "#467886",
       "folHlink": "#96607D"
     },
-    "typefaces": [
-      "Noto Sans TC"
-    ]
+    "typefaces": ["Noto Sans TC"]
   },
   "inheritedLayers": [
     {
@@ -67,12 +65,7 @@
       "aid": "sh/wbqd8fyd",
       "id": "1",
       "name": "title",
-      "bbox": [
-        60,
-        32,
-        1160,
-        72
-      ],
+      "bbox": [60, 32, 1160, 72],
       "geometry": "rect",
       "text": "01 亮度細節入口旁路",
       "textPreview": "01 亮度細節入口旁路",
@@ -132,12 +125,7 @@
       "aid": "sh/bqhwzahs",
       "id": "2",
       "name": "subtitle",
-      "bbox": [
-        62,
-        111,
-        1156,
-        48
-      ],
+      "bbox": [62, 111, 1156, 48],
       "geometry": "rect",
       "text": "保留原 RGB Conv，新增五通道明暗與方向訊號",
       "textPreview": "保留原 RGB Conv，新增五通道明暗與方向訊號",
@@ -194,12 +182,7 @@
       "aid": "sh/ap8v65g7",
       "id": "3",
       "name": "footer",
-      "bbox": [
-        62,
-        663,
-        1156,
-        38
-      ],
+      "bbox": [62, 663, 1156, 38],
       "geometry": "rect",
       "text": "新增 962 個參數。局部統計以 FP32 計算；訊號可用性仍受曝光與雜訊限制。",
       "textPreview": "新增 962 個參數。局部統計以 FP32 計算；訊號可用性仍受曝光與雜訊限制。",
@@ -256,12 +239,7 @@
       "aid": "sh/lgje5kzu",
       "id": "4",
       "name": "five-heading",
-      "bbox": [
-        62,
-        180,
-        570,
-        43
-      ],
+      "bbox": [62, 180, 570, 43],
       "geometry": "rect",
       "text": "五通道的來源",
       "textPreview": "五通道的來源",
@@ -320,12 +298,7 @@
       "scope": "slide",
       "aid": "tb/98j254ba",
       "id": "5",
-      "bbox": [
-        62,
-        231,
-        567,
-        275
-      ],
+      "bbox": [62, 231, 567, 275],
       "text": "通道 | 定義\nY | 0.299R + 0.587G + 0.114B\nC₅、C₁₅ | tanh((Y−μₖ)/(μₖ+ε))\nGₓ | tanh((Kₓ*Y)/(μ₅+ε))\nGᵧ | tanh((Kᵧ*Y)/(μ₅+ε))",
       "textPreview": "通道 | 定義 | Y | 0.299R + 0.587G + 0.114B | C₅、C₁₅ | tanh((Y−μₖ)/(μₖ+ε)) | Gₓ | tanh((Kₓ*Y)/(μ₅+ε)) | Gᵧ | tanh((Kᵧ*Y)/(μ₅+ε))",
       "rows": 5,
@@ -335,12 +308,7 @@
           "index": 1,
           "row": 1,
           "column": 1,
-          "bbox": [
-            62,
-            231,
-            151,
-            55
-          ],
+          "bbox": [62, 231, 151, 55],
           "text": "通道",
           "textPreview": "通道",
           "fillColor": "#153447",
@@ -371,12 +339,7 @@
           "index": 2,
           "row": 1,
           "column": 2,
-          "bbox": [
-            213,
-            231,
-            416,
-            55
-          ],
+          "bbox": [213, 231, 416, 55],
           "text": "定義",
           "textPreview": "定義",
           "fillColor": "#153447",
@@ -407,12 +370,7 @@
           "index": 3,
           "row": 2,
           "column": 1,
-          "bbox": [
-            62,
-            286,
-            151,
-            55
-          ],
+          "bbox": [62, 286, 151, 55],
           "text": "Y",
           "textPreview": "Y",
           "fillColor": "#FFFFFF",
@@ -443,12 +401,7 @@
           "index": 4,
           "row": 2,
           "column": 2,
-          "bbox": [
-            213,
-            286,
-            416,
-            55
-          ],
+          "bbox": [213, 286, 416, 55],
           "text": "0.299R + 0.587G + 0.114B",
           "textPreview": "0.299R + 0.587G + 0.114B",
           "fillColor": "#FFFFFF",
@@ -477,12 +430,7 @@
           "index": 5,
           "row": 3,
           "column": 1,
-          "bbox": [
-            62,
-            341,
-            151,
-            55
-          ],
+          "bbox": [62, 341, 151, 55],
           "text": "C₅、C₁₅",
           "textPreview": "C₅、C₁₅",
           "fillColor": "#F1F6F7",
@@ -513,12 +461,7 @@
           "index": 6,
           "row": 3,
           "column": 2,
-          "bbox": [
-            213,
-            341,
-            416,
-            55
-          ],
+          "bbox": [213, 341, 416, 55],
           "text": "tanh((Y−μₖ)/(μₖ+ε))",
           "textPreview": "tanh((Y−μₖ)/(μₖ+ε))",
           "fillColor": "#F1F6F7",
@@ -547,12 +490,7 @@
           "index": 7,
           "row": 4,
           "column": 1,
-          "bbox": [
-            62,
-            396,
-            151,
-            55
-          ],
+          "bbox": [62, 396, 151, 55],
           "text": "Gₓ",
           "textPreview": "Gₓ",
           "fillColor": "#FFFFFF",
@@ -583,12 +521,7 @@
           "index": 8,
           "row": 4,
           "column": 2,
-          "bbox": [
-            213,
-            396,
-            416,
-            55
-          ],
+          "bbox": [213, 396, 416, 55],
           "text": "tanh((Kₓ*Y)/(μ₅+ε))",
           "textPreview": "tanh((Kₓ*Y)/(μ₅+ε))",
           "fillColor": "#FFFFFF",
@@ -617,12 +550,7 @@
           "index": 9,
           "row": 5,
           "column": 1,
-          "bbox": [
-            62,
-            451,
-            151,
-            55
-          ],
+          "bbox": [62, 451, 151, 55],
           "text": "Gᵧ",
           "textPreview": "Gᵧ",
           "fillColor": "#F1F6F7",
@@ -653,12 +581,7 @@
           "index": 10,
           "row": 5,
           "column": 2,
-          "bbox": [
-            213,
-            451,
-            416,
-            55
-          ],
+          "bbox": [213, 451, 416, 55],
           "text": "tanh((Kᵧ*Y)/(μ₅+ε))",
           "textPreview": "tanh((Kᵧ*Y)/(μ₅+ε))",
           "fillColor": "#F1F6F7",
@@ -692,12 +615,7 @@
       "aid": "sh/jehw3ah4",
       "id": "6",
       "name": "five-note",
-      "bbox": [
-        62,
-        524,
-        580,
-        117
-      ],
+      "bbox": [62, 524, 580, 117],
       "geometry": "rect",
       "text": "μₖ：5×5 或 15×15 局部平均\nKₓ、Kᵧ：有號 Sobel 類方向濾波核\nε = 1/255，圖邊採 replicate padding",
       "textPreview": "μₖ：5×5 或 15×15 局部平均 | Kₓ、Kᵧ：有號 Sobel 類方向濾波核 | ε = 1/255，圖邊採 replicate padding",
@@ -800,12 +718,7 @@
       "aid": "sh/yd8va5gj",
       "id": "7",
       "name": "stem-heading",
-      "bbox": [
-        681,
-        180,
-        537,
-        43
-      ],
+      "bbox": [681, 180, 537, 43],
       "geometry": "rect",
       "text": "原訊號與新細節相加",
       "textPreview": "原訊號與新細節相加",
@@ -865,12 +778,7 @@
       "aid": "sh/tkje94z6",
       "id": "8",
       "name": "five-stack",
-      "bbox": [
-        681,
-        232,
-        537,
-        50
-      ],
+      "bbox": [681, 232, 537, 50],
       "geometry": "rect",
       "text": "E = [Y, C₅, C₁₅, Gₓ, Gᵧ]",
       "textPreview": "E = [Y, C₅, C₁₅, Gₓ, Gᵧ]",
@@ -930,12 +838,7 @@
       "aid": "sh/8jaxgzyl",
       "id": "9",
       "name": "detail-map",
-      "bbox": [
-        681,
-        290,
-        537,
-        78
-      ],
+      "bbox": [681, 290, 537, 78],
       "geometry": "rect",
       "text": "E 經 Conv 與 DWConv 形成 D。\nF 是原 RGB Conv 的輸出。",
       "textPreview": "E 經 Conv 與 DWConv 形成 D。 | F 是原 RGB Conv 的輸出。",
@@ -1015,12 +918,7 @@
       "aid": "sh/6hgjm94b",
       "id": "10",
       "name": "stem-gate",
-      "bbox": [
-        681,
-        381,
-        537,
-        50
-      ],
+      "bbox": [681, 381, 537, 50],
       "geometry": "rect",
       "text": "G = σ(Wg[F,D] + b)",
       "textPreview": "G = σ(Wg[F,D] + b)",
@@ -1080,12 +978,7 @@
       "aid": "sh/rip0fe5w",
       "id": "11",
       "name": "stem-residual",
-      "bbox": [
-        681,
-        444,
-        537,
-        50
-      ],
+      "bbox": [681, 444, 537, 50],
       "geometry": "rect",
       "text": "F′ = F + tanh(α) G ⊙ D",
       "textPreview": "F′ = F + tanh(α) G ⊙ D",
@@ -1145,12 +1038,7 @@
       "aid": "sh/sjy1ojmh",
       "id": "12",
       "name": "stem-init",
-      "bbox": [
-        681,
-        510,
-        537,
-        121
-      ],
+      "bbox": [681, 510, 537, 121],
       "geometry": "rect",
       "text": "α 初始 0.1，G 初始 0.5。\n初始旁路係數約為 0.0498，\n不代表整體特徵固定只改變 5%。",
       "textPreview": "α 初始 0.1，G 初始 0.5。 | 初始旁路係數約為 0.0498， | 不代表整體特徵固定只改變 5%。",

@@ -1,4 +1,4 @@
-"""批次測試 predict_shadow.py 的不同參數組合。
+"""批次測試 predict_shadow.py 的不同參數組合。.
 
 使用方式：
     python tools/predict_parameter_sweep.py
@@ -43,7 +43,6 @@ if str(REPO_ROOT) not in sys.path:
 
 from tools import predict_shadow as base
 
-
 # ============================================================
 # 直接改這裡就可以控制要測試的參數。
 # 每個 list 會彼此排列組合。
@@ -66,9 +65,7 @@ OUTPUT_DIR = REPO_ROOT / "runs" / "segment_shadow_sweep"
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="對 predict_shadow.py 執行多組參數組合並彙整結果。"
-    )
+    parser = argparse.ArgumentParser(description="對 predict_shadow.py 執行多組參數組合並彙整結果。")
 
     parser.add_argument("--weights", nargs="+", type=Path, default=base.WEIGHT_SOURCES)
     parser.add_argument("--source", nargs="+", type=Path, default=base.DATASET_SOURCES)
@@ -185,7 +182,7 @@ def build_combinations(args: argparse.Namespace) -> list[dict]:
 
 
 def number_text(value) -> str:
-    """讓浮點數安全地放進資料夾名稱，例如 0.15 -> 0p15。"""
+    """讓浮點數安全地放進資料夾名稱，例如 0.15 -> 0p15。."""
     if isinstance(value, float):
         text = f"{value:.4f}".rstrip("0").rstrip(".")
     else:
@@ -211,7 +208,7 @@ def make_predict_args(
     params: dict,
     exclusion_rules: list[dict],
 ) -> argparse.Namespace:
-    """建立 predict_shadow.predict_image() 所需要的參數物件。"""
+    """建立 predict_shadow.predict_image() 所需要的參數物件。."""
     return argparse.Namespace(
         imgsz=params["imgsz"],
         conf=params["conf"],
@@ -232,21 +229,11 @@ def make_predict_args(
 def summarize_report(report: dict) -> dict:
     detections = report.get("detections", [])
 
-    confidences = [
-        float(item["confidence"])
-        for item in detections
-        if "confidence" in item
-    ]
+    confidences = [float(item["confidence"]) for item in detections if "confidence" in item]
 
-    class_counts = Counter(
-        item.get("class_name", str(item.get("class_id", "?")))
-        for item in detections
-    )
+    class_counts = Counter(item.get("class_name", str(item.get("class_id", "?"))) for item in detections)
 
-    view_counts = Counter(
-        item.get("view", "unknown")
-        for item in detections
-    )
+    view_counts = Counter(item.get("view", "unknown") for item in detections)
 
     return {
         "merged_count": int(report.get("merged_count", len(detections))),
@@ -321,13 +308,12 @@ def main() -> int:
             raise FileNotFoundError(f"找不到模型：{weight}")
 
     if args.exclude_regions:
-        exclusion_rules = base.load_exclusion_rules(
-            base.resolve_path(args.exclude_regions)
-        )
+        exclusion_rules = base.load_exclusion_rules(base.resolve_path(args.exclude_regions))
     else:
         exclusion_rules = []
 
     import torch
+
     from ultralytics import YOLO
 
     if args.device == "auto":
@@ -335,9 +321,7 @@ def main() -> int:
 
     combinations = build_combinations(args)
 
-    root = base.resolve_path(args.output) / datetime.now().strftime(
-        "sweep_%Y%m%d_%H%M%S_%f"
-    )
+    root = base.resolve_path(args.output) / datetime.now().strftime("sweep_%Y%m%d_%H%M%S_%f")
     root.mkdir(parents=True, exist_ok=False)
 
     sweep_settings = {
@@ -400,9 +384,7 @@ def main() -> int:
         model = YOLO(str(weight))
 
         if model.task != "segment":
-            raise ValueError(
-                f"需要 segmentation 模型，{weight} 的 task 為 {model.task!r}"
-            )
+            raise ValueError(f"需要 segmentation 模型，{weight} 的 task 為 {model.task!r}")
 
         for combo_index, params in enumerate(combinations, 1):
             folder = combo_dirs[combo_index]
@@ -422,10 +404,7 @@ def main() -> int:
             )
 
             for image_index, source in enumerate(images, 1):
-                image_output = (
-                    model_output
-                    / f"{image_index:06d}_{base.safe_name(source.stem)}"
-                )
+                image_output = model_output / f"{image_index:06d}_{base.safe_name(source.stem)}"
 
                 print(
                     f"  [{image_index}/{len(images)}] {source.name}",
@@ -541,17 +520,9 @@ def main() -> int:
                 **params,
                 "images": agg["images"],
                 "total_detections": agg["total_detections"],
-                "detections_per_image": round(
-                    agg["total_detections"] / agg["images"], 6
-                )
-                if agg["images"]
-                else 0.0,
-                "mean_confidence": round(mean(confidences), 6)
-                if confidences
-                else 0.0,
-                "max_confidence": round(max(confidences), 6)
-                if confidences
-                else 0.0,
+                "detections_per_image": round(agg["total_detections"] / agg["images"], 6) if agg["images"] else 0.0,
+                "mean_confidence": round(mean(confidences), 6) if confidences else 0.0,
+                "max_confidence": round(max(confidences), 6) if confidences else 0.0,
                 "class_counts": json.dumps(
                     dict(agg["class_counts"]),
                     ensure_ascii=False,

@@ -38,9 +38,7 @@
       "hlink": "#467886",
       "folHlink": "#96607D"
     },
-    "typefaces": [
-      "Noto Sans TC"
-    ]
+    "typefaces": ["Noto Sans TC"]
   },
   "inheritedLayers": [
     {
@@ -67,12 +65,7 @@
       "aid": "sh/9gz6psz6",
       "id": "1",
       "name": "title",
-      "bbox": [
-        60,
-        32,
-        1160,
-        72
-      ],
+      "bbox": [60, 32, 1160, 72],
       "geometry": "rect",
       "text": "02 細節門控與純陰影誤報",
       "textPreview": "02 細節門控與純陰影誤報",
@@ -132,12 +125,7 @@
       "aid": "sh/md8nudgf",
       "id": "2",
       "name": "subtitle",
-      "bbox": [
-        62,
-        111,
-        1156,
-        48
-      ],
+      "bbox": [62, 111, 1156, 48],
       "geometry": "rect",
       "text": "保留完整淺層特徵 S，同時學習兩種局部差分的用途",
       "textPreview": "保留完整淺層特徵 S，同時學習兩種局部差分的用途",
@@ -194,12 +182,7 @@
       "aid": "sh/nehonih0",
       "id": "3",
       "name": "footer",
-      "bbox": [
-        62,
-        663,
-        1156,
-        38
-      ],
+      "bbox": [62, 663, 1156, 38],
       "geometry": "rect",
       "text": "相較基準累積增加 75,910 個參數。陰影凹損召回與純陰影誤報須共同評估。",
       "textPreview": "相較基準累積增加 75,910 個參數。陰影凹損召回與純陰影誤報須共同評估。",
@@ -256,12 +239,7 @@
       "aid": "sh/wja507yh",
       "id": "4",
       "name": "fuse-heading",
-      "bbox": [
-        62,
-        181,
-        576,
-        43
-      ],
+      "bbox": [62, 181, 576, 43],
       "geometry": "rect",
       "text": "淺層融合的實際順序",
       "textPreview": "淺層融合的實際順序",
@@ -321,12 +299,7 @@
       "aid": "sh/xkj6tcf2",
       "id": "5",
       "name": "stack",
-      "bbox": [
-        62,
-        233,
-        576,
-        50
-      ],
+      "bbox": [62, 233, 576, 50],
       "geometry": "rect",
       "text": "U = [S, Δ₃, Δ₇]",
       "textPreview": "U = [S, Δ₃, Δ₇]",
@@ -386,12 +359,7 @@
       "aid": "sh/ah8nyxgb",
       "id": "6",
       "name": "refine",
-      "bbox": [
-        62,
-        297,
-        576,
-        50
-      ],
+      "bbox": [62, 297, 576, 50],
       "geometry": "rect",
       "text": "D = DWConv₃×₃(Conv₁×₁(U))",
       "textPreview": "D = DWConv₃×₃(Conv₁×₁(U))",
@@ -451,12 +419,7 @@
       "aid": "sh/vihor2hw",
       "id": "7",
       "name": "gate",
-      "bbox": [
-        62,
-        367,
-        576,
-        50
-      ],
+      "bbox": [62, 367, 576, 50],
       "geometry": "rect",
       "text": "G = σ(Wg[F,S] + b)",
       "textPreview": "G = σ(Wg[F,S] + b)",
@@ -516,12 +479,7 @@
       "aid": "sh/k7a547yt",
       "id": "8",
       "name": "residual",
-      "bbox": [
-        62,
-        435,
-        576,
-        50
-      ],
+      "bbox": [62, 435, 576, 50],
       "geometry": "rect",
       "text": "F′ = F + tanh(α) G ⊙ D",
       "textPreview": "F′ = F + tanh(α) G ⊙ D",
@@ -581,12 +539,7 @@
       "aid": "sh/58j6xcfy",
       "id": "9",
       "name": "gate-input-note",
-      "bbox": [
-        62,
-        503,
-        576,
-        129
-      ],
+      "bbox": [62, 503, 576, 129],
       "geometry": "rect",
       "text": "此處 gate 讀取 F 與 S。\nP3、P2 各有自己的模組與增益。\n新增連接讓梯度直接返回淺層。",
       "textPreview": "此處 gate 讀取 F 與 S。 | P3、P2 各有自己的模組與增益。 | 新增連接讓梯度直接返回淺層。",
@@ -689,12 +642,7 @@
       "aid": "sh/hsfm9oni",
       "id": "10",
       "name": "effect-heading",
-      "bbox": [
-        686,
-        181,
-        532,
-        43
-      ],
+      "bbox": [686, 181, 532, 43],
       "geometry": "rect",
       "text": "不同訊號都可能通過差分",
       "textPreview": "不同訊號都可能通過差分",
@@ -753,12 +701,7 @@
       "scope": "slide",
       "aid": "tb/f610bqt0",
       "id": "11",
-      "bbox": [
-        686,
-        235,
-        532,
-        306
-      ],
+      "bbox": [686, 235, 532, 306],
       "text": "區域特徵 | 差分與辨識影響\n均勻特徵 | 局部差分接近零\n微弱形狀變化 | 可能保留凹損線索\n純陰影界線 | 也可能產生強響應\n規律溝槽／雜訊 | 需原特徵與 gate 判別",
       "textPreview": "區域特徵 | 差分與辨識影響 | 均勻特徵 | 局部差分接近零 | 微弱形狀變化 | 可能保留凹損線索 | 純陰影界線 | 也可能產生強響應 | 規律溝槽／雜訊 | 需原特徵與 gate 判別",
       "rows": 5,
@@ -768,12 +711,7 @@
           "index": 1,
           "row": 1,
           "column": 1,
-          "bbox": [
-            686,
-            235,
-            204,
-            61.2
-          ],
+          "bbox": [686, 235, 204, 61.2],
           "text": "區域特徵",
           "textPreview": "區域特徵",
           "fillColor": "#153447",
@@ -804,12 +742,7 @@
           "index": 2,
           "row": 1,
           "column": 2,
-          "bbox": [
-            890,
-            235,
-            328,
-            61.2
-          ],
+          "bbox": [890, 235, 328, 61.2],
           "text": "差分與辨識影響",
           "textPreview": "差分與辨識影響",
           "fillColor": "#153447",
@@ -840,12 +773,7 @@
           "index": 3,
           "row": 2,
           "column": 1,
-          "bbox": [
-            686,
-            296.2,
-            204,
-            61.2
-          ],
+          "bbox": [686, 296.2, 204, 61.2],
           "text": "均勻特徵",
           "textPreview": "均勻特徵",
           "fillColor": "#FFFFFF",
@@ -876,12 +804,7 @@
           "index": 4,
           "row": 2,
           "column": 2,
-          "bbox": [
-            890,
-            296.2,
-            328,
-            61.2
-          ],
+          "bbox": [890, 296.2, 328, 61.2],
           "text": "局部差分接近零",
           "textPreview": "局部差分接近零",
           "fillColor": "#FFFFFF",
@@ -910,12 +833,7 @@
           "index": 5,
           "row": 3,
           "column": 1,
-          "bbox": [
-            686,
-            357.4,
-            204,
-            61.2
-          ],
+          "bbox": [686, 357.4, 204, 61.2],
           "text": "微弱形狀變化",
           "textPreview": "微弱形狀變化",
           "fillColor": "#F1F6F7",
@@ -946,12 +864,7 @@
           "index": 6,
           "row": 3,
           "column": 2,
-          "bbox": [
-            890,
-            357.4,
-            328,
-            61.2
-          ],
+          "bbox": [890, 357.4, 328, 61.2],
           "text": "可能保留凹損線索",
           "textPreview": "可能保留凹損線索",
           "fillColor": "#F1F6F7",
@@ -980,12 +893,7 @@
           "index": 7,
           "row": 4,
           "column": 1,
-          "bbox": [
-            686,
-            418.6,
-            204,
-            61.2
-          ],
+          "bbox": [686, 418.6, 204, 61.2],
           "text": "純陰影界線",
           "textPreview": "純陰影界線",
           "fillColor": "#FFFFFF",
@@ -1016,12 +924,7 @@
           "index": 8,
           "row": 4,
           "column": 2,
-          "bbox": [
-            890,
-            418.6,
-            328,
-            61.2
-          ],
+          "bbox": [890, 418.6, 328, 61.2],
           "text": "也可能產生強響應",
           "textPreview": "也可能產生強響應",
           "fillColor": "#FFFFFF",
@@ -1050,12 +953,7 @@
           "index": 9,
           "row": 5,
           "column": 1,
-          "bbox": [
-            686,
-            479.8,
-            204,
-            61.2
-          ],
+          "bbox": [686, 479.8, 204, 61.2],
           "text": "規律溝槽／雜訊",
           "textPreview": "規律溝槽／雜訊",
           "fillColor": "#F1F6F7",
@@ -1086,12 +984,7 @@
           "index": 10,
           "row": 5,
           "column": 2,
-          "bbox": [
-            890,
-            479.8,
-            328,
-            61.2
-          ],
+          "bbox": [890, 479.8, 328, 61.2],
           "text": "需原特徵與 gate 判別",
           "textPreview": "需原特徵與 gate 判別",
           "fillColor": "#F1F6F7",
@@ -1125,12 +1018,7 @@
       "aid": "sh/fqd47e5c",
       "id": "12",
       "name": "effect-note",
-      "bbox": [
-        686,
-        561,
-        532,
-        82
-      ],
+      "bbox": [686, 561, 532, 82],
       "geometry": "rect",
       "text": "高通線索不能單獨判定損壞。\n訓練標記與陰影負例決定學到的取捨。",
       "textPreview": "高通線索不能單獨判定損壞。 | 訓練標記與陰影負例決定學到的取捨。",

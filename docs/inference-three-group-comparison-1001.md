@@ -18,11 +18,11 @@
 預設增強設定：original+gamma+clahe、Gamma=0.65、CLAHE=2.0、亮度門檻=255、合併 IoU=0.60。
 baseline 一律只啟用 original；一般組所有版本都只啟用 original。
 
-| 組別 | 版數 | 版本與調整 |
-|---|---:|---|
-| 01_shadow 陰影增強 | 9 | baseline、shadow_default、gamma_only、clahe_only、gamma045、gamma085、clahe40、shadow128、merge040 |
-| 02_general 一般推論 | 8 | baseline；conf=0.05/0.10/0.25；IoU=0.30/0.50；imgsz=960/1280 |
-| 03_combined 兩者搭配 | 8 | baseline、shadow_default；增強+conf=0.10、IoU=0.50、imgsz=960/1280；960+conf0.10+IoU0.50；960+Gamma0.45+亮度128 |
+| 組別                 | 版數 | 版本與調整                                                                                                      |
+| -------------------- | ---: | --------------------------------------------------------------------------------------------------------------- |
+| 01_shadow 陰影增強   |    9 | baseline、shadow_default、gamma_only、clahe_only、gamma045、gamma085、clahe40、shadow128、merge040              |
+| 02_general 一般推論  |    8 | baseline；conf=0.05/0.10/0.25；IoU=0.30/0.50；imgsz=960/1280                                                    |
+| 03_combined 兩者搭配 |    8 | baseline、shadow_default；增強+conf=0.10、IoU=0.50、imgsz=960/1280；960+conf0.10+IoU0.50；960+Gamma0.45+亮度128 |
 
 陰影組固定一般參數；混合組除 baseline 外都啟用三視圖。
 Gamma、CLAHE、亮度與合併 IoU 的版本，除列出項目外沿用相同增強預設。
