@@ -27,22 +27,23 @@
 
 追加需求：`tools/predict_seg_by_class.py` 預設 `hide_labels=True`，原 `--hide-labels` 相容，另提供互斥的 `--show-scores` 明確開啟顯示；不修改 confidence 門檻。以原圖重跑一次確認無數值的輸出。
 
-| 路徑 | 責任 |
-|---|---|
-| `ultralytics/utils/damage_extent.py` | 無參數的範圍 loss |
-| `ultralytics/utils/training_aux_0918.py` | 設定解析及接入真正 mask loss |
-| `ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-*.yaml` | 六個完整模型定義 |
-| `ultralytics/cfg/experiments/damage-extent-0928/*.yaml` | 六個配套訓練 recipe |
-| `tools/audit_damage_extent.py` | 唯讀 XML／polygon 範圍核對 |
-| `tests/test_damage_extent.py` | loss 與六組模型整合測試 |
-| `tests/test_damage_extent_audit.py` | 標記核對測試 |
-| `docs/damage-extent-0928.md` | 操作、公式、訓練順序與限制 |
+| 路徑                                                               | 責任                         |
+| ------------------------------------------------------------------ | ---------------------------- |
+| `ultralytics/utils/damage_extent.py`                               | 無參數的範圍 loss            |
+| `ultralytics/utils/training_aux_0918.py`                           | 設定解析及接入真正 mask loss |
+| `ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-*.yaml` | 六個完整模型定義             |
+| `ultralytics/cfg/experiments/damage-extent-0928/*.yaml`            | 六個配套訓練 recipe          |
+| `tools/audit_damage_extent.py`                                     | 唯讀 XML／polygon 範圍核對   |
+| `tests/test_damage_extent.py`                                      | loss 與六組模型整合測試      |
+| `tests/test_damage_extent_audit.py`                                | 標記核對測試                 |
+| `docs/damage-extent-0928.md`                                       | 操作、公式、訓練順序與限制   |
 
 ### Task 1: 範圍 loss 與既有 criterion 整合
 
 **Files:** Create `ultralytics/utils/damage_extent.py`, `tests/test_damage_extent.py`; Modify `ultralytics/utils/training_aux_0918.py` 的 `parse_training_aux`, `TrainingAuxSegmentationLoss.__init__`, `single_mask_loss`。
 
 **Interfaces:**
+
 - Consumes: `logits`, `target` 為 `[N,H,W]`；`boxes` 為 mask pixel 座標 `[N,4]`。
 - Produces: `instance_extent_loss(logits, target, boxes, fn_weight=0.7, margin=1.0) -> Tensor`，回傳對實例加總的 FP32 scalar。空 foreground 回傳可微零，不保留 state。
 
@@ -51,13 +52,13 @@
 ```python
 target = torch.zeros(1, 8, 8)
 target[:, 2:6, 2:6] = 1
-box = torch.tensor([[2., 2., 6., 6.]])
-good = torch.where(target.bool(), 8., -8.)
-partial = torch.full_like(target, -8.)
+box = torch.tensor([[2.0, 2.0, 6.0, 6.0]])
+good = torch.where(target.bool(), 8.0, -8.0)
+partial = torch.full_like(target, -8.0)
 partial[:, 3:5, 3:5] = 8
 assert instance_extent_loss(good, target, box) < instance_extent_loss(partial, target, box)
-assert instance_extent_loss(good, target, box) < instance_extent_loss(torch.full_like(target, 8.), target, box)
-missed = torch.full_like(target, -20., requires_grad=True)
+assert instance_extent_loss(good, target, box) < instance_extent_loss(torch.full_like(target, 8.0), target, box)
+missed = torch.full_like(target, -20.0, requires_grad=True)
 instance_extent_loss(missed, target, box).backward()
 assert missed.grad[target.bool()].sum() < 0
 ```
@@ -74,17 +75,16 @@ Run: `.venv-shadow-check/Scripts/python.exe -m pytest tests/test_damage_extent.p
 p = logits.float().sigmoid()
 y = target.detach().float()
 positive = roi * y
-negative = roi * (1-y)
-tp = (p*positive).sum((1, 2))
-fn = ((1-p)*positive).sum((1, 2))
-fp = (p*negative).sum((1, 2))
-tversky = 1-(tp+1e-6)/(tp+fn_weight*fn+(1-fn_weight)*fp+1e-6)
-bce = F.binary_cross_entropy_with_logits(logits.float(), y, reduction='none')
+negative = roi * (1 - y)
+tp = (p * positive).sum((1, 2))
+fn = ((1 - p) * positive).sum((1, 2))
+fp = (p * negative).sum((1, 2))
+tversky = 1 - (tp + 1e-6) / (tp + fn_weight * fn + (1 - fn_weight) * fp + 1e-6)
+bce = F.binary_cross_entropy_with_logits(logits.float(), y, reduction="none")
 pos_n, neg_n = positive.sum((1, 2)), negative.sum((1, 2))
-balanced = ((bce*positive).sum((1, 2))/pos_n.clamp_min(1)
-            +(bce*negative).sum((1, 2))/neg_n.clamp_min(1))
-balanced = balanced/(pos_n.gt(0).float()+neg_n.gt(0).float()).clamp_min(1)
-return (0.5*(tversky+balanced)*pos_n.gt(0).float()).sum()
+balanced = (bce * positive).sum((1, 2)) / pos_n.clamp_min(1) + (bce * negative).sum((1, 2)) / neg_n.clamp_min(1)
+balanced = balanced / (pos_n.gt(0).float() + neg_n.gt(0).float()).clamp_min(1)
+return (0.5 * (tversky + balanced) * pos_n.gt(0).float()).sum()
 ```
 
 驗證輸入維度／shape/device，fn_weight 為有限值且嚴格在 (0,1)，margin 為有限非負值。parser 增加 `extent: {gain: 0.0, fn_weight: 0.7, margin: 1.0}`，gain 非負，無效／錯字設定 ValueError。`single_mask_loss` 原 loss 照算，只在 `_training_terms` 且 extent gain 非零時，以 `einsum('in,nhw->ihw', pred.float(), proto.float())` 加上 extent 項；原 boundary 計算保持不變。
@@ -98,18 +98,19 @@ return (0.5*(tversky+balanced)*pos_n.gt(0).float()).sum()
 **Files:** Create 上述六組 models/recipes；Extend `tests/test_damage_extent.py`。
 
 **Interfaces:**
+
 - Consumes: 原 semantic-token YAML、Task 1 的 `training_aux.extent`。
 - Produces: 後綴 `01-baseline`, `02-shadow`, `03-consistency`, `04-extent`, `05-boundary`, `06-detail960`；recipe 使用同後綴。
 
 - [x] **Step 1: 加入每組 graph/state、完整 backward、空 batch 與 recipe 解析測試**
 
 ```python
-base = YAML.load('ultralytics/cfg/models/11_myself/yolo11-6csar-semantic-token.yaml')
+base = YAML.load("ultralytics/cfg/models/11_myself/yolo11-6csar-semantic-token.yaml")
 for suffix in SUFFIXES:
-    cfg = YAML.load(f'ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-{suffix}.yaml')
-    assert cfg['backbone'] == base['backbone']
-    assert cfg['head'] == base['head']
-    recipe = get_cfg(f'ultralytics/cfg/experiments/damage-extent-0928/{suffix}.yaml')
+    cfg = YAML.load(f"ultralytics/cfg/models/11_myself/yolo11-6csar-extent-0928-{suffix}.yaml")
+    assert cfg["backbone"] == base["backbone"]
+    assert cfg["head"] == base["head"]
+    recipe = get_cfg(f"ultralytics/cfg/experiments/damage-extent-0928/{suffix}.yaml")
     assert recipe.overlap_mask is False and recipe.mask_ratio == 4
 ```
 
@@ -119,14 +120,14 @@ for suffix in SUFFIXES:
 
 每個 model 複製原檔全文，插入 `scale: n` 與以下差異：
 
-| 後綴 | shadow.enabled | consistency.gain | extent.gain | boundary.gain | recipe imgsz |
-|---|---|---:|---:|---:|---:|
-| 01-baseline | false | 0.0 | 0.0 | 0.0 | 640 |
-| 02-shadow | true | 0.0 | 0.0 | 0.0 | 640 |
-| 03-consistency | true | 0.2 | 0.0 | 0.0 | 640 |
-| 04-extent | true | 0.2 | 0.2 | 0.0 | 640 |
-| 05-boundary | true | 0.2 | 0.2 | 0.05 | 640 |
-| 06-detail960 | true | 0.2 | 0.2 | 0.0 | 960 |
+| 後綴           | shadow.enabled | consistency.gain | extent.gain | boundary.gain | recipe imgsz |
+| -------------- | -------------- | ---------------: | ----------: | ------------: | -----------: |
+| 01-baseline    | false          |              0.0 |         0.0 |           0.0 |          640 |
+| 02-shadow      | true           |              0.0 |         0.0 |           0.0 |          640 |
+| 03-consistency | true           |              0.2 |         0.0 |           0.0 |          640 |
+| 04-extent      | true           |              0.2 |         0.2 |           0.0 |          640 |
+| 05-boundary    | true           |              0.2 |         0.2 |          0.05 |          640 |
+| 06-detail960   | true           |              0.2 |         0.2 |           0.0 |          960 |
 
 所有組 shadow 的 strength=[0.15,0.45]、probability=1.0、softness=0.15；consistency.confidence=0.7；extent.fn_weight=0.7、margin=1.0；overlap.gain=0.0、pairs=[[D,R]]。recipe 使用規格中的共同參數，`model` 指向對應 YAML；`name` 為 `damage-extent-0928-` 加後綴；`project=runs/damage_extent_0928`；不寫死 data 或 pretrained。
 
@@ -141,14 +142,15 @@ Run: `.venv-shadow-check/Scripts/python.exe -m pytest tests/test_damage_extent.p
 **Files:** Create `tools/audit_damage_extent.py`, `tests/test_damage_extent_audit.py`, `docs/damage-extent-0928.md`。
 
 **Interfaces:**
+
 - Consumes: `audit(xml_path: Path, labels_path: Path, names: list[str], min_iou=0.1, min_extent=0.75) -> dict`。
 - Produces: JSON：XML counts、polygon counts、matches（xml_id/label_line/bbox_iou/width_ratio/height_ratio/review_extent）、unmatched_xml、unmatched_polygons；CLI `--xml --labels --names --out`，只寫 out。
 
 - [x] **Step 1: 寫小型 XML/polygon 測試**
 
 ```python
-xml = '<annotation><size><width>100</width><height>100</height></size><object><name>D</name><bndbox><xmin>10</xmin><ymin>10</ymin><xmax>50</xmax><ymax>50</ymax></bndbox></object></annotation>'
-labels = '0 0.2 0.2 0.3 0.2 0.3 0.3 0.2 0.3\n'
+xml = "<annotation><size><width>100</width><height>100</height></size><object><name>D</name><bndbox><xmin>10</xmin><ymin>10</ymin><xmax>50</xmax><ymax>50</ymax></bndbox></object></annotation>"
+labels = "0 0.2 0.2 0.3 0.2 0.3 0.3 0.2 0.3\n"
 # bbox IoU=0.0625，因此預設應列未對應；min_iou=0.01 時 matched 但 review_extent=true。
 ```
 
