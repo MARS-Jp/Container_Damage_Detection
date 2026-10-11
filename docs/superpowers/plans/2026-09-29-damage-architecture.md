@@ -24,15 +24,15 @@
 
 ## 檔案責任
 
-| 檔案 | 責任 |
-|---|---|
-| `ultralytics/nn/modules/damage_architecture.py` | LuminanceResidualStem、DualPathP2Proto、Segment26MultiLabelExtent |
-| `ultralytics/nn/modules/__init__.py` | 匯出新模組 |
-| `ultralytics/nn/tasks.py` | YAML parser 註冊，保留已有 criterion 判斷 |
-| `tests/test_damage_architecture.py` | 新增路徑、共同權重、真實訓練／推論、fuse 與保存測試 |
-| `ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-*.yaml` | 00-baseline、01-luma、02-shallow、03-dualproto 完整模型 |
-| `ultralytics/cfg/experiments/damage-arch-0929/*.yaml` | 四組相同訓練條件，model/name 對應各架構 |
-| `docs/damage-architecture-0929.md` | 局部架構圖、設定差異、原理、訓練指令、驗證結果 |
+| 檔案                                                             | 責任                                                              |
+| ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `ultralytics/nn/modules/damage_architecture.py`                  | LuminanceResidualStem、DualPathP2Proto、Segment26MultiLabelExtent |
+| `ultralytics/nn/modules/__init__.py`                             | 匯出新模組                                                        |
+| `ultralytics/nn/tasks.py`                                        | YAML parser 註冊，保留已有 criterion 判斷                         |
+| `tests/test_damage_architecture.py`                              | 新增路徑、共同權重、真實訓練／推論、fuse 與保存測試               |
+| `ultralytics/cfg/models/11_myself/yolo11-6csar-arch-0929-*.yaml` | 00-baseline、01-luma、02-shallow、03-dualproto 完整模型           |
+| `ultralytics/cfg/experiments/damage-arch-0929/*.yaml`            | 四組相同訓練條件，model/name 對應各架構                           |
+| `docs/damage-architecture-0929.md`                               | 局部架構圖、設定差異、原理、訓練指令、驗證結果                    |
 
 ### Task 1：入口與原型旁路
 
@@ -70,7 +70,7 @@ proto 核心（original = super().forward(x)，base 為其中 prototypes）：
 
 ```python
 detail = self.native_p2(x[1])
-context = F.interpolate(self.native_context(x[2]), size=detail.shape[-2:], mode='bilinear', align_corners=False)
+context = F.interpolate(self.native_context(x[2]), size=detail.shape[-2:], mode="bilinear", align_corners=False)
 gate = self.native_gate(torch.cat((detail, context), 1)).sigmoid()
 delta = self.native_output(self.native_refine(detail + context))
 prototypes = base + self.native_scale.tanh() * gate * delta
@@ -86,11 +86,19 @@ return (prototypes, original[1]) if isinstance(original, tuple) else prototypes
 - [x] Step 1：以 `yolo11-6csar-semantic-token.yaml` 為基底產生四個檔，保留 layer 0–33 索引。
 
 ```python
-cfg01['backbone'][0] = [-1, 1, 'LuminanceResidualStem', [64, 3, 2, 0.1]]
-cfg02['head'][-1] = [[22,25,28,31,23,26,29,32,6,3], 1,
-                    'Segment26MultiLabelShadow', ['nc',32,256,0.5,2.0,0.1]]
-cfg03['head'][-1] = [[22,25,28,31,23,26,29,32,6,3], 1,
-                    'Segment26MultiLabelExtent', ['nc',32,256,0.5,2.0,0.1]]
+cfg01["backbone"][0] = [-1, 1, "LuminanceResidualStem", [64, 3, 2, 0.1]]
+cfg02["head"][-1] = [
+    [22, 25, 28, 31, 23, 26, 29, 32, 6, 3],
+    1,
+    "Segment26MultiLabelShadow",
+    ["nc", 32, 256, 0.5, 2.0, 0.1],
+]
+cfg03["head"][-1] = [
+    [22, 25, 28, 31, 23, 26, 29, 32, 6, 3],
+    1,
+    "Segment26MultiLabelExtent",
+    ["nc", 32, 256, 0.5, 2.0, 0.1],
+]
 ```
 
 cfg01/02/03 分別深複製前一版；cfg00 為原基底。每份完整檔附註新增路徑與相同訓練條件。
@@ -100,9 +108,9 @@ cfg01/02/03 分別深複製前一版；cfg00 為原基底。每份完整檔附�
 - [x] Step 3：測試相同主要 YAML 圖、差異模組存在、舊 state 名稱與形狀完整保留、四組 recipe 除識別欄位外完全相等。
 
 ```python
-assert cfg['backbone'][1:] == base_cfg['backbone'][1:]
-assert cfg['head'][:-1] == base_cfg['head'][:-1]
-assert all(k in new_state and v.shape == new_state[k].shape for k,v in old_state.items())
+assert cfg["backbone"][1:] == base_cfg["backbone"][1:]
+assert cfg["head"][:-1] == base_cfg["head"][:-1]
+assert all(k in new_state and v.shape == new_state[k].shape for k, v in old_state.items())
 incompatible = model.load_state_dict(old_state, strict=False)
 assert not incompatible.unexpected_keys
 ```
@@ -112,7 +120,7 @@ assert not incompatible.unexpected_keys
 - [x] Step 1：以 test_damage_semantic 的 overlapping_batch 類型建立 nc=8、D=2/R=5 的 128×128 低亮度樣本。四版皆須 loss.sum().backward() 有限，新旁路梯度非零。03 另測空物件及 s scale、nc=3 覆寫。
 
 ```python
-model.args = get_cfg(overrides={'overlap_mask':False})
+model.args = get_cfg(overrides={"overlap_mask": False})
 loss, items = model(batch)
 assert torch.isfinite(loss).all()
 loss.sum().backward()

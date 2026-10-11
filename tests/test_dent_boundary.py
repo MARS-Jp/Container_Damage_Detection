@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 import torch
-import torch.nn as nn
+from torch import nn
 
 from ultralytics.cfg import get_cfg
 from ultralytics.nn.modules.dent_boundary import (
@@ -162,9 +162,9 @@ def _batch(empty=False):
         "img": image,
         "batch_idx": torch.zeros(0 if empty else 2),
         "cls": torch.zeros(0, 1) if empty else torch.tensor([[2.0], [5.0]]),
-        "bboxes": torch.zeros(0, 4) if empty else torch.tensor(
-            [[0.40625, 0.453125, 0.5, 0.53125], [0.609375, 0.640625, 0.46875, 0.53125]]
-        ),
+        "bboxes": torch.zeros(0, 4)
+        if empty
+        else torch.tensor([[0.40625, 0.453125, 0.5, 0.53125], [0.609375, 0.640625, 0.46875, 0.53125]]),
         "masks": masks[:0] if empty else masks,
         "heatmaps": torch.zeros(1, 8, 32, 32),
         "seedmaps": torch.zeros(1, 8, 32, 32),
