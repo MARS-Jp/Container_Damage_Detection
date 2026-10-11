@@ -1,16 +1,18 @@
 # Ultralytics AGPL-3.0 License - https://ultralytics.com/license
 """Tests for the standalone yolo11-6csar-0906iim MMS + ASL variant."""
 
+from __future__ import annotations
+
 from types import SimpleNamespace
 
 import torch
 import torch.nn.functional as F
 
 from tools.train_yolo11_6csar_0906iim import (
+    MODEL_CFG,
     AsymmetricLoss,
     MMSASLSegmentationModel,
     MMSASLTrainer,
-    MODEL_CFG,
 )
 from ultralytics.cfg import get_cfg
 from ultralytics.models.yolo.segment.train import SegmentationTrainer

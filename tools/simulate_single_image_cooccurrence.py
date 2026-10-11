@@ -9,7 +9,6 @@ with pure-class feature prototypes and pre-NMS score references.
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
 import json
 import os
@@ -23,19 +22,15 @@ import cv2
 import numpy as np
 import torch
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 os.environ.setdefault("MPLCONFIGDIR", str(PROJECT_ROOT / "runs" / ".matplotlib"))
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
-import matplotlib  # noqa: E402
+import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-
-from ultralytics import YOLO  # noqa: E402
-
-from simulate_feature_suppression import (  # noqa: E402
+import matplotlib.pyplot as plt
+from simulate_feature_suppression import (
     DEFAULT_DATASET,
     DEFAULT_WEIGHT,
     LAYER_SPECS,
@@ -55,11 +50,10 @@ from simulate_feature_suppression import (  # noqa: E402
     write_csv,
 )
 
+from ultralytics import YOLO
 
 DEFAULT_IMAGE = Path(r"C:\Users\USER\Desktop\已標記\images\train\B\CBHU0708054-A.JPG")
-DEFAULT_LABEL = Path(
-    r"C:\Users\USER\Desktop\碩論\dataset0608\dataset0608\dataset\labels\train\B\CBHU0708054-A.txt"
-)
+DEFAULT_LABEL = Path(r"C:\Users\USER\Desktop\碩論\dataset0608\dataset0608\dataset\labels\train\B\CBHU0708054-A.txt")
 
 
 def parse_args() -> argparse.Namespace:
@@ -439,7 +433,9 @@ def main() -> int:
         candidates = ", ".join(name for name, flag in (("Dent", dent_candidate), ("Rust", rust_candidate)) if flag)
         result_conclusion = f"The aggregate co-occurrence heuristic flags {candidates} for follow-up."
     else:
-        result_conclusion = "The aggregate co-occurrence heuristic does not flag either class as consistently suppressed."
+        result_conclusion = (
+            "The aggregate co-occurrence heuristic does not flag either class as consistently suppressed."
+        )
 
     def format_optional_ratio(value: Any) -> str:
         return "N/A" if value is None else f"{float(value):.4f}"
@@ -460,16 +456,22 @@ def main() -> int:
         "",
         f"- Dent mean feature-similarity delta: `{dent_delta:.4f}`",
         f"- Rust mean feature-similarity delta: `{rust_delta:.4f}`",
-        f"- Dent Detect-head ratio / auxiliary ratio: `{dent_scores['own_head_ratio']:.4f}` / "
-        f"`{format_optional_ratio(dent_scores.get('own_aux_ratio'))}`",
-        f"- Rust Detect-head ratio / auxiliary ratio: `{rust_scores['own_head_ratio']:.4f}` / "
-        f"`{format_optional_ratio(rust_scores.get('own_aux_ratio'))}`",
+        (
+            f"- Dent Detect-head ratio / auxiliary ratio: `{dent_scores['own_head_ratio']:.4f}` / "
+            f"`{format_optional_ratio(dent_scores.get('own_aux_ratio'))}`"
+        ),
+        (
+            f"- Rust Detect-head ratio / auxiliary ratio: `{rust_scores['own_head_ratio']:.4f}` / "
+            f"`{format_optional_ratio(rust_scores.get('own_aux_ratio'))}`"
+        ),
         f"- Individual Dent ROIs below `{args.score_ratio:.2f}`: `{dent_weak_instances}/{len(dent_instance_rows)}`",
         f"- Individual Rust ROIs below `{args.score_ratio:.2f}`: `{rust_weak_instances}/{len(rust_instance_rows)}`",
         f"- Screening conclusion: {result_conclusion}",
         "",
-        "A candidate requires its mean prototype-similarity delta to be at most "
-        f"`-{args.similarity_drop:.2f}` and its Detect-head ratio to be at most `{args.score_ratio:.2f}`.",
+        (
+            "A candidate requires its mean prototype-similarity delta to be at most "
+            f"`-{args.similarity_drop:.2f}` and its Detect-head ratio to be at most `{args.score_ratio:.2f}`."
+        ),
         "",
         "## Stage means",
         "",
@@ -486,8 +488,10 @@ def main() -> int:
             "",
             "## Interpretation",
             "",
-            "Because the masks do not intersect, a low score can indicate co-occurrence, small-object difficulty, "
-            "illumination, or appearance shift; it cannot by itself demonstrate that one damage type suppresses the other.",
+            (
+                "Because the masks do not intersect, a low score can indicate co-occurrence, small-object difficulty, "
+                "illumination, or appearance shift; it cannot by itself demonstrate that one damage type suppresses the other."
+            ),
         ]
     )
     (output / "report.md").write_text("\n".join(report) + "\n", encoding="utf-8")

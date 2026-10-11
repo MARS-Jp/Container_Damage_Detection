@@ -32,18 +32,16 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 os.environ.setdefault("MPLCONFIGDIR", str(PROJECT_ROOT / "runs" / ".matplotlib"))
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
-import matplotlib  # noqa: E402
+import matplotlib
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
+import matplotlib.pyplot as plt
 
-from ultralytics import YOLO  # noqa: E402
-
+from ultralytics import YOLO
 
 DEFAULT_WEIGHT = Path(r"C:\Users\USER\Downloads\last0912.pt")
 DEFAULT_DATASET = Path(r"C:\Users\USER\Desktop\碩論\dataset0608\dataset0608\dataset")
@@ -307,10 +305,7 @@ def prepare_sample(sample: Sample, size: int) -> tuple[np.ndarray, torch.Tensor,
     """Return letterboxed BGR image, RGB model tensor, and transformed masks."""
     original = read_image(sample.image_path)
     transformed, ratio, left, top = letterbox(original, size)
-    masks = [
-        instance_mask(item, original.shape[:2], size, ratio, left, top)
-        for item in sample.instances
-    ]
+    masks = [instance_mask(item, original.shape[:2], size, ratio, left, top) for item in sample.instances]
     rgb = cv2.cvtColor(transformed, cv2.COLOR_BGR2RGB)
     tensor = torch.from_numpy(np.ascontiguousarray(rgb.transpose(2, 0, 1))).float().unsqueeze(0) / 255.0
     return transformed, tensor, masks
@@ -408,6 +403,7 @@ def forward_capture(
     captured: dict[str, torch.Tensor] = {}
     handles = []
     for spec in LAYER_SPECS:
+
         def record(_module, _inputs, output, name=spec.name):
             captured[name] = tensor_from_output(output).detach()
 
@@ -541,6 +537,7 @@ def gradcam_for_class(
     activations: dict[str, torch.Tensor] = {}
     handles = []
     for spec in LAYER_SPECS:
+
         def record(_module, _inputs, output, name=spec.name):
             feature = tensor_from_output(output)
             feature.retain_grad()
@@ -762,15 +759,14 @@ def main() -> int:
     write_csv(output / "prototype_reference.csv", reference_rows)
     write_csv(output / "pure_roi_scores.csv", pure_score_rows)
 
-    reference_lookup = {
-        (row["category"], row["layer"]): float(row["similarity_median"])
-        for row in reference_rows
-    }
+    reference_lookup = {(row["category"], row["layer"]): float(row["similarity_median"]) for row in reference_rows}
     detailed_rows: list[dict[str, Any]] = []
     overlap_score_rows: list[dict[str, Any]] = []
     gradcam_payloads: dict[str, tuple[np.ndarray, torch.Tensor, np.ndarray]] = {}
     largest_overlap_roi_id: str | None = None
-    overlap_cache: dict[Path, tuple[np.ndarray, torch.Tensor, list[np.ndarray], dict[str, torch.Tensor], dict[str, Any]]] = {}
+    overlap_cache: dict[
+        Path, tuple[np.ndarray, torch.Tensor, list[np.ndarray], dict[str, torch.Tensor], dict[str, Any]]
+    ] = {}
     for roi_index, (rank, sample, dent_index, rust_index) in enumerate(overlap_pairs):
         if sample.image_path not in overlap_cache:
             image, tensor, masks = prepare_sample(sample, args.imgsz)
@@ -939,11 +935,10 @@ def main() -> int:
             f"Large-overlap control: {largest_overlap_roi_id}",
         )
         flagged_rows = [
-            row
-            for row in group_rows
-            if row["candidate_dent_suppression"] or row["candidate_rust_suppression"]
+            row for row in group_rows if row["candidate_dent_suppression"] or row["candidate_rust_suppression"]
         ]
         if flagged_rows:
+
             def candidate_strength(row: dict[str, Any]) -> float:
                 values = []
                 if row["candidate_dent_suppression"]:
@@ -1016,7 +1011,9 @@ def main() -> int:
     elif mean_rust_score_ratio <= args.score_ratio < mean_dent_score_ratio:
         screening_conclusion = "The aggregate screen supports a Rust-suppression candidate relative to Dent."
     else:
-        screening_conclusion = "Both classes lose aggregate pre-NMS response, so this screen cannot isolate one suppressor."
+        screening_conclusion = (
+            "Both classes lose aggregate pre-NMS response, so this screen cannot isolate one suppressor."
+        )
     report_lines = [
         "# 0912 Dent/Rust feature-suppression simulation",
         "",
@@ -1039,9 +1036,11 @@ def main() -> int:
         f"- Mean Dent/Rust pre-NMS score ratios: `{mean_dent_score_ratio:.4f}` / `{mean_rust_score_ratio:.4f}`",
         f"- Screening conclusion: {screening_conclusion}",
         "",
-        "A flag requires all three conditions: the class similarity is at least "
-        f"`{args.similarity_drop:.2f}` below its pure-class median, its pre-NMS score ratio is at most "
-        f"`{args.score_ratio:.2f}`, and its similarity drop is at least `0.05` worse than the other class.",
+        (
+            "A flag requires all three conditions: the class similarity is at least "
+            f"`{args.similarity_drop:.2f}` below its pure-class median, its pre-NMS score ratio is at most "
+            f"`{args.score_ratio:.2f}`, and its similarity drop is at least `0.05` worse than the other class."
+        ),
         "This is an explicit screening heuristic, not a trained decision boundary or proof of causality.",
         "",
         "## Stage means",
@@ -1070,9 +1069,11 @@ def main() -> int:
             "",
             "## Interpretation limit",
             "",
-            "This run only establishes whether the supplied checkpoint shows a repeatable suppression candidate in "
-            "the selected labeled ROIs. A publication-grade conclusion needs a fixed held-out split, bootstrap "
-            "confidence intervals, and controls for ROI size, damage severity, and illumination.",
+            (
+                "This run only establishes whether the supplied checkpoint shows a repeatable suppression candidate in "
+                "the selected labeled ROIs. A publication-grade conclusion needs a fixed held-out split, bootstrap "
+                "confidence intervals, and controls for ROI size, damage severity, and illumination."
+            ),
         ]
     )
     (output / "report.md").write_text("\n".join(report_lines) + "\n", encoding="utf-8")
