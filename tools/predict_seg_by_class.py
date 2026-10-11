@@ -47,8 +47,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--line-width", type=int, default=2, help="Contour and box line width.")
     parser.add_argument("--show-boxes", action="store_true", help="Also draw bounding boxes (disabled by default).")
     score_display = parser.add_mutually_exclusive_group()
-    score_display.add_argument("--hide-labels", dest="hide_labels", action="store_true", help="Hide confidence scores (default).")
-    score_display.add_argument("--show-scores", dest="hide_labels", action="store_false", help="Draw confidence scores.")
+    score_display.add_argument(
+        "--hide-labels", dest="hide_labels", action="store_true", help="Hide confidence scores (default)."
+    )
+    score_display.add_argument(
+        "--show-scores", dest="hide_labels", action="store_false", help="Draw confidence scores."
+    )
     parser.set_defaults(hide_labels=True)
     parser.add_argument("--no-fill", action="store_true", help="Draw mask contours without transparent mask fill.")
     parser.add_argument("--retina-masks", action="store_true", help="Use masks at original image resolution.")
@@ -105,7 +109,10 @@ def filter_class_scores(result: Any, thresholds: dict[int, float]) -> Any:
 
 
 def prediction_metrics(
-    masks: np.ndarray, classes: np.ndarray, names: dict[int, str], shape: tuple[int, int],
+    masks: np.ndarray,
+    classes: np.ndarray,
+    names: dict[int, str],
+    shape: tuple[int, int],
 ) -> dict:
     """Describe predictions without treating mask coverage or object counts as accuracy."""
     height, width = shape
@@ -117,12 +124,16 @@ def prediction_metrics(
         pixels = int(union.sum())
         unions[class_id] = union
         metrics[str(class_id)] = {
-            "name": name, "count": len(selected), "union_pixels": pixels,
+            "name": name,
+            "count": len(selected),
+            "union_pixels": pixels,
             "coverage_percent": round(100 * pixels / (height * width), 4),
         }
     overlaps = {
         f"{left}:{right}": int(np.logical_and(unions[left], unions[right]).sum())
-        for left in names for right in names if left < right
+        for left in names
+        for right in names
+        if left < right
         if np.any(unions[left] & unions[right])
     }
     return {"width": width, "height": height, "classes": metrics, "overlap_pixels": overlaps}
@@ -131,10 +142,22 @@ def prediction_metrics(
 def class_color(class_id: int) -> tuple[int, int, int]:
     """Return a stable BGR color for a class ID."""
     palette_rgb = (
-        (255, 56, 56), (255, 157, 151), (255, 112, 31), (255, 178, 29),
-        (207, 210, 49), (72, 249, 10), (146, 204, 23), (61, 219, 134),
-        (26, 147, 52), (0, 212, 187), (44, 153, 168), (0, 194, 255),
-        (52, 69, 147), (100, 115, 255), (0, 24, 236), (132, 56, 255),
+        (255, 56, 56),
+        (255, 157, 151),
+        (255, 112, 31),
+        (255, 178, 29),
+        (207, 210, 49),
+        (72, 249, 10),
+        (146, 204, 23),
+        (61, 219, 134),
+        (26, 147, 52),
+        (0, 212, 187),
+        (44, 153, 168),
+        (0, 194, 255),
+        (52, 69, 147),
+        (100, 115, 255),
+        (0, 24, 236),
+        (132, 56, 255),
     )
     red, green, blue = palette_rgb[class_id % len(palette_rgb)]
     return blue, green, red
@@ -190,9 +213,7 @@ def draw_predictions(
         label = f"{float(score):.2f}"
         font_scale = max(0.45, min(image.shape[:2]) / 1000.0)
         thickness = max(1, args.line_width - 1)
-        (text_width, text_height), baseline = cv2.getTextSize(
-            label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness
-        )
+        (text_width, text_height), baseline = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, font_scale, thickness)
         label_x = max(0, min(x1, output.shape[1] - text_width - 7))
         label_y = max(text_height + baseline + 5, y1)
         cv2.rectangle(
@@ -257,7 +278,8 @@ def save_result(result: Any, names: dict[int, str], output_dir: Path, index: int
         metrics = prediction_metrics(masks, classes, names, image.shape[:2])
         metrics["source"] = str(result.path)
         (image_dir / "prediction_metrics.json").write_text(
-            json.dumps(metrics, ensure_ascii=False, indent=2), encoding="utf-8",
+            json.dumps(metrics, ensure_ascii=False, indent=2),
+            encoding="utf-8",
         )
     return prediction_count
 

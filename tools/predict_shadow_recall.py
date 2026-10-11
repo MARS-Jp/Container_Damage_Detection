@@ -12,11 +12,11 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime
 import json
-from pathlib import Path
 import runpy
 import sys
+from datetime import datetime
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -26,7 +26,14 @@ if str(SCRIPT_DIR.parent) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR.parent))
 
 from tools import predict_shadow as shadow
-from tools.diagnose_shadow_inference import append_candidates, arrays, in_region, map_detection, pixel_bounds, regional_metrics
+from tools.diagnose_shadow_inference import (
+    append_candidates,
+    arrays,
+    in_region,
+    map_detection,
+    pixel_bounds,
+    regional_metrics,
+)
 from tools.predict_seg_by_class import normalize_names, prediction_metrics, safe_name, write_image
 
 BASE = runpy.run_path(str(SCRIPT_DIR / "predict-2.py"))
@@ -46,10 +53,13 @@ def tile_boxes(bounds: tuple[int, int, int, int], fraction: float, overlap: floa
 
     def starts(length, size):
         step = max(1, round(size * (1 - overlap)))
-        return sorted(set([*range(0, length - size + 1, step), length - size]))
+        return sorted({*range(0, length - size + 1, step), length - size})
 
-    return [(x1 + x, y1 + y, x1 + x + tile_width, y1 + y + tile_height)
-            for y in starts(height, tile_height) for x in starts(width, tile_width)]
+    return [
+        (x1 + x, y1 + y, x1 + x + tile_width, y1 + y + tile_height)
+        for y in starts(height, tile_height)
+        for x in starts(width, tile_width)
+    ]
 
 
 def parse_args(argv: list[str] | None = None):
@@ -85,8 +95,18 @@ def parse_args(argv: list[str] | None = None):
         context = pixel_bounds(tuple(getattr(args, f"{name}_context")), (10000, 10000))
         if not (context[0] <= roi[0] < roi[2] <= context[2] and context[1] <= roi[1] < roi[3] <= context[3]):
             parser.error(f"{name} context must contain the ROI")
-    common = ["--imgsz", str(args.imgsz), "--conf", str(args.conf), "--iou", str(args.iou),
-              "--device", args.device, "--max-det", "300"]
+    common = [
+        "--imgsz",
+        str(args.imgsz),
+        "--conf",
+        str(args.conf),
+        "--iou",
+        str(args.iou),
+        "--device",
+        args.device,
+        "--max-det",
+        "300",
+    ]
     common += ["--exclude-regions", str(args.exclude_regions)] if args.exclude_regions else ["--no-exclusions"]
     settings = shadow.parse_args(common)
     # Preserve the shadow script's enhancement and drawing defaults, recording them with this run.
@@ -97,9 +117,18 @@ def parse_args(argv: list[str] | None = None):
 
 
 def predict_view(model, image, label, args, size, conf, max_det):
-    result = model.predict(source=image, imgsz=size, conf=conf, iou=args.iou,
-                           device=args.device, retina_masks=True, agnostic_nms=False,
-                           max_det=max_det, save=False, verbose=False)[0]
+    result = model.predict(
+        source=image,
+        imgsz=size,
+        conf=conf,
+        iou=args.iou,
+        device=args.device,
+        retina_masks=True,
+        agnostic_nms=False,
+        max_det=max_det,
+        save=False,
+        verbose=False,
+    )[0]
     detections = shadow.extract_detections(result, label, image.shape[:2])
     capped = result.boxes is not None and len(result.boxes) >= max_det
     return detections, capped
@@ -108,8 +137,11 @@ def predict_view(model, image, label, args, size, conf, max_det):
 def select_additions(candidates, names, dent_conf, rust_conf):
     """Class thresholds only gate actual model predictions; no masks are invented."""
     thresholds = {"D": dent_conf, "R": rust_conf}
-    return [d for d in candidates if names[int(d.box[5])] in thresholds
-            and float(d.box[4]) >= thresholds[names[int(d.box[5])]]]
+    return [
+        d
+        for d in candidates
+        if names[int(d.box[5])] in thresholds and float(d.box[4]) >= thresholds[names[int(d.box[5])]]
+    ]
 
 
 def process_image(model, source: Path, output: Path, args) -> list[dict]:
@@ -127,8 +159,16 @@ def process_image(model, source: Path, output: Path, args) -> list[dict]:
         enhanced = shadow.enhance_shadow(image, view, args)
         detections, capped = predict_view(model, enhanced, view, args, args.imgsz, args.conf, args.max_det)
         views[view] = shadow.exclude_background(detections, excluded)
-        diagnostics.append({"view": view, "kind": "full", "imgsz": args.imgsz, "conf": args.conf,
-                            "at_max_det": capped, "count": len(views[view])})
+        diagnostics.append(
+            {
+                "view": view,
+                "kind": "full",
+                "imgsz": args.imgsz,
+                "conf": args.conf,
+                "at_max_det": capped,
+                "count": len(views[view]),
+            }
+        )
     baseline = shadow.merge_detections([d for values in views.values() for d in values], args.merge_iou)
     candidates = {"context": [], "tile": []}
     for name, bounds in contexts.items():
@@ -139,11 +179,18 @@ def process_image(model, source: Path, output: Path, args) -> list[dict]:
                 label = f"{name}_{kind}{index:02d}_{view}"
                 enhanced = shadow.enhance_shadow(crop, view, args)
                 raw, capped = predict_view(model, enhanced, label, args, args.crop_imgsz, args.diagnostic_conf, 1000)
-                diagnostics.append({
-                    "view": label, "kind": kind, "region": name, "crop_xyxy": [x1, y1, x2, y2],
-                    "imgsz": args.crop_imgsz, "conf": args.diagnostic_conf, "at_max_det": capped,
-                    "raw_count": len(raw),
-                })
+                diagnostics.append(
+                    {
+                        "view": label,
+                        "kind": kind,
+                        "region": name,
+                        "crop_xyxy": [x1, y1, x2, y2],
+                        "imgsz": args.crop_imgsz,
+                        "conf": args.diagnostic_conf,
+                        "at_max_det": capped,
+                        "raw_count": len(raw),
+                    }
+                )
                 mapped = shadow.exclude_background([map_detection(d, (x1, y1), shape) for d in raw], excluded)
                 eligible = [d for d in mapped if in_region(d, regions[name])]
                 diagnostics[-1]["region_metrics"] = regional_metrics(eligible, regions[name], names)
@@ -165,7 +212,7 @@ def process_image(model, source: Path, output: Path, args) -> list[dict]:
     for version, title, existing, kinds, dent_conf, rust_conf in profiles:
         additions = select_additions([d for kind in kinds for d in candidates[kind]], names, dent_conf, rust_conf)
         detections = append_candidates(existing, additions, args.merge_iou)
-        added = detections[len(existing):]
+        added = detections[len(existing) :]
         folder = output / version
         stem = safe_name(source.stem)
         image_path = folder / f"{stem}__all.jpg"
@@ -173,28 +220,48 @@ def process_image(model, source: Path, output: Path, args) -> list[dict]:
         write_image(folder / f"{stem}__additions.jpg", shadow.render(image, added, names, args))
         for class_id, class_name in names.items():
             selected = [d for d in detections if int(d.box[5]) == class_id]
-            write_image(folder / f"{stem}__class_{class_id:03d}_{safe_name(class_name)}.jpg",
-                        shadow.render(image, selected, names, args))
+            write_image(
+                folder / f"{stem}__class_{class_id:03d}_{safe_name(class_name)}.jpg",
+                shadow.render(image, selected, names, args),
+            )
         masks, _, classes, _ = arrays(detections, shape)
         metrics = prediction_metrics(masks, classes, names, shape)
         stats = {name: regional_metrics(detections, bounds, names) for name, bounds in regions.items()}
         report = {
-            "source": str(source), "version": version, "baseline_count": len(existing), "added_count": len(added),
-            "merged_count": len(detections), "metrics": metrics, "regions": stats, "excluded_regions": matched,
-            "D_addition_conf": dent_conf, "R_addition_conf": rust_conf,
-            "regions_xyxy": regions, "contexts_xyxy": contexts, "selected_kinds": kinds,
-            "detections": [{"class_id": int(d.box[5]), "class_name": names[int(d.box[5])],
-                            "confidence": float(d.box[4]), "view": d.view, "box_xyxy": d.box[:4].tolist(),
-                            "mask_pixels": int(d.mask.sum()), "is_addition": index >= len(existing)}
-                           for index, d in enumerate(detections)],
+            "source": str(source),
+            "version": version,
+            "baseline_count": len(existing),
+            "added_count": len(added),
+            "merged_count": len(detections),
+            "metrics": metrics,
+            "regions": stats,
+            "excluded_regions": matched,
+            "D_addition_conf": dent_conf,
+            "R_addition_conf": rust_conf,
+            "regions_xyxy": regions,
+            "contexts_xyxy": contexts,
+            "selected_kinds": kinds,
+            "detections": [
+                {
+                    "class_id": int(d.box[5]),
+                    "class_name": names[int(d.box[5])],
+                    "confidence": float(d.box[4]),
+                    "view": d.view,
+                    "box_xyxy": d.box[:4].tolist(),
+                    "mask_pixels": int(d.mask.sum()),
+                    "is_addition": index >= len(existing),
+                }
+                for index, d in enumerate(detections)
+            ],
         }
         (folder / "predictions.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
         caption = f"{version[:3]} {title}\n全圖 {args.imgsz} / 裁切 {args.crop_imgsz} / 新增 {len(added)}"
         records.append({"source": str(source), "image": image_path, "metrics": metrics, "caption": caption})
         for name, region in stats.items():
             for class_name, values in region.items():
-                summary.append({"version": version, "region": name, "class": class_name,
-                                "added_total": len(added), **values})
+                summary.append(
+                    {"version": version, "region": name, "class": class_name, "added_total": len(added), **values}
+                )
         print(f"  {version}: total={len(detections)}, added={len(added)}", flush=True)
     (output / "diagnostics.json").write_text(json.dumps(diagnostics, ensure_ascii=False, indent=2), encoding="utf-8")
     with (output / "region_summary.csv").open("w", encoding="utf-8-sig", newline="") as handle:
@@ -212,9 +279,13 @@ def process_image(model, source: Path, output: Path, args) -> list[dict]:
     draw_figure(records, comparison / "all_variants.png", "all")
     for name in REGIONS:
         for kind in ("all", "D", "R"):
-            draw_figure(records, comparison / f"{name}_{kind}.png", kind,
-                        tuple(getattr(args, f"{name}_roi")),
-                        crop_label="MSC 附近凹陷區" if name == "left" else "右下陰影內部")
+            draw_figure(
+                records,
+                comparison / f"{name}_{kind}.png",
+                kind,
+                tuple(getattr(args, f"{name}_roi")),
+                crop_label="MSC 附近凹陷區" if name == "left" else "右下陰影內部",
+            )
     return summary
 
 
@@ -234,20 +305,25 @@ def main(argv: list[str] | None = None) -> int:
         if not any(source.name.casefold() == annotation["filename"].casefold() for source in sources):
             raise ValueError("XML filename does not match any source image")
     import torch
+
     from ultralytics import YOLO
 
     if args.device == "auto":
         args.device = "0" if torch.cuda.is_available() else "cpu"
     output = BASE["resolve_path"](args.output) / datetime.now().strftime("run_%Y%m%d_%H%M%S_%f")
     output.mkdir(parents=True, exist_ok=False)
-    (output / "settings.json").write_text(json.dumps(vars(args), ensure_ascii=False, indent=2, default=str), encoding="utf-8")
+    (output / "settings.json").write_text(
+        json.dumps(vars(args), ensure_ascii=False, indent=2, default=str), encoding="utf-8"
+    )
     print(f"Output: {output}", flush=True)
     for model_index, weight in enumerate(weights, 1):
         model = YOLO(str(weight))
         if model.task != "segment":
             raise ValueError(f"Expected segmentation model: {weight}")
         for image_index, source in enumerate(sources, 1):
-            folder = output / f"{model_index:02d}_{safe_name(weight.stem)}" / f"{image_index:02d}_{safe_name(source.stem)}"
+            folder = (
+                output / f"{model_index:02d}_{safe_name(weight.stem)}" / f"{image_index:02d}_{safe_name(source.stem)}"
+            )
             print(f"Inspecting {source}", flush=True)
             process_image(model, source, folder, args)
         del model
