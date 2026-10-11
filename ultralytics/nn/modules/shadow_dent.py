@@ -4,13 +4,13 @@
 from __future__ import annotations
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from .conv import Conv, DWConv, IIMStem
 from .head import Segment26MultiLabel
 
-__all__ = ("ShadowIIMStem", "Segment26MultiLabelShadow")
+__all__ = ("Segment26MultiLabelShadow", "ShadowIIMStem")
 
 
 def _local_mean(x: torch.Tensor, kernel: int) -> torch.Tensor:
@@ -22,8 +22,8 @@ def _local_mean(x: torch.Tensor, kernel: int) -> torch.Tensor:
 class LuminanceDetail(nn.Module):
     """Keep signed achromatic shape cues alongside, rather than inside, RGB-pair IIM features.
 
-    The five channels are luminance, fine/coarse relative contrast, and signed x/y gradients.
-    Dark pixels use a fixed denominator floor and tanh bounds; darkness itself is not a dent label.
+    The five channels are luminance, fine/coarse relative contrast, and signed x/y gradients. Dark pixels use a fixed
+    denominator floor and tanh bounds; darkness itself is not a dent label.
     """
 
     def __init__(self, fine_kernel: int = 5, coarse_kernel: int = 15, eps: float = 1.0 / 255.0):
@@ -64,8 +64,8 @@ class LuminanceDetail(nn.Module):
 class ShadowIIMStem(IIMStem):
     """Extend the existing RGB/IIM stem with a gated luminance-detail residual.
 
-    Inheriting IIMStem preserves its parameter names and tensor shapes for warm-starting.
-    The extra branch retains local shading that a channel-pair difference can cancel.
+    Inheriting IIMStem preserves its parameter names and tensor shapes for warm-starting. The extra branch retains local
+    shading that a channel-pair difference can cancel.
     """
 
     def __init__(self, c1, c2, k=3, s=2, kernel_nums=8, kernel_size=3, detail_scale=0.1):
@@ -115,8 +115,8 @@ class DentDetailFusion(nn.Module):
 class Segment26MultiLabelShadow(Segment26MultiLabel):
     """Multi-label head with shallow detail bypasses and unchanged auxiliary class supervision.
 
-    Input layout: [fused P3, P2, ..., matching class logits..., shallow P3, shallow P2].
-    Rust evidence is retained by the existing network; no gate requires rust for a dent prediction.
+    Input layout: [fused P3, P2, ..., matching class logits..., shallow P3, shallow P2]. Rust evidence is retained by
+    the existing network; no gate requires rust for a dent prediction.
     """
 
     def __init__(
@@ -134,9 +134,7 @@ class Segment26MultiLabelShadow(Segment26MultiLabel):
         if len(ch) < 6 or (len(ch) - 2) % 2:
             raise ValueError("Segment26MultiLabelShadow requires paired features/logits plus two shallow inputs.")
         super().__init__(nc, nm, npr, multilabel_gain, cooccurrence_weight, reg_max, end2end, ch[:-2])
-        self.detail_fusion = nn.ModuleList(
-            DentDetailFusion([ch[i], ch[-2 + i]], ch[i], detail_scale) for i in range(2)
-        )
+        self.detail_fusion = nn.ModuleList(DentDetailFusion([ch[i], ch[-2 + i]], ch[i], detail_scale) for i in range(2))
 
     def forward(self, x):
         inputs = list(x[:-2])

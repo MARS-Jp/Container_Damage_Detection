@@ -13,35 +13,35 @@ scales: # model compound scaling constants
 # YOLO11-FSNetShuffle backbone
 backbone:
   # [from, repeats, module, args]
-  - [-1, 1, Conv, [64, 3, 2]]                  # 0-P1/2
-  - [-1, 1, Conv, [128, 3, 2]]                 # 1-P2/4 (主幹 P2 的 Conv)
+  - [-1, 1, Conv, [64, 3, 2]] # 0-P1/2
+  - [-1, 1, Conv, [128, 3, 2]] # 1-P2/4 (主幹 P2 的 Conv)
 
   # --- P2 融合層 ---
-  - [[0, 1], 1, FSNetShuffle, [128, 1, 2]]     # 2-P2/4, 綠色 S 模組 (融合 P1 與 P2)
-  - [2, 2, AttentionResiduals, [256, 0.25]]    # 3-P2/4, 接收 S 的輸出
+  - [[0, 1], 1, FSNetShuffle, [128, 1, 2]] # 2-P2/4, 綠色 S 模組 (融合 P1 與 P2)
+  - [2, 2, AttentionResiduals, [256, 0.25]] # 3-P2/4, 接收 S 的輸出
 
   # --- P3 融合層 ---
-  - [1, 1, Conv, [256, 3, 2]]                  # 4-P3/8, 從主幹 P2 的 Conv 繼續往下
-  - [[3, 4], 1, FSNetShuffle, [256, 1, 2]]     # 5-P3/8, 綠色 S 模組
-  - [5, 2, AttentionResiduals, [512, 0.25]]    # 6-P3/8, 接收 S 的輸出
+  - [1, 1, Conv, [256, 3, 2]] # 4-P3/8, 從主幹 P2 的 Conv 繼續往下
+  - [[3, 4], 1, FSNetShuffle, [256, 1, 2]] # 5-P3/8, 綠色 S 模組
+  - [5, 2, AttentionResiduals, [512, 0.25]] # 6-P3/8, 接收 S 的輸出
 
   # --- P4 融合層 ---
-  - [4, 1, Conv, [512, 3, 2]]                  # 7-P4/16, 從主幹 P3 的 Conv 繼續往下
-  - [[3, 6, 7], 1, FSNetShuffle, [512, 2, 2]]  # 8-P4/16, 跨層綠色 S 模組
-  - [8, 2, AttentionResiduals, [512]]          # 9-P4/16, 接收 S 的輸出
+  - [4, 1, Conv, [512, 3, 2]] # 7-P4/16, 從主幹 P3 的 Conv 繼續往下
+  - [[3, 6, 7], 1, FSNetShuffle, [512, 2, 2]] # 8-P4/16, 跨層綠色 S 模組
+  - [8, 2, AttentionResiduals, [512]] # 9-P4/16, 接收 S 的輸出
 
   # --- P5 融合層 ---
-  - [7, 1, Conv, [1024, 3, 2]]                 # 10-P5/32, 從主幹 P4 的 Conv 繼續往下
+  - [7, 1, Conv, [1024, 3, 2]] # 10-P5/32, 從主幹 P4 的 Conv 繼續往下
   - [[6, 9, 10], 1, FSNetShuffle, [1024, 2, 2]] # 11-P5/32, 跨層綠色 S 模組
-  - [11, 2, AttentionResiduals, [1024]]        # 12-P5/32, 接收 S 的輸出
-  
-  - [-1, 1, SPPF, [1024, 5]]                   # 13
-  - [-1, 2, C2PSA, [1024]]                     # 14-P5/32
+  - [11, 2, AttentionResiduals, [1024]] # 12-P5/32, 接收 S 的輸出
+
+  - [-1, 1, SPPF, [1024, 5]] # 13
+  - [-1, 2, C2PSA, [1024]] # 14-P5/32
 
 # Post-backbone CSAR segmentation head (已對應最新的 Backbone 索引進行校正)
 head:
-  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 1, 0.5, True]]  # 15-P3/8 refined from P2/P3/P4/P5
-  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 2, 0.5, True]]  # 16-P4/16 refined from P2/P3/P4/P5
+  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 1, 0.5, True]] # 15-P3/8 refined from P2/P3/P4/P5
+  - [[3, 6, 9, 14], 1, CSAR, [512, 4, 2, 0.5, True]] # 16-P4/16 refined from P2/P3/P4/P5
   - [[3, 6, 9, 14], 1, CSAR, [1024, 4, 3, 0.5, True]] # 17-P5/32 refined from P2/P3/P4/P5
 
   - [[3, 15, 16, 17], 1, CSAR, [512, 4, 1, 0.5, True]] # 18-P3/8
