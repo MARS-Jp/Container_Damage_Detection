@@ -1,29 +1,48 @@
 """Verify crop remapping, regional eligibility, and preservation of existing masks."""
 
+import io
+import json
+import tempfile
 import unittest
 from contextlib import redirect_stdout
 from copy import copy
-import io
-import json
 from pathlib import Path
-import tempfile
 from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 import cv2
 import numpy as np
 
-from tools.diagnose_shadow_inference import append_candidates, evaluate, in_region, map_detection, pixel_bounds, process_image
+from tools.diagnose_shadow_inference import (
+    append_candidates,
+    evaluate,
+    in_region,
+    map_detection,
+    pixel_bounds,
+    process_image,
+)
 from tools.predict_shadow import Detection
 
 
 class ShadowDiagnosticTests(unittest.TestCase):
     def inference_args(self, versions=None):
-        return SimpleNamespace(versions=versions, regions=["left", "right"],
-            left_roi=(0, 0, .4, 1), right_roi=(.6, 0, 1, 1),
-            left_context=(0, 0, .5, 1), right_context=(.5, 0, 1, 1),
-            imgsz=640, conf=.15, diagnostic_conf=.01, iou=.7, device="cpu",
-            gamma=.55, clahe_clip=3., shadow_threshold=180, merge_iou=.6)
+        return SimpleNamespace(
+            versions=versions,
+            regions=["left", "right"],
+            left_roi=(0, 0, 0.4, 1),
+            right_roi=(0.6, 0, 1, 1),
+            left_context=(0, 0, 0.5, 1),
+            right_context=(0.5, 0, 1, 1),
+            imgsz=640,
+            conf=0.15,
+            diagnostic_conf=0.01,
+            iou=0.7,
+            device="cpu",
+            gamma=0.55,
+            clahe_clip=3.0,
+            shadow_threshold=180,
+            merge_iou=0.6,
+        )
 
     def test_crop_mask_and_box_are_translated_without_resizing(self):
         mask = np.zeros((4, 5), dtype=bool)
@@ -56,9 +75,9 @@ class ShadowDiagnosticTests(unittest.TestCase):
         self.assertIs(selected[1], rust)
 
     def test_invalid_roi_is_rejected(self):
-        self.assertEqual(pixel_bounds((.1, .2, .8, .9), (100, 200)), (20, 20, 160, 90))
+        self.assertEqual(pixel_bounds((0.1, 0.2, 0.8, 0.9), (100, 200)), (20, 20, 160, 90))
         with self.assertRaises(ValueError):
-            pixel_bounds((.8, .2, .1, .9), (100, 200))
+            pixel_bounds((0.8, 0.2, 0.1, 0.9), (100, 200))
 
     def test_s08_view_selection_predicts_once_without_enhancement(self):
         args = self.inference_args(["S08_diagnostic_only"])
@@ -66,15 +85,16 @@ class ShadowDiagnosticTests(unittest.TestCase):
         image = np.zeros((100, 100, 3), dtype=np.uint8)
         model = Mock(names={2: "D", 5: "R"})
         model.predict.return_value = [SimpleNamespace(boxes=[])]
-        with patch("tools.diagnose_shadow_inference.enhance_shadow") as enhance, \
-                patch("tools.diagnose_shadow_inference.extract_detections", return_value=[]), \
-                patch("tools.diagnose_shadow_inference.write_image"), redirect_stdout(io.StringIO()):
-            views, diagnostics = evaluate(model, image, args, {"left": (0, 0, 40, 100)},
-                                           {"left": (0, 0, 50, 100)}, {"full_original"})
+        with patch("tools.diagnose_shadow_inference.enhance_shadow") as enhance, patch(
+            "tools.diagnose_shadow_inference.extract_detections", return_value=[]
+        ), patch("tools.diagnose_shadow_inference.write_image"), redirect_stdout(io.StringIO()):
+            views, diagnostics = evaluate(
+                model, image, args, {"left": (0, 0, 40, 100)}, {"left": (0, 0, 50, 100)}, {"full_original"}
+            )
         model.predict.assert_called_once()
         enhance.assert_not_called()
         self.assertIs(model.predict.call_args.kwargs["source"], image)
-        self.assertEqual(model.predict.call_args.kwargs["conf"], .01)
+        self.assertEqual(model.predict.call_args.kwargs["conf"], 0.01)
         self.assertEqual(list(views), ["full_original"])
         self.assertEqual([d["view"] for d in diagnostics], ["full_original"])
 
@@ -84,13 +104,18 @@ class ShadowDiagnosticTests(unittest.TestCase):
             x1, y1, x2, y2 = box
             mask[y1:y2, x1:x2] = True
             return Detection(np.array([*box, score, cid]), mask, "full_original")
-        original = [detected([5, 20, 15, 30], .2, 2),
-                    detected([65, 50, 75, 60], .02, 2),
-                    detected([25, 50, 35, 60], .015, 5),
-                    detected([45, 50, 55, 60], .02, 5),
-                    detected([45, 70, 55, 80], .7, 5)]
+
+        original = [
+            detected([5, 20, 15, 30], 0.2, 2),
+            detected([65, 50, 75, 60], 0.02, 2),
+            detected([25, 50, 35, 60], 0.015, 5),
+            detected([45, 50, 55, 60], 0.02, 5),
+            detected([45, 70, 55, 80], 0.7, 5),
+        ]
+
         def extract(result, label, shape):
             return original if label == "full_original" else []
+
         model = Mock(names={2: "D", 5: "R"})
         model.predict.return_value = [SimpleNamespace(boxes=original)]
         with tempfile.TemporaryDirectory() as directory:
@@ -100,8 +125,9 @@ class ShadowDiagnosticTests(unittest.TestCase):
             full_args = self.inference_args()
             single_args = copy(full_args)
             single_args.versions = ["S08_diagnostic_only"]
-            with patch("tools.diagnose_shadow_inference.extract_detections", side_effect=extract), \
-                    redirect_stdout(io.StringIO()):
+            with patch("tools.diagnose_shadow_inference.extract_detections", side_effect=extract), redirect_stdout(
+                io.StringIO()
+            ):
                 full, _ = process_image(model, source, root / "full", full_args)
                 self.assertEqual(model.predict.call_count, 9)
                 model.predict.reset_mock()
@@ -112,13 +138,15 @@ class ShadowDiagnosticTests(unittest.TestCase):
             self.assertEqual([p.name for p in (root / "single").glob("S*")], ["S08_diagnostic_only"])
             self.assertEqual(len(list((root / "single" / "inputs").glob("*.png"))), 1)
             for filename in ("predictions.json", "prediction_metrics.json", "input__all.jpg"):
-                self.assertEqual((root / "single/S08_diagnostic_only" / filename).read_bytes(),
-                                 (root / "full/S08_diagnostic_only" / filename).read_bytes())
+                self.assertEqual(
+                    (root / "single/S08_diagnostic_only" / filename).read_bytes(),
+                    (root / "full/S08_diagnostic_only" / filename).read_bytes(),
+                )
             saved = json.loads((root / "single/S08_diagnostic_only/predictions.json").read_text(encoding="utf-8"))
             self.assertEqual(len(saved["detections"]), 4)
             # Low-score rust outside either inspection ROI remains excluded;
             # high-score baseline rust outside the ROIs remains preserved.
-            self.assertEqual(sorted(d["score"] for d in saved["detections"]), [.015, .02, .2, .7])
+            self.assertEqual(sorted(d["score"] for d in saved["detections"]), [0.015, 0.02, 0.2, 0.7])
 
 
 if __name__ == "__main__":

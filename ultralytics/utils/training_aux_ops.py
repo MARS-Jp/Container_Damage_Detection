@@ -5,6 +5,8 @@ These functions do not own modules, parameters, or running state. They operate o
 outputs and independent ground-truth masks, and are not needed by the inference graph.
 """
 
+from __future__ import annotations
+
 import math
 from collections.abc import Sequence
 
@@ -33,8 +35,8 @@ def shadow_view(
         softness: Positive transition width in normalized image coordinates.
 
     Returns:
-        Shadowed images in the input dtype and an FP32 (B, 1, H, W) attenuation mask. The same
-        multiplier ``1 - attenuation`` is applied to every RGB channel. Input tensors are unchanged.
+        Shadowed images in the input dtype and an FP32 (B, 1, H, W) attenuation mask. The same: multiplier ``1 -
+            attenuation`` is applied to every RGB channel. Input tensors are unchanged.
     """
     _check_bchw(images, "images")
     if images.shape[1] != 3 or not images.is_floating_point():
@@ -74,8 +76,8 @@ def shadow_view(
 def soft_boundary(probabilities: torch.Tensor) -> torch.Tensor:
     """Return an FP32 differentiable 3x3 dilation-minus-erosion boundary map.
 
-    Replicate padding avoids inventing a boundary around a constant image at the image border.
-    Inputs may be class probabilities (B, C, H, W) or independent instance masks (N, 1, H, W).
+    Replicate padding avoids inventing a boundary around a constant image at the image border. Inputs may be class
+    probabilities (B, C, H, W) or independent instance masks (N, 1, H, W).
     """
     _check_bchw(probabilities, "probabilities")
     with torch.autocast(device_type=probabilities.device.type, enabled=False):
@@ -88,8 +90,8 @@ def soft_boundary(probabilities: torch.Tensor) -> torch.Tensor:
 def resize_presence(target: torch.Tensor, size: tuple[int, int]) -> torch.Tensor:
     """Resize an FP32 presence map, preserving positive pixels when reducing spatial resolution.
 
-    Reduction uses adaptive max pooling and expansion uses nearest interpolation. Mixed resizing
-    (one dimension shrinking and the other growing) performs reduction before expansion.
+    Reduction uses adaptive max pooling and expansion uses nearest interpolation. Mixed resizing (one dimension
+    shrinking and the other growing) performs reduction before expansion.
     """
     _check_bchw(target, "target")
     if len(size) != 2 or any(not isinstance(value, int) or isinstance(value, bool) or value < 1 for value in size):
@@ -122,9 +124,9 @@ def consistency_loss(
 ) -> torch.Tensor:
     """Compare sigmoid outputs only where a detached, confident teacher agrees with ground truth.
 
-    All tensors must have the same (B, C, H, W) shape. Foreground and background are normalized
-    separately so abundant background does not dominate. No eligible pixels gives a differentiable
-    zero with respect to the student, and the teacher never receives gradients from this loss.
+    All tensors must have the same (B, C, H, W) shape. Foreground and background are normalized separately so abundant
+    background does not dominate. No eligible pixels gives a differentiable zero with respect to the student, and the
+    teacher never receives gradients from this loss.
     """
     _check_bchw(student_logits, "student_logits")
     if student_logits.shape != teacher_logits.shape or student_logits.shape != target.shape:
@@ -150,11 +152,11 @@ def overlap_pair_loss(
 ) -> torch.Tensor:
     """Supervise the joint probability of class pairs only in images with true native-mask overlap.
 
-    ``native_targets`` contains independent per-class mask unions at the original mask resolution.
-    Intersections and unions are formed BEFORE resizing, avoiding false overlaps between nearby
-    classes created by coarse pooling. Each pair is evaluated within its GT union and positive and
-    negative regions are balanced. Images without genuine overlap contribute exactly zero, so this
-    constraint never requires a dent to have rust. The result averages all configured pair losses.
+    ``native_targets`` contains independent per-class mask unions at the original mask resolution. Intersections and
+    unions are formed BEFORE resizing, avoiding false overlaps between nearby classes created by coarse pooling. Each
+    pair is evaluated within its GT union and positive and negative regions are balanced. Images without genuine overlap
+    contribute exactly zero, so this constraint never requires a dent to have rust. The result averages all configured
+    pair losses.
     """
     _check_bchw(logits, "logits")
     _check_bchw(native_targets, "native_targets")

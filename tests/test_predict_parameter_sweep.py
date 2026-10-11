@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
-from contextlib import redirect_stdout
 import csv
 import io
 import json
-from pathlib import Path
 import sys
 import tempfile
-from types import SimpleNamespace
 import unittest
+from contextlib import redirect_stdout
+from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from tools import predict_parameter_sweep as sweep
@@ -37,20 +37,46 @@ class ParameterSweepTests(unittest.TestCase):
                 return 0, 0.1
 
             with patch.object(sweep, "run_job", side_effect=run_job), redirect_stdout(io.StringIO()):
-                code = sweep.main([
-                    "--suite", "all", "--versions", "baseline", "--weights", str(weight),
-                    "--source", str(source), "--output", str(root / "output"), "--retina-masks",
-                    "--exclude-regions", str(config),
-                ])
+                code = sweep.main(
+                    [
+                        "--suite",
+                        "all",
+                        "--versions",
+                        "baseline",
+                        "--weights",
+                        str(weight),
+                        "--source",
+                        str(source),
+                        "--output",
+                        str(root / "output"),
+                        "--retina-masks",
+                        "--exclude-regions",
+                        str(config),
+                    ]
+                )
             self.assertEqual(code, 0)
             self.assertEqual(len(snapshots), 3)
             self.assertEqual(len(set(snapshots)), 1)
 
     def test_three_groups_share_fill_only_rendering_and_isolate_outputs(self):
-        args = sweep.parse_args([
-            "--suite", "all", "--weights", "m.pt", "--source", "i.jpg", "--retina-masks",
-            "--imgsz", "640", "--conf", "0.15", "--iou", "0.7", "--compare",
-        ])
+        args = sweep.parse_args(
+            [
+                "--suite",
+                "all",
+                "--weights",
+                "m.pt",
+                "--source",
+                "i.jpg",
+                "--retina-masks",
+                "--imgsz",
+                "640",
+                "--conf",
+                "0.15",
+                "--iou",
+                "0.7",
+                "--compare",
+            ]
+        )
         jobs = sweep.build_jobs(args, Path("output"))
         self.assertEqual(len(jobs), 25)
         self.assertEqual(len({job["output"] for job in jobs}), 25)
@@ -75,7 +101,16 @@ class ParameterSweepTests(unittest.TestCase):
                 jobs = sweep.build_jobs(args, Path("output"))
                 for job in jobs:
                     child_args = parse_shadow_args(job["command"][2:])
-                    for key in ("imgsz", "conf", "iou", "views", "gamma", "clahe_clip", "shadow_threshold", "merge_iou"):
+                    for key in (
+                        "imgsz",
+                        "conf",
+                        "iou",
+                        "views",
+                        "gamma",
+                        "clahe_clip",
+                        "shadow_threshold",
+                        "merge_iou",
+                    ):
                         self.assertEqual(getattr(child_args, key), job[key])
 
     def test_focused_suite_passes_class_thresholds_and_metrics(self):
@@ -90,10 +125,23 @@ class ParameterSweepTests(unittest.TestCase):
         self.assertTrue(all("--save-metrics" in job["command"] for job in jobs))
 
     def test_versions_change_only_one_baseline_parameter(self):
-        args = sweep.parse_args([
-            "--weights", "model.pt", "--source", "image.jpg", "--imgsz", "640", "--conf", "0.15",
-            "--iou", "0.7", "--device", "cpu", "--retina-masks",
-        ])
+        args = sweep.parse_args(
+            [
+                "--weights",
+                "model.pt",
+                "--source",
+                "image.jpg",
+                "--imgsz",
+                "640",
+                "--conf",
+                "0.15",
+                "--iou",
+                "0.7",
+                "--device",
+                "cpu",
+                "--retina-masks",
+            ]
+        )
         jobs = sweep.build_jobs(args, Path("output"))
         self.assertEqual(len(jobs), 8)
         self.assertEqual(len({job["output"] for job in jobs}), 8)
@@ -109,10 +157,19 @@ class ParameterSweepTests(unittest.TestCase):
             self.assertNotIn("--no-fill", command)
 
     def test_same_model_and_source_names_cannot_overwrite_each_other(self):
-        args = sweep.parse_args([
-            "--weights", "first/model.pt", "second/model.pt", "--source", "first/image.jpg", "second/image.jpg",
-            "--versions", "baseline", "--no-retina-masks",
-        ])
+        args = sweep.parse_args(
+            [
+                "--weights",
+                "first/model.pt",
+                "second/model.pt",
+                "--source",
+                "first/image.jpg",
+                "second/image.jpg",
+                "--versions",
+                "baseline",
+                "--no-retina-masks",
+            ]
+        )
         jobs = sweep.build_jobs(args, Path("output"))
         self.assertEqual(len(jobs), 4)
         self.assertEqual(len({job["output"] for job in jobs}), 4)
@@ -122,9 +179,17 @@ class ParameterSweepTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "dry_run"
             with patch.object(sweep, "run_job") as run_job, redirect_stdout(io.StringIO()):
-                code = sweep.main([
-                    "--weights", "missing.pt", "--source", "missing.jpg", "--output", str(output), "--dry-run",
-                ])
+                code = sweep.main(
+                    [
+                        "--weights",
+                        "missing.pt",
+                        "--source",
+                        "missing.jpg",
+                        "--output",
+                        str(output),
+                        "--dry-run",
+                    ]
+                )
             self.assertEqual(code, 0)
             self.assertFalse(output.exists())
             run_job.assert_not_called()
@@ -136,12 +201,22 @@ class ParameterSweepTests(unittest.TestCase):
             (root / "image.jpg").touch()
             compare = Mock()
             module = SimpleNamespace(create_comparisons=compare)
-            with patch.dict(sys.modules, {"tools.compare_parameter_sweep": module}), \
-                    patch.object(sweep, "run_job", return_value=(0, 0.1)), redirect_stdout(io.StringIO()):
-                code = sweep.main([
-                    "--weights", str(root / "model.pt"), "--source", str(root / "image.jpg"),
-                    "--output", str(root / "results"), "--versions", "baseline", "--compare",
-                ])
+            with patch.dict(sys.modules, {"tools.compare_parameter_sweep": module}), patch.object(
+                sweep, "run_job", return_value=(0, 0.1)
+            ), redirect_stdout(io.StringIO()):
+                code = sweep.main(
+                    [
+                        "--weights",
+                        str(root / "model.pt"),
+                        "--source",
+                        str(root / "image.jpg"),
+                        "--output",
+                        str(root / "results"),
+                        "--versions",
+                        "baseline",
+                        "--compare",
+                    ]
+                )
             self.assertEqual(code, 0)
             compare.assert_called_once()
             run_dir = compare.call_args.args[0]
@@ -156,7 +231,8 @@ class ParameterSweepTests(unittest.TestCase):
             script.write_text(
                 "import sys\nprint('inference output', flush=True)\n"
                 "size = sys.argv[sys.argv.index('--imgsz') + 1]\n"
-                "sys.exit(7 if size == '1280' else 0)\n", encoding="utf-8",
+                "sys.exit(7 if size == '1280' else 0)\n",
+                encoding="utf-8",
             )
             original_build_command = sweep.BASE["build_command"]
 
@@ -166,8 +242,18 @@ class ParameterSweepTests(unittest.TestCase):
                 return command
 
             argv = [
-                "--weights", str(weight), "--source", str(source), "--output", str(root / "results"),
-                "--versions", "imgsz960", "imgsz1280", "baseline", "--imgsz", "640",
+                "--weights",
+                str(weight),
+                "--source",
+                str(source),
+                "--output",
+                str(root / "results"),
+                "--versions",
+                "imgsz960",
+                "imgsz1280",
+                "baseline",
+                "--imgsz",
+                "640",
             ]
             with patch.dict(sweep.BASE, {"build_command": fake_command}), redirect_stdout(io.StringIO()):
                 self.assertEqual(sweep.main(argv), 1)
