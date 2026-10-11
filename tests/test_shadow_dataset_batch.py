@@ -1,13 +1,13 @@
 """Verify dataset discovery, preview, and failure handling without GPU inference."""
 
-from contextlib import redirect_stdout
 import csv
 import io
-from pathlib import Path
 import sys
 import tempfile
-from types import SimpleNamespace
 import unittest
+from contextlib import redirect_stdout
+from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from tools.diagnose_shadow_inference import infer_dataset_split, main
@@ -41,12 +41,25 @@ class ShadowDatasetBatchTests(unittest.TestCase):
     def test_directory_preview_recurses_deduplicates_and_does_not_load_weights(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
-            weight, sources = self.inputs(root)
+            weight, _sources = self.inputs(root)
             output = root / "output"
             factory, stdout = Mock(), io.StringIO()
             with patch.dict(sys.modules, {"ultralytics": SimpleNamespace(YOLO=factory)}), redirect_stdout(stdout):
-                code = main(["--weights", str(weight), "--source", str(root / "a"), str(root / "b"),
-                             str(root / "b/nested"), "--versions", "S08_diagnostic_only", "--dry-run", "--output", str(output)])
+                code = main(
+                    [
+                        "--weights",
+                        str(weight),
+                        "--source",
+                        str(root / "a"),
+                        str(root / "b"),
+                        str(root / "b/nested"),
+                        "--versions",
+                        "S08_diagnostic_only",
+                        "--dry-run",
+                        "--output",
+                        str(output),
+                    ]
+                )
             self.assertEqual(code, 0)
             factory.assert_not_called()
             self.assertFalse(output.exists())
@@ -60,16 +73,38 @@ class ShadowDatasetBatchTests(unittest.TestCase):
             weight, sources = self.inputs(root)
             output = root / "output"
             factory = Mock(return_value=SimpleNamespace(task="segment"))
+
             def process(model, source, folder, args):
                 if source == sources[1]:
                     raise ValueError("Cannot decode image")
-                return [{}], [{"source": str(source), "version": "S08_diagnostic_only", "region": "left",
-                               "class": "D", "count": 0, "roi_pixels": 0, "max_conf": 0}]
-            with patch.dict(sys.modules, {"ultralytics": SimpleNamespace(YOLO=factory)}), \
-                    patch("tools.diagnose_shadow_inference.process_image", side_effect=process) as processed, \
-                    redirect_stdout(io.StringIO()):
-                code = main(["--weights", str(weight), "--source", *map(str, sources),
-                             "--versions", "S08_diagnostic_only", "--continue-on-error", "--output", str(output)])
+                return [{}], [
+                    {
+                        "source": str(source),
+                        "version": "S08_diagnostic_only",
+                        "region": "left",
+                        "class": "D",
+                        "count": 0,
+                        "roi_pixels": 0,
+                        "max_conf": 0,
+                    }
+                ]
+
+            with patch.dict(sys.modules, {"ultralytics": SimpleNamespace(YOLO=factory)}), patch(
+                "tools.diagnose_shadow_inference.process_image", side_effect=process
+            ) as processed, redirect_stdout(io.StringIO()):
+                code = main(
+                    [
+                        "--weights",
+                        str(weight),
+                        "--source",
+                        *map(str, sources),
+                        "--versions",
+                        "S08_diagnostic_only",
+                        "--continue-on-error",
+                        "--output",
+                        str(output),
+                    ]
+                )
             self.assertEqual(code, 1)
             factory.assert_called_once()
             self.assertEqual(processed.call_count, 3)
@@ -91,11 +126,21 @@ class ShadowDatasetBatchTests(unittest.TestCase):
             weight, sources = self.inputs(root)
             output = root / "output"
             factory = Mock(return_value=SimpleNamespace(task="segment"))
-            with patch.dict(sys.modules, {"ultralytics": SimpleNamespace(YOLO=factory)}), \
-                    patch("tools.diagnose_shadow_inference.process_image", side_effect=ValueError("Cannot decode image")) as processed, \
-                    redirect_stdout(io.StringIO()), self.assertRaises(ValueError):
-                main(["--weights", str(weight), "--source", *map(str, sources),
-                      "--versions", "S08_diagnostic_only", "--output", str(output)])
+            with patch.dict(sys.modules, {"ultralytics": SimpleNamespace(YOLO=factory)}), patch(
+                "tools.diagnose_shadow_inference.process_image", side_effect=ValueError("Cannot decode image")
+            ) as processed, redirect_stdout(io.StringIO()), self.assertRaises(ValueError):
+                main(
+                    [
+                        "--weights",
+                        str(weight),
+                        "--source",
+                        *map(str, sources),
+                        "--versions",
+                        "S08_diagnostic_only",
+                        "--output",
+                        str(output),
+                    ]
+                )
             self.assertEqual(processed.call_count, 1)
             run = next(output.iterdir())
             with (run / "image_summary.csv").open(encoding="utf-8-sig", newline="") as handle:
@@ -116,14 +161,33 @@ class ShadowDatasetBatchTests(unittest.TestCase):
             def process(model, source, folder, args):
                 folder.mkdir(parents=True)
                 (folder / "result.jpg").write_bytes(b"inference result")
-                return [{}], [{"source": str(source), "version": "S08_diagnostic_only", "region": "left",
-                               "class": "D", "count": 0, "roi_pixels": 0, "max_conf": 0}]
+                return [{}], [
+                    {
+                        "source": str(source),
+                        "version": "S08_diagnostic_only",
+                        "region": "left",
+                        "class": "D",
+                        "count": 0,
+                        "roi_pixels": 0,
+                        "max_conf": 0,
+                    }
+                ]
 
-            with patch.dict(sys.modules, {"ultralytics": SimpleNamespace(YOLO=factory)}), \
-                    patch("tools.diagnose_shadow_inference.process_image", side_effect=process), \
-                    redirect_stdout(io.StringIO()):
-                code = main(["--weights", str(weight), "--source", str(root / "dataset"),
-                             "--versions", "S08_diagnostic_only", "--output", str(output)])
+            with patch.dict(sys.modules, {"ultralytics": SimpleNamespace(YOLO=factory)}), patch(
+                "tools.diagnose_shadow_inference.process_image", side_effect=process
+            ), redirect_stdout(io.StringIO()):
+                code = main(
+                    [
+                        "--weights",
+                        str(weight),
+                        "--source",
+                        str(root / "dataset"),
+                        "--versions",
+                        "S08_diagnostic_only",
+                        "--output",
+                        str(output),
+                    ]
+                )
             self.assertEqual(code, 0)
             factory.assert_called_once()
             run = next(output.iterdir())

@@ -7,13 +7,8 @@ from pathlib import Path
 
 import cv2
 
-
-DEFAULT_IMAGE_DIR = Path(
-    r"C:\Users\sile7\Downloads\dataset0621\dataset0608\dataset0608\dataset\images\train\B"
-)
-DEFAULT_LABEL_DIR = Path(
-    r"C:\Users\sile7\Downloads\dataset0621\dataset0608\dataset0608\dataset\labels\train_bbox\B"
-)
+DEFAULT_IMAGE_DIR = Path(r"C:\Users\sile7\Downloads\dataset0621\dataset0608\dataset0608\dataset\images\train\B")
+DEFAULT_LABEL_DIR = Path(r"C:\Users\sile7\Downloads\dataset0621\dataset0608\dataset0608\dataset\labels\train_bbox\B")
 DEFAULT_OUTPUT_DIR = Path(
     r"C:\Users\sile7\Downloads\dataset0621\dataset0608\dataset0608\dataset\visualized\train_bbox\B"
 )
