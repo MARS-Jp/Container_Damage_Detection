@@ -11,10 +11,7 @@
     "https://github.com/yunxiangfu2001/SegMAN"
   ],
   "visual_review": "all_3_pages_passed",
-  "main_image_pixels": [
-    1988,
-    1406
-  ],
+  "main_image_pixels": [1988, 1406],
   "pdf_bytes": 235222,
   "main_csv_rows": 4
 }

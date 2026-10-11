@@ -12,13 +12,13 @@ Missing inputs and undefined ratios are NA; all source images remain in CSV.
 from __future__ import annotations
 
 import argparse
+import json
+import sys
+import webbrowser
 from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from html import escape
-import json
 from pathlib import Path
-import sys
-import webbrowser
 
 import numpy as np
 
@@ -28,15 +28,31 @@ if str(REPO) not in sys.path:
 
 from tools.pixel_metrics import COUNT_COLUMNS, METRIC_COLUMNS, confusion_counts, rasterize_boxes, summarize_counts
 from tools.report_inference_data import (
-    AnnotationIndex, CSS, DEFAULT_ANNOTATIONS, DEFAULT_RESULTS, GROUPS, TITLES,
-    canonical_split, html_table, load_records, split_relative, write_csv,
+    CSS,
+    DEFAULT_ANNOTATIONS,
+    DEFAULT_RESULTS,
+    GROUPS,
+    TITLES,
+    AnnotationIndex,
+    html_table,
+    load_records,
+    split_relative,
+    write_csv,
 )
 
 DEFAULT_OUTPUT = REPO / "tools/runs/nine_metric_reports"
 BASES = {"boxes": "框區域像素評估（非分割精度）", "masks": "真實分割遮罩像素評估"}
 EMPTY_VALUES = {field: None for field in (*COUNT_COLUMNS, *METRIC_COLUMNS)}
-CONTEXT_COLUMNS = ("metric_scope", "macro_scope", "gt_positive_pixels", "predicted_positive_pixels",
-                   "always_background_accuracy", "accuracy_gain_over_background", "gt_positive_images", "predicted_positive_images")
+CONTEXT_COLUMNS = (
+    "metric_scope",
+    "macro_scope",
+    "gt_positive_pixels",
+    "predicted_positive_pixels",
+    "always_background_accuracy",
+    "accuracy_gain_over_background",
+    "gt_positive_images",
+    "predicted_positive_images",
+)
 
 
 def metric_context(values, scope, gt_images=None, predicted_images=None):
@@ -45,11 +61,18 @@ def metric_context(values, scope, gt_images=None, predicted_images=None):
     valid = tp is not None
     total = tp + fp + fn + tn if valid else 0
     background = (fp + tn) / total if total else None
-    return {"metric_scope": scope, "macro_scope": "not_applicable_single_class" if scope.endswith("class") else "foreground_classes_with_nonzero_union",
-            "gt_positive_pixels": tp + fn if valid else None, "predicted_positive_pixels": tp + fp if valid else None,
-            "always_background_accuracy": background,
-            "accuracy_gain_over_background": values["Accuracy"] - background if background is not None else None,
-            "gt_positive_images": gt_images, "predicted_positive_images": predicted_images}
+    return {
+        "metric_scope": scope,
+        "macro_scope": "not_applicable_single_class"
+        if scope.endswith("class")
+        else "foreground_classes_with_nonzero_union",
+        "gt_positive_pixels": tp + fn if valid else None,
+        "predicted_positive_pixels": tp + fp if valid else None,
+        "always_background_accuracy": background,
+        "accuracy_gain_over_background": values["Accuracy"] - background if background is not None else None,
+        "gt_positive_images": gt_images,
+        "predicted_positive_images": predicted_images,
+    }
 
 
 def load_mask_archive(path, names, height, width, confidence=None):
@@ -157,16 +180,26 @@ def evaluate_images(records, mode, mask_roots=(), confidence=0.0):
             else:
                 ground_truth = mask_index.resolve(Path(record["source"]), record["split"])
                 record["pixel_truth"] = str(ground_truth)
-                truth = load_polygon_labels(ground_truth, record["classes"], height, width) if ground_truth.suffix.casefold() == ".txt" else load_mask_archive(ground_truth, names, height, width)
+                truth = (
+                    load_polygon_labels(ground_truth, record["classes"], height, width)
+                    if ground_truth.suffix.casefold() == ".txt"
+                    else load_mask_archive(ground_truth, names, height, width)
+                )
                 prediction_path = Path(record["metrics_file"]).with_name("prediction_masks.npz")
                 prediction = load_mask_archive(prediction_path, names, height, width, confidence)
             counts = {name: confusion_counts(prediction[name], truth[name]) for name in names}
             overall, by_class = summarize_counts(counts)
-            record.update(pixel_counts=counts, pixel_overall=overall, pixel_classes=by_class, pixel_status="ok", pixel_reason="")
+            record.update(
+                pixel_counts=counts, pixel_overall=overall, pixel_classes=by_class, pixel_status="ok", pixel_reason=""
+            )
             del prediction, truth
         except (OSError, ValueError, KeyError, TypeError) as error:
-            record.update(pixel_overall=dict(EMPTY_VALUES), pixel_classes={name: dict(EMPTY_VALUES) for name in names},
-                          pixel_status="not_evaluated", pixel_reason=f"{type(error).__name__}: {error}")
+            record.update(
+                pixel_overall=dict(EMPTY_VALUES),
+                pixel_classes={name: dict(EMPTY_VALUES) for name in names},
+                pixel_status="not_evaluated",
+                pixel_reason=f"{type(error).__name__}: {error}",
+            )
         if index % 200 == 0:
             print(f"Pixel evaluation: {index}/{len(records)}", flush=True)
 
@@ -176,7 +209,13 @@ def pooled_metrics(records):
     names = list(dict.fromkeys(name for record in records for name in record["classes"]))
     if not eligible:
         return dict(EMPTY_VALUES), {name: dict(EMPTY_VALUES) for name in names}
-    pooled = {name: {field: sum(record["pixel_counts"].get(name, {}).get(field, 0) for record in eligible) for field in COUNT_COLUMNS} for name in names}
+    pooled = {
+        name: {
+            field: sum(record["pixel_counts"].get(name, {}).get(field, 0) for record in eligible)
+            for field in COUNT_COLUMNS
+        }
+        for name in names
+    }
     return summarize_counts(pooled)
 
 
@@ -192,7 +231,11 @@ def write_metric_csv(path, rows, fields):
             elif row.get("evaluated_images") == 0:
                 reason = "No valid evaluation inputs"
             else:
-                macro_fields = [field for field in missing if field in {"mIoU", "Mean Dice"} and row.get("macro_scope") == "not_applicable_single_class"]
+                macro_fields = [
+                    field
+                    for field in missing
+                    if field in {"mIoU", "Mean Dice"} and row.get("macro_scope") == "not_applicable_single_class"
+                ]
                 undefined = [field for field in missing if field not in macro_fields]
                 reasons = []
                 if macro_fields:
@@ -204,24 +247,58 @@ def write_metric_csv(path, rows, fields):
     write_csv(path, output, [*fields, "NA_reason"])
 
 
-METRIC_TABLE = [(field, field + (" ↓" if field in {"FPR", "FNR"} else " ↑" if field in {"Dice", "IoU", "mIoU", "Mean Dice"} else ""), True) for field in METRIC_COLUMNS]
+METRIC_TABLE = [
+    (
+        field,
+        field + (" ↓" if field in {"FPR", "FNR"} else " ↑" if field in {"Dice", "IoU", "mIoU", "Mean Dice"} else ""),
+        True,
+    )
+    for field in METRIC_COLUMNS
+]
 
 
 def report_panel(group, summaries, classes, images, prefix=""):
-    columns = [("model", "模型", False), ("version", "版本", False), ("evaluated_images", "已評估圖片", False)] + METRIC_TABLE + [("always_background_accuracy", "全部預測背景的 Accuracy", True)]
-    class_columns = [("model", "模型", False), ("version", "版本", False), ("class", "類別", False), ("gt_positive_images", "有標記圖片", False), ("predicted_positive_images", "有預測圖片", False)] + METRIC_TABLE
-    image_columns = [("image_id", "圖片（含來源子資料夾）", False), ("model", "模型", False),
-                     ("version", "版本", False), ("pixel_status", "評估狀態", False)] + METRIC_TABLE
-    parts = [f"<h2>{TITLES[group]}</h2><h3>整體：九個指標</h3>", html_table(summaries, columns),
-             "<h3>逐類別：九個指標</h3>", html_table(classes, class_columns),
-             f'<p><a href="{prefix}summary.csv">整體 CSV</a> · <a href="{prefix}class_metrics.csv">逐類 CSV</a> · '
-             f'<a href="{prefix}image_metrics.csv">全部逐張 CSV</a> · <a href="{prefix}image_class_metrics.csv">全部逐張逐類 CSV</a> · '
-             f'<a href="{prefix}not_evaluated.csv">未評估原因</a></p>',
-             f'<h3>逐張：九個指標（{len(images)} 筆，每頁 50 筆）</h3>',
-             '<div class="image-list"><input type="search" placeholder="搜尋圖片檔名或資料集" oninput="refreshImages(this.closest(\'.image-list\'),0)"> '
-             '<button onclick="stepImages(this.closest(\'.image-list\'),-1)">上一頁</button> '
-             '<button onclick="stepImages(this.closest(\'.image-list\'),1)">下一頁</button> <span class="page-info"></span>',
-             html_table(images, image_columns), "</div>"]
+    columns = [
+        ("model", "模型", False),
+        ("version", "版本", False),
+        ("evaluated_images", "已評估圖片", False),
+        *METRIC_TABLE,
+        ("always_background_accuracy", "全部預測背景的 Accuracy", True),
+    ]
+    class_columns = [
+        ("model", "模型", False),
+        ("version", "版本", False),
+        ("class", "類別", False),
+        ("gt_positive_images", "有標記圖片", False),
+        ("predicted_positive_images", "有預測圖片", False),
+        *METRIC_TABLE,
+    ]
+    image_columns = [
+        ("image_id", "圖片（含來源子資料夾）", False),
+        ("model", "模型", False),
+        ("version", "版本", False),
+        ("pixel_status", "評估狀態", False),
+        *METRIC_TABLE,
+    ]
+    parts = [
+        f"<h2>{TITLES[group]}</h2><h3>整體：九個指標</h3>",
+        html_table(summaries, columns),
+        "<h3>逐類別：九個指標</h3>",
+        html_table(classes, class_columns),
+        (
+            f'<p><a href="{prefix}summary.csv">整體 CSV</a> · <a href="{prefix}class_metrics.csv">逐類 CSV</a> · '
+            f'<a href="{prefix}image_metrics.csv">全部逐張 CSV</a> · <a href="{prefix}image_class_metrics.csv">全部逐張逐類 CSV</a> · '
+            f'<a href="{prefix}not_evaluated.csv">未評估原因</a></p>'
+        ),
+        f"<h3>逐張：九個指標（{len(images)} 筆，每頁 50 筆）</h3>",
+        (
+            '<div class="image-list"><input type="search" placeholder="搜尋圖片檔名或資料集" oninput="refreshImages(this.closest(\'.image-list\'),0)"> '
+            "<button onclick=\"stepImages(this.closest('.image-list'),-1)\">上一頁</button> "
+            '<button onclick="stepImages(this.closest(\'.image-list\'),1)">下一頁</button> <span class="page-info"></span>'
+        ),
+        html_table(images, image_columns),
+        "</div>",
+    ]
     return "".join(parts).replace("<td>—</td>", "<td>NA</td>")
 
 
@@ -235,12 +312,21 @@ document.querySelectorAll('.image-list').forEach(b=>refreshImages(b,0));if(docum
 
 def write_page(path, content, config):
     basis = BASES[config["mode"]]
-    notice = ("以每個損傷類別的一對其餘像素計算 TP/FP/FN/TN；整體 Accuracy、Precision、Recall、Dice、IoU、FPR、FNR 採像素 micro，"
-              "mIoU、Mean Dice 採類別 macro，不含背景類別，也不平均預測與標記都不存在的類別。單一類別的 mIoU、Mean Dice 不適用，保留欄位並填 NA，避免重複整體分數。"
-              "Accuracy 包含大量負像素，需與全部預測背景的基準比較；沒有標記及預測的類別也可能有 100% Accuracy，這不代表偵測成功。"
-              "NA 表示缺少有效輸入或分母為零，原因保留在 CSV。合併組先加總像素計數再計算，不直接平均 train 與 val。")
-    restriction = "此報表將預測框與 XML 框填滿後比較；它不驗證實際塗色輪廓，不能作為分割精度。Precision／Recall 也不是物件一對一匹配的數值。" if config["mode"] == "boxes" else "此報表比較原始預測遮罩與現有分割標記；標記完整性仍會影響結果。"
-    path.write_text(f'<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>九個指標逐筆報表</title><style>{CSS}input{{padding:10px;border:1px solid #cad2df;border-radius:6px;max-width:280px}}tr[hidden]{{display:none}}</style></head><body><main><h1>九個指標逐筆報表</h1><p>{escape(basis)} ／ {escape(config["created_at"])}</p><div class="note"><strong>{escape(restriction)}</strong><p>{escape(notice)}</p></div>{content}</main>{SCRIPT}</body></html>', encoding="utf-8")
+    notice = (
+        "以每個損傷類別的一對其餘像素計算 TP/FP/FN/TN；整體 Accuracy、Precision、Recall、Dice、IoU、FPR、FNR 採像素 micro，"
+        "mIoU、Mean Dice 採類別 macro，不含背景類別，也不平均預測與標記都不存在的類別。單一類別的 mIoU、Mean Dice 不適用，保留欄位並填 NA，避免重複整體分數。"
+        "Accuracy 包含大量負像素，需與全部預測背景的基準比較；沒有標記及預測的類別也可能有 100% Accuracy，這不代表偵測成功。"
+        "NA 表示缺少有效輸入或分母為零，原因保留在 CSV。合併組先加總像素計數再計算，不直接平均 train 與 val。"
+    )
+    restriction = (
+        "此報表將預測框與 XML 框填滿後比較；它不驗證實際塗色輪廓，不能作為分割精度。Precision／Recall 也不是物件一對一匹配的數值。"
+        if config["mode"] == "boxes"
+        else "此報表比較原始預測遮罩與現有分割標記；標記完整性仍會影響結果。"
+    )
+    path.write_text(
+        f'<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>九個指標逐筆報表</title><style>{CSS}input{{padding:10px;border:1px solid #cad2df;border-radius:6px;max-width:280px}}tr[hidden]{{display:none}}</style></head><body><main><h1>九個指標逐筆報表</h1><p>{escape(basis)} ／ {escape(config["created_at"])}</p><div class="note"><strong>{escape(restriction)}</strong><p>{escape(notice)}</p></div>{content}</main>{SCRIPT}</body></html>',
+        encoding="utf-8",
+    )
 
 
 def generate_reports(records, output, config):
@@ -256,51 +342,157 @@ def generate_reports(records, output, config):
         summaries, class_rows, image_rows, image_class_rows = [], [], [], []
         for (model, version), subset in sorted(grouped.items()):
             overall, by_class = pooled_metrics(subset)
-            meta = {"model": model, "version": version, "group": group, "evaluation_basis": config["mode"],
-                    "image_count": len(subset), "evaluated_images": sum(record["pixel_status"] == "ok" for record in subset)}
+            meta = {
+                "model": model,
+                "version": version,
+                "group": group,
+                "evaluation_basis": config["mode"],
+                "image_count": len(subset),
+                "evaluated_images": sum(record["pixel_status"] == "ok" for record in subset),
+            }
             summaries.append({**meta, **overall, **metric_context(overall, "dataset_micro")})
             for name, values in by_class.items():
                 eligible = [record["pixel_counts"][name] for record in subset if record["pixel_counts"] is not None]
-                support = metric_context(values, "dataset_class", sum(c["TP"] + c["FN"] > 0 for c in eligible), sum(c["TP"] + c["FP"] > 0 for c in eligible))
+                support = metric_context(
+                    values,
+                    "dataset_class",
+                    sum(c["TP"] + c["FN"] > 0 for c in eligible),
+                    sum(c["TP"] + c["FP"] > 0 for c in eligible),
+                )
                 class_rows.append({**meta, "class": name, **values, **support})
         for record in selected:
-            meta = {field: record[field] for field in ("model", "version", "split", "source", "width", "height", "pixel_status", "pixel_reason", "pixel_truth")}
+            meta = {
+                field: record[field]
+                for field in (
+                    "model",
+                    "version",
+                    "split",
+                    "source",
+                    "width",
+                    "height",
+                    "pixel_status",
+                    "pixel_reason",
+                    "pixel_truth",
+                )
+            }
             _, tail = split_relative(Path(record["source"]))
             image_id = record["split"] + "/" + (tail.as_posix() if tail else Path(record["source"]).name)
             meta.update(image_name=Path(record["source"]).name, image_id=image_id, evaluation_basis=config["mode"])
-            image_rows.append({**meta, **record["pixel_overall"], **metric_context(record["pixel_overall"], "image_micro")})
+            image_rows.append(
+                {**meta, **record["pixel_overall"], **metric_context(record["pixel_overall"], "image_micro")}
+            )
             for name, values in record["pixel_classes"].items():
                 valid = values["TP"] is not None
-                support = metric_context(values, "image_class", int(values["TP"] + values["FN"] > 0) if valid else None, int(values["TP"] + values["FP"] > 0) if valid else None)
+                support = metric_context(
+                    values,
+                    "image_class",
+                    int(values["TP"] + values["FN"] > 0) if valid else None,
+                    int(values["TP"] + values["FP"] > 0) if valid else None,
+                )
                 image_class_rows.append({**meta, "class": name, **values, **support})
         not_evaluated = [row for row in image_rows if row["pixel_status"] != "ok"]
         formats = {
-            "summary.csv": (summaries, ["model", "version", "group", "evaluation_basis", "image_count", "evaluated_images"]),
-            "class_metrics.csv": (class_rows, ["model", "version", "group", "evaluation_basis", "image_count", "evaluated_images", "class"]),
-            "image_metrics.csv": (image_rows, ["model", "version", "split", "source", "image_name", "image_id", "width", "height", "evaluation_basis", "pixel_status", "pixel_reason", "pixel_truth"]),
-            "image_class_metrics.csv": (image_class_rows, ["model", "version", "split", "source", "image_name", "image_id", "width", "height", "evaluation_basis", "pixel_status", "pixel_reason", "pixel_truth", "class"]),
-            "not_evaluated.csv": (not_evaluated, ["model", "version", "split", "source", "image_name", "image_id", "width", "height", "evaluation_basis", "pixel_status", "pixel_reason", "pixel_truth"]),
+            "summary.csv": (
+                summaries,
+                ["model", "version", "group", "evaluation_basis", "image_count", "evaluated_images"],
+            ),
+            "class_metrics.csv": (
+                class_rows,
+                ["model", "version", "group", "evaluation_basis", "image_count", "evaluated_images", "class"],
+            ),
+            "image_metrics.csv": (
+                image_rows,
+                [
+                    "model",
+                    "version",
+                    "split",
+                    "source",
+                    "image_name",
+                    "image_id",
+                    "width",
+                    "height",
+                    "evaluation_basis",
+                    "pixel_status",
+                    "pixel_reason",
+                    "pixel_truth",
+                ],
+            ),
+            "image_class_metrics.csv": (
+                image_class_rows,
+                [
+                    "model",
+                    "version",
+                    "split",
+                    "source",
+                    "image_name",
+                    "image_id",
+                    "width",
+                    "height",
+                    "evaluation_basis",
+                    "pixel_status",
+                    "pixel_reason",
+                    "pixel_truth",
+                    "class",
+                ],
+            ),
+            "not_evaluated.csv": (
+                not_evaluated,
+                [
+                    "model",
+                    "version",
+                    "split",
+                    "source",
+                    "image_name",
+                    "image_id",
+                    "width",
+                    "height",
+                    "evaluation_basis",
+                    "pixel_status",
+                    "pixel_reason",
+                    "pixel_truth",
+                ],
+            ),
         }
         for filename, (rows, metadata) in formats.items():
             write_metric_csv(folder / filename, rows, [*metadata, *METRIC_COLUMNS, *COUNT_COLUMNS, *CONTEXT_COLUMNS])
-        (folder / "metrics.json").write_text(json.dumps({"summary": summaries, "classes": class_rows}, ensure_ascii=False, indent=2), encoding="utf-8")
+        (folder / "metrics.json").write_text(
+            json.dumps({"summary": summaries, "classes": class_rows}, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
         write_page(folder / "report.html", report_panel(group, summaries, class_rows, image_rows), config)
-        panels.append(f'<section class="tab-panel" id="{group}">{report_panel(group, summaries, class_rows, image_rows, group + "/")}</section>')
-        print(f"{group}: {len(image_rows)} image rows; {len(image_class_rows)} image/class rows; evaluated {len(image_rows)-len(not_evaluated)}", flush=True)
-    tabs = '<nav class="tabs">' + "".join(f'<button data-group="{group}" onclick="selectGroup(\'{group}\')">{TITLES[group]}</button>' for group in GROUPS) + "</nav>"
+        panels.append(
+            f'<section class="tab-panel" id="{group}">{report_panel(group, summaries, class_rows, image_rows, group + "/")}</section>'
+        )
+        print(
+            f"{group}: {len(image_rows)} image rows; {len(image_class_rows)} image/class rows; evaluated {len(image_rows) - len(not_evaluated)}",
+            flush=True,
+        )
+    tabs = (
+        '<nav class="tabs">'
+        + "".join(
+            f'<button data-group="{group}" onclick="selectGroup(\'{group}\')">{TITLES[group]}</button>'
+            for group in GROUPS
+        )
+        + "</nav>"
+    )
     write_page(output / "index.html", tabs + "".join(panels), config)
     (output / "settings.json").write_text(json.dumps(config, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--mode", choices=("boxes", "masks"), required=True, help="必須明確選擇：boxes 是框區域，masks 才是真實分割")
+    parser.add_argument(
+        "--mode", choices=("boxes", "masks"), required=True, help="必須明確選擇：boxes 是框區域，masks 才是真實分割"
+    )
     parser.add_argument("--results", type=Path, default=DEFAULT_RESULTS)
-    parser.add_argument("--annotations", type=Path, nargs="+", default=[DEFAULT_ANNOTATIONS], help="boxes 模式使用的 XML")
-    parser.add_argument("--mask-annotations", type=Path, nargs="+", default=[], help="masks 模式的 NPZ 遮罩或 YOLO 分割 TXT")
+    parser.add_argument(
+        "--annotations", type=Path, nargs="+", default=[DEFAULT_ANNOTATIONS], help="boxes 模式使用的 XML"
+    )
+    parser.add_argument(
+        "--mask-annotations", type=Path, nargs="+", default=[], help="masks 模式的 NPZ 遮罩或 YOLO 分割 TXT"
+    )
     parser.add_argument("--versions", nargs="+")
     parser.add_argument("--eval-conf", type=float, default=0.0)
-    parser.add_argument("--xml-origin", type=int, choices=(0,1), default=1)
+    parser.add_argument("--xml-origin", type=int, choices=(0, 1), default=1)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--open", action="store_true")
     args = parser.parse_args(argv)
@@ -312,19 +504,27 @@ def main(argv=None):
     if not results.is_dir():
         parser.error(f"Missing results folder: {results}")
     annotations = AnnotationIndex(args.annotations if args.mode == "boxes" else [])
-    records, issues = load_records(results, annotations, args.versions, args.xml_origin, args.eval_conf)
+    records, _issues = load_records(results, annotations, args.versions, args.xml_origin, args.eval_conf)
     if not records:
         parser.error("No valid train/val inference records")
     evaluate_images(records, args.mode, args.mask_annotations, args.eval_conf)
     created = datetime.now(timezone(timedelta(hours=8)))
     output = args.output.expanduser().resolve() / created.strftime("report_%Y%m%d_%H%M%S_%f")
-    config = {"created_at": created.isoformat(), "mode": args.mode, "results": str(results),
-              "annotations": [str(path.resolve()) for path in args.annotations],
-              "mask_annotations": [str(path.resolve()) for path in args.mask_annotations],
-              "eval_conf": args.eval_conf, "xml_origin": args.xml_origin, "versions": args.versions,
-              "metric_units": "0_to_1; HTML percent", "absent_class_policy": "exclude_from_macro; undefined_ratio_NA",
-              "class_policy": "independent_foreground_one_vs_rest; background_excluded_from_macro",
-              "single_class_macro_policy": "not_applicable_NA", "report_schema": 2}
+    config = {
+        "created_at": created.isoformat(),
+        "mode": args.mode,
+        "results": str(results),
+        "annotations": [str(path.resolve()) for path in args.annotations],
+        "mask_annotations": [str(path.resolve()) for path in args.mask_annotations],
+        "eval_conf": args.eval_conf,
+        "xml_origin": args.xml_origin,
+        "versions": args.versions,
+        "metric_units": "0_to_1; HTML percent",
+        "absent_class_policy": "exclude_from_macro; undefined_ratio_NA",
+        "class_policy": "independent_foreground_one_vs_rest; background_excluded_from_macro",
+        "single_class_macro_policy": "not_applicable_NA",
+        "report_schema": 2,
+    }
     generate_reports(records, output, config)
     print(f"Report: {output / 'index.html'}", flush=True)
     if args.open:

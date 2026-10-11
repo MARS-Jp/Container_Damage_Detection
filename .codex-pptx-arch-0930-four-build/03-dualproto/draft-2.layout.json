@@ -38,9 +38,7 @@
       "hlink": "#467886",
       "folHlink": "#96607D"
     },
-    "typefaces": [
-      "Noto Sans TC"
-    ]
+    "typefaces": ["Noto Sans TC"]
   },
   "inheritedLayers": [
     {
@@ -67,12 +65,7 @@
       "aid": "sh/4jq5wzud",
       "id": "1",
       "name": "title",
-      "bbox": [
-        60,
-        32,
-        1160,
-        72
-      ],
+      "bbox": [60, 32, 1160, 72],
       "geometry": "rect",
       "text": "03 原型殘差與完整凹損範圍",
       "textPreview": "03 原型殘差與完整凹損範圍",
@@ -132,12 +125,7 @@
       "aid": "sh/jih43uds",
       "id": "2",
       "name": "subtitle",
-      "bbox": [
-        62,
-        111,
-        1156,
-        48
-      ],
+      "bbox": [62, 111, 1156, 48],
       "geometry": "rect",
       "text": "新增分支經最終實例 mask loss 學習，保留原型與係數的組合方式",
       "textPreview": "新增分支經最終實例 mask loss 學習，保留原型與係數的組合方式",
@@ -194,12 +182,7 @@
       "aid": "sh/ih8nupc7",
       "id": "3",
       "name": "footer",
-      "bbox": [
-        62,
-        663,
-        1156,
-        38
-      ],
+      "bbox": [62, 663, 1156, 38],
       "geometry": "rect",
       "text": "完整版相較基準新增約 1.45% 參數。尚未重訓，沒有準確率或 FPS 改善數據。",
       "textPreview": "完整版相較基準新增約 1.45% 參數。尚未重訓，沒有準確率或 FPS 改善數據。",
@@ -256,12 +239,7 @@
       "aid": "sh/hgzm14v2",
       "id": "4",
       "name": "proto-heading",
-      "bbox": [
-        62,
-        181,
-        583,
-        43
-      ],
+      "bbox": [62, 181, 583, 43],
       "geometry": "rect",
       "text": "門控及可正可負的原型修正",
       "textPreview": "門控及可正可負的原型修正",
@@ -321,12 +299,7 @@
       "aid": "sh/wfqlszuh",
       "id": "5",
       "name": "proto-gate",
-      "bbox": [
-        62,
-        232,
-        583,
-        50
-      ],
+      "bbox": [62, 232, 583, 50],
       "geometry": "rect",
       "text": "G = σ(Wg[D,C] + b)",
       "textPreview": "G = σ(Wg[D,C] + b)",
@@ -386,12 +359,7 @@
       "aid": "sh/veh4zudw",
       "id": "6",
       "name": "proto-delta",
-      "bbox": [
-        62,
-        295,
-        583,
-        50
-      ],
+      "bbox": [62, 295, 583, 50],
       "geometry": "rect",
       "text": "ΔP = Wo DWConv(D+C) + bo",
       "textPreview": "ΔP = Wo DWConv(D+C) + bo",
@@ -451,12 +419,7 @@
       "aid": "sh/ud83qpcb",
       "id": "7",
       "name": "proto-residual",
-      "bbox": [
-        62,
-        358,
-        583,
-        50
-      ],
+      "bbox": [62, 358, 583, 50],
       "geometry": "rect",
       "text": "P′ = Pold + tanh(β) G ⊙ ΔP",
       "textPreview": "P′ = Pold + tanh(β) G ⊙ ΔP",
@@ -516,12 +479,7 @@
       "aid": "sh/1c3mdov6",
       "id": "8",
       "name": "proto-gate-note",
-      "bbox": [
-        62,
-        419,
-        583,
-        82
-      ],
+      "bbox": [62, 419, 583, 82],
       "geometry": "rect",
       "text": "G 為單通道 gate，廣播至 32 個原型。\nβ 初始 0.1，保留原路與新增路的梯度。",
       "textPreview": "G 為單通道 gate，廣播至 32 個原型。 | β 初始 0.1，保留原路與新增路的梯度。",
@@ -601,12 +559,7 @@
       "aid": "sh/gbu54jul",
       "id": "9",
       "name": "instance-heading",
-      "bbox": [
-        696,
-        181,
-        522,
-        43
-      ],
+      "bbox": [696, 181, 522, 43],
       "geometry": "rect",
       "text": "不同實例使用不同原型係數",
       "textPreview": "不同實例使用不同原型係數",
@@ -666,12 +619,7 @@
       "aid": "sh/q5kb2l8v",
       "id": "10",
       "name": "instance-formula",
-      "bbox": [
-        696,
-        232,
-        522,
-        50
-      ],
+      "bbox": [696, 232, 522, 50],
       "geometry": "rect",
       "text": "zᵢ = Σₖ cᵢₖP′ₖ，pᵢ = σ(zᵢ)",
       "textPreview": "zᵢ = Σₖ cᵢₖP′ₖ，pᵢ = σ(zᵢ)",
@@ -731,12 +679,7 @@
       "aid": "sh/r6tcv69g",
       "id": "11",
       "name": "bce-derivative",
-      "bbox": [
-        696,
-        295,
-        522,
-        50
-      ],
+      "bbox": [696, 295, 522, 50],
       "geometry": "rect",
       "text": "∂ℓ/∂zᵢ = pᵢ − yᵢ",
       "textPreview": "∂ℓ/∂zᵢ = pᵢ − yᵢ",
@@ -796,12 +739,7 @@
       "aid": "sh/c72t4bq1",
       "id": "12",
       "name": "gradient-meaning",
-      "bbox": [
-        696,
-        359,
-        522,
-        130
-      ],
+      "bbox": [696, 359, 522, 130],
       "geometry": "rect",
       "text": "真實損壞漏掉時，負梯度推高 logit。\n係數 cᵢₖ 可正可負，因此各原型\n不必全部變亮，最終組合才是目標。",
       "textPreview": "真實損壞漏掉時，負梯度推高 logit。 | 係數 cᵢₖ 可正可負，因此各原型 | 不必全部變亮，最終組合才是目標。",
@@ -903,12 +841,7 @@
       "scope": "slide",
       "aid": "tb/it4zapk3",
       "id": "13",
-      "bbox": [
-        62,
-        521,
-        1156,
-        129
-      ],
+      "bbox": [62, 521, 1156, 129],
       "text": "可能作用 | 影響邊界與驗證重點\n補充已匹配實例的範圍 | 完整 polygon 必須正確，避免背景外溢\n直接監督 prototype 旁路 | 無法保證找回完全沒有候選框的凹損",
       "textPreview": "可能作用 | 影響邊界與驗證重點 | 補充已匹配實例的範圍 | 完整 polygon 必須正確，避免背景外溢 | 直接監督 prototype 旁路 | 無法保證找回完全沒有候選框的凹損",
       "rows": 3,
@@ -918,12 +851,7 @@
           "index": 1,
           "row": 1,
           "column": 1,
-          "bbox": [
-            62,
-            521,
-            340,
-            43
-          ],
+          "bbox": [62, 521, 340, 43],
           "text": "可能作用",
           "textPreview": "可能作用",
           "fillColor": "#153447",
@@ -954,12 +882,7 @@
           "index": 2,
           "row": 1,
           "column": 2,
-          "bbox": [
-            402,
-            521,
-            816,
-            43
-          ],
+          "bbox": [402, 521, 816, 43],
           "text": "影響邊界與驗證重點",
           "textPreview": "影響邊界與驗證重點",
           "fillColor": "#153447",
@@ -990,12 +913,7 @@
           "index": 3,
           "row": 2,
           "column": 1,
-          "bbox": [
-            62,
-            564,
-            340,
-            43
-          ],
+          "bbox": [62, 564, 340, 43],
           "text": "補充已匹配實例的範圍",
           "textPreview": "補充已匹配實例的範圍",
           "fillColor": "#FFFFFF",
@@ -1026,12 +944,7 @@
           "index": 4,
           "row": 2,
           "column": 2,
-          "bbox": [
-            402,
-            564,
-            816,
-            43
-          ],
+          "bbox": [402, 564, 816, 43],
           "text": "完整 polygon 必須正確，避免背景外溢",
           "textPreview": "完整 polygon 必須正確，避免背景外溢",
           "fillColor": "#FFFFFF",
@@ -1060,12 +973,7 @@
           "index": 5,
           "row": 3,
           "column": 1,
-          "bbox": [
-            62,
-            607,
-            340,
-            43
-          ],
+          "bbox": [62, 607, 340, 43],
           "text": "直接監督 prototype 旁路",
           "textPreview": "直接監督 prototype 旁路",
           "fillColor": "#F1F6F7",
@@ -1096,12 +1004,7 @@
           "index": 6,
           "row": 3,
           "column": 2,
-          "bbox": [
-            402,
-            607,
-            816,
-            43
-          ],
+          "bbox": [402, 607, 816, 43],
           "text": "無法保證找回完全沒有候選框的凹損",
           "textPreview": "無法保證找回完全沒有候選框的凹損",
           "fillColor": "#F1F6F7",

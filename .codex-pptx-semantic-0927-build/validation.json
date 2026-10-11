@@ -21,9 +21,7 @@
     "font_policy": {
       "checked_text_script_count": 91,
       "native_font_rendering_verified": false,
-      "observed_font_families": [
-        "Noto Sans TC"
-      ],
+      "observed_font_families": ["Noto Sans TC"],
       "observed_font_use_counts": {
         "Noto Sans TC": 91
       },
@@ -31,10 +29,7 @@
       "performed": true
     },
     "slide_count": 2,
-    "slide_size_in": [
-      13.3333,
-      7.5
-    ],
+    "slide_size_in": [13.3333, 7.5],
     "warning_count": 0,
     "warnings": [],
     "exitCode": 0,
@@ -42,9 +37,7 @@
     "fontPolicy": {
       "checked_text_script_count": 91,
       "native_font_rendering_verified": false,
-      "observed_font_families": [
-        "Noto Sans TC"
-      ],
+      "observed_font_families": ["Noto Sans TC"],
       "observed_font_use_counts": {
         "Noto Sans TC": 91
       },
@@ -54,17 +47,13 @@
   },
   "fontSelection": {
     "basis": "design",
-    "approvedFamilies": [
-      "Noto Sans TC"
-    ],
+    "approvedFamilies": ["Noto Sans TC"],
     "scriptFonts": {},
     "referenceSha256": null,
     "referenceFontsVerifiedInEncodedText": false,
     "checked_text_script_count": 91,
     "native_font_rendering_verified": false,
-    "observed_font_families": [
-      "Noto Sans TC"
-    ],
+    "observed_font_families": ["Noto Sans TC"],
     "observed_font_use_counts": {
       "Noto Sans TC": 91
     },
