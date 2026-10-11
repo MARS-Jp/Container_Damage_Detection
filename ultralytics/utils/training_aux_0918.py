@@ -102,9 +102,9 @@ def resolve_overlap_pairs(pairs, names, nc):
 class TrainingAuxSegmentationLoss(v8MultiLabelSegmentationLoss):
     """Original multi-label objective plus opt-in instance extent, boundary, and overlap constraints.
 
-    No model references, trainable modules, running teachers, or cached graph tensors are stored here.
-    Extent and boundary terms join seg_loss; overlap and paired-view consistency join sem_loss. Validation
-    uses the original seven-term objective, without the new training-only regularizers.
+    No model references, trainable modules, running teachers, or cached graph tensors are stored here. Extent and
+    boundary terms join seg_loss; overlap and paired-view consistency join sem_loss. Validation uses the original
+    seven-term objective, without the new training-only regularizers.
     """
 
     def __init__(self, model, tal_topk=10, tal_topk2=None):
@@ -191,9 +191,9 @@ def _slice_predictions(value, start, stop, total):
 def training_auxiliary_loss(model, batch, preds=None):
     """Use the standard model/CLI, adding views only inside training loss computation.
 
-    All shadow variants use the same clean+shadow concatenated batch and averaged supervised
-    losses, making Shadow Aug versus Consistency differ only by the consistency constraint.
-    One shared forward updates BatchNorm once; no frozen or detached model copy is constructed.
+    All shadow variants use the same clean+shadow concatenated batch and averaged supervised losses, making Shadow Aug
+    versus Consistency differ only by the consistency constraint. One shared forward updates BatchNorm once; no frozen
+    or detached model copy is constructed.
     """
     if getattr(model, "criterion", None) is None:
         model.criterion = model.init_criterion()

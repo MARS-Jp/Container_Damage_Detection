@@ -1,4 +1,4 @@
-#將bbox格式轉換成Segment，仍然是4點矩形
+# 將bbox格式轉換成Segment，仍然是4點矩形
 """Generate YOLO segmentation pseudo-labels from YOLO bbox labels.
 
 This script is intended for weakly supervised experiments where only bounding
@@ -22,7 +22,6 @@ from pathlib import Path
 
 import cv2
 import numpy as np
-
 
 IMAGE_EXTS = {".bmp", ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp"}
 
@@ -65,11 +64,15 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--fg-thres", type=float, default=0.62, help="Heatmap threshold for sure foreground seeds.")
     parser.add_argument("--bg-thres", type=float, default=0.24, help="Heatmap threshold for probable background.")
-    parser.add_argument("--pad", type=float, default=0.15, help="Context padding around each bbox, as box-size fraction.")
+    parser.add_argument(
+        "--pad", type=float, default=0.15, help="Context padding around each bbox, as box-size fraction."
+    )
     parser.add_argument("--grabcut-iters", type=int, default=3, help="GrabCut refinement iterations. Use 0 to disable.")
     parser.add_argument("--min-area", type=float, default=0.00002, help="Minimum contour area as image-area fraction.")
     parser.add_argument("--max-contours", type=int, default=3, help="Maximum contours emitted per bbox.")
-    parser.add_argument("--approx-frac", type=float, default=0.003, help="Polygon simplification fraction of perimeter.")
+    parser.add_argument(
+        "--approx-frac", type=float, default=0.003, help="Polygon simplification fraction of perimeter."
+    )
     parser.add_argument(
         "--empty-policy",
         choices=("bbox", "skip"),
@@ -175,8 +178,8 @@ def center_heatmap(shape: tuple[int, int], rel_box: tuple[int, int, int, int]) -
 def padded_box(box: tuple[int, int, int, int], shape: tuple[int, int], pad_frac: float) -> tuple[int, int, int, int]:
     h, w = shape
     x1, y1, x2, y2 = box
-    pad_x = int(round((x2 - x1) * pad_frac))
-    pad_y = int(round((y2 - y1) * pad_frac))
+    pad_x = round((x2 - x1) * pad_frac)
+    pad_y = round((y2 - y1) * pad_frac)
     return (
         max(0, x1 - pad_x),
         max(0, y1 - pad_y),
@@ -255,7 +258,7 @@ def build_mask_for_box(
     else:
         mask = (heat >= max(args.bg_thres, args.fg_thres * 0.65)) & inside
 
-    mask_u8 = (mask.astype(np.uint8) * 255)
+    mask_u8 = mask.astype(np.uint8) * 255
     kernel = np.ones((3, 3), np.uint8)
     mask_u8 = cv2.morphologyEx(mask_u8, cv2.MORPH_OPEN, kernel, iterations=1)
     mask_u8 = cv2.morphologyEx(mask_u8, cv2.MORPH_CLOSE, kernel, iterations=2)
