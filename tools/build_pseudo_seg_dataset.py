@@ -1,4 +1,4 @@
-#透過網路模型將4點矩型的segment格式變成不規則形狀
+# 透過網路模型將4點矩型的segment格式變成不規則形狀
 """Build a YOLO segmentation dataset with pseudo masks from rectangular labels.
 
 This is a wrapper around generate_pseudo_seg_from_bbox.py. It treats existing
@@ -22,8 +22,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
-from generate_pseudo_seg_from_bbox import IMAGE_EXTS, iter_images, label_path_for, process_image, save_debug_panel
-
+from generate_pseudo_seg_from_bbox import iter_images, label_path_for, process_image, save_debug_panel
 
 DEFAULT_SPLITS = ("train", "val", "test")
 
@@ -34,7 +33,9 @@ def parse_args() -> argparse.Namespace:
     src.add_argument("--source-data", type=Path, help="Original Ultralytics data.yaml.")
     src.add_argument("--source-root", type=Path, help="Original dataset root with images/ and labels/.")
     parser.add_argument("--out-root", required=True, type=Path, help="Output pseudo dataset root.")
-    parser.add_argument("--splits", nargs="*", default=None, help="Splits to process. Defaults to train/val/test found.")
+    parser.add_argument(
+        "--splits", nargs="*", default=None, help="Splits to process. Defaults to train/val/test found."
+    )
     parser.add_argument(
         "--image-mode",
         choices=("hardlink", "copy", "none"),
