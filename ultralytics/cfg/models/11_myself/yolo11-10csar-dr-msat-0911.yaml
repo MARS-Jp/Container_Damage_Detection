@@ -19,79 +19,79 @@ scales: # model compound scaling constants
 # IIMStem: RGB stem || YOLA IIM (8 shared zero-mean 3x3 kernels per RGB pair) -> Concat -> 1x1 Conv.
 backbone:
   # [from, repeats, module, args]
-  - [-1, 1, IIMStem, [64, 3, 2, 8, 3]]        # 0-P1/2, dual RGB/IIM stem and 1x1 fusion
-  - [-1, 1, Conv, [128, 3, 2]]                 # 1-P2/4
+  - [-1, 1, IIMStem, [64, 3, 2, 8, 3]] # 0-P1/2, dual RGB/IIM stem and 1x1 fusion
+  - [-1, 1, Conv, [128, 3, 2]] # 1-P2/4
 
   # P2 fusion
-  - [-1, 2, AttentionResiduals, [256, 0.25]]    # 2-P2/4
-  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]]     # 3-P2/4
+  - [-1, 2, AttentionResiduals, [256, 0.25]] # 2-P2/4
+  - [[1, 2], 1, FSNetShuffle, [128, 1, 2]] # 3-P2/4
 
   # P3 fusion
-  - [3, 1, Conv, [256, 3, 2]]                  # 4-P3/8
-  - [4, 2, AttentionResiduals, [512, 0.25]]    # 5-P3/8
-  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]]     # 6-P3/8
+  - [3, 1, Conv, [256, 3, 2]] # 4-P3/8
+  - [4, 2, AttentionResiduals, [512, 0.25]] # 5-P3/8
+  - [[4, 5], 1, FSNetShuffle, [256, 1, 2]] # 6-P3/8
 
   # P4 fusion
-  - [6, 1, Conv, [512, 3, 2]]                  # 7-P4/16
-  - [7, 2, AttentionResiduals, [512]]          # 8-P4/16
-  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]]     # 9-P4/16
+  - [6, 1, Conv, [512, 3, 2]] # 7-P4/16
+  - [7, 2, AttentionResiduals, [512]] # 8-P4/16
+  - [[7, 8], 1, FSNetShuffle, [512, 2, 2]] # 9-P4/16
 
   # P5 fusion
-  - [9, 1, Conv, [1024, 3, 2]]                 # 10-P5/32
-  - [10, 2, AttentionResiduals, [1024]]        # 11-P5/32
+  - [9, 1, Conv, [1024, 3, 2]] # 10-P5/32
+  - [10, 2, AttentionResiduals, [1024]] # 11-P5/32
   - [[10, 11], 1, FSNetShuffle, [1024, 2, 2]] # 12-P5/32
 
-  - [-1, 1, SPPF, [1024, 5]]                   # 13
-  - [-1, 2, C2PSA, [1024]]                     # 14-P5/32
+  - [-1, 1, SPPF, [1024, 5]] # 13
+  - [-1, 2, C2PSA, [1024]] # 14-P5/32
 
 # Five-scale CSAR -> FSNetShuffle -> CSAR neck inherited from yolo11-10csar-0911.yaml.
 head:
   - [14, 1, Conv, [1024, 3, 2]] # 15-P6/64
 
   # First five-scale CSAR stage.
-  - [[3, 6, 9, 14, 15], 1, CSAR, [128, 4, 0, 0.5, True]]   # 16-P2/4
-  - [[3, 6, 9, 14, 15], 1, CSAR, [256, 4, 1, 0.5, True]]   # 17-P3/8
-  - [[3, 6, 9, 14, 15], 1, CSAR, [512, 4, 2, 0.5, True]]   # 18-P4/16
-  - [[3, 6, 9, 14, 15], 1, CSAR, [1024, 4, 3, 0.5, True]]  # 19-P5/32
-  - [[3, 6, 9, 14, 15], 1, CSAR, [1024, 4, 4, 0.5, True]]  # 20-P6/64
+  - [[3, 6, 9, 14, 15], 1, CSAR, [128, 4, 0, 0.5, True]] # 16-P2/4
+  - [[3, 6, 9, 14, 15], 1, CSAR, [256, 4, 1, 0.5, True]] # 17-P3/8
+  - [[3, 6, 9, 14, 15], 1, CSAR, [512, 4, 2, 0.5, True]] # 18-P4/16
+  - [[3, 6, 9, 14, 15], 1, CSAR, [1024, 4, 3, 0.5, True]] # 19-P5/32
+  - [[3, 6, 9, 14, 15], 1, CSAR, [1024, 4, 4, 0.5, True]] # 20-P6/64
 
   # Five-scale channel exchange.
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [128, 0, 2]]   # 21-P2/4
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [256, 1, 2]]   # 22-P3/8
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [512, 2, 2]]   # 23-P4/16
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [1024, 3, 2]]  # 24-P5/32
-  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [1024, 4, 2]]  # 25-P6/64
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [128, 0, 2]] # 21-P2/4
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [256, 1, 2]] # 22-P3/8
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [512, 2, 2]] # 23-P4/16
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [1024, 3, 2]] # 24-P5/32
+  - [[16, 17, 18, 19, 20], 1, FSNetShuffle, [1024, 4, 2]] # 25-P6/64
 
   # Second five-scale CSAR stage. These five rows bring the total to 10 CSAR modules.
-  - [[21, 22, 23, 24, 25], 1, CSAR, [128, 4, 0, 0.5, True]]   # 26-P2/4
-  - [[21, 22, 23, 24, 25], 1, CSAR, [256, 4, 1, 0.5, True]]   # 27-P3/8
-  - [[21, 22, 23, 24, 25], 1, CSAR, [512, 4, 2, 0.5, True]]   # 28-P4/16
-  - [[21, 22, 23, 24, 25], 1, CSAR, [1024, 4, 3, 0.5, True]]  # 29-P5/32
-  - [[21, 22, 23, 24, 25], 1, CSAR, [1024, 4, 4, 0.5, True]]  # 30-P6/64
+  - [[21, 22, 23, 24, 25], 1, CSAR, [128, 4, 0, 0.5, True]] # 26-P2/4
+  - [[21, 22, 23, 24, 25], 1, CSAR, [256, 4, 1, 0.5, True]] # 27-P3/8
+  - [[21, 22, 23, 24, 25], 1, CSAR, [512, 4, 2, 0.5, True]] # 28-P4/16
+  - [[21, 22, 23, 24, 25], 1, CSAR, [1024, 4, 3, 0.5, True]] # 29-P5/32
+  - [[21, 22, 23, 24, 25], 1, CSAR, [1024, 4, 4, 0.5, True]] # 30-P6/64
 
   # Class-conditioned dent/rust context refinement.
   # Every MSATMultiLabel reads all five post-CSAR scales, preserves one target resolution, and emits
   # per-class auxiliary logits. Local window attention lets nearby rust evidence support subtle dent features.
   # Args: [c2, nc, heads, target, embed_channels(0=auto), FFN ratio, window size, shortcut].
-  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [128, nc, 4, 0, 0, 2.0, 8, True]]   # 31-P2/4
-  - [31, 1, Index, [-1, 0]]                                                           # 32-P2 fused feature
-  - [31, 1, Index, [nc, 1]]                                                           # 33-P2 class logits
+  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [128, nc, 4, 0, 0, 2.0, 8, True]] # 31-P2/4
+  - [31, 1, Index, [-1, 0]] # 32-P2 fused feature
+  - [31, 1, Index, [nc, 1]] # 33-P2 class logits
 
-  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [256, nc, 4, 1, 0, 2.0, 8, True]]   # 34-P3/8
-  - [34, 1, Index, [-1, 0]]                                                           # 35-P3 fused feature
-  - [34, 1, Index, [nc, 1]]                                                           # 36-P3 class logits
+  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [256, nc, 4, 1, 0, 2.0, 8, True]] # 34-P3/8
+  - [34, 1, Index, [-1, 0]] # 35-P3 fused feature
+  - [34, 1, Index, [nc, 1]] # 36-P3 class logits
 
-  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [512, nc, 4, 2, 0, 2.0, 8, True]]   # 37-P4/16
-  - [37, 1, Index, [-1, 0]]                                                           # 38-P4 fused feature
-  - [37, 1, Index, [nc, 1]]                                                           # 39-P4 class logits
+  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [512, nc, 4, 2, 0, 2.0, 8, True]] # 37-P4/16
+  - [37, 1, Index, [-1, 0]] # 38-P4 fused feature
+  - [37, 1, Index, [nc, 1]] # 39-P4 class logits
 
-  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [1024, nc, 4, 3, 0, 2.0, 8, True]]  # 40-P5/32
-  - [40, 1, Index, [-1, 0]]                                                           # 41-P5 fused feature
-  - [40, 1, Index, [nc, 1]]                                                           # 42-P5 class logits
+  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [1024, nc, 4, 3, 0, 2.0, 8, True]] # 40-P5/32
+  - [40, 1, Index, [-1, 0]] # 41-P5 fused feature
+  - [40, 1, Index, [nc, 1]] # 42-P5 class logits
 
-  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [1024, nc, 4, 4, 0, 2.0, 8, True]]  # 43-P6/64
-  - [43, 1, Index, [-1, 0]]                                                           # 44-P6 fused feature
-  - [43, 1, Index, [nc, 1]]                                                           # 45-P6 class logits
+  - [[26, 27, 28, 29, 30], 1, MSATMultiLabel, [1024, nc, 4, 4, 0, 2.0, 8, True]] # 43-P6/64
+  - [43, 1, Index, [-1, 0]] # 44-P6 fused feature
+  - [43, 1, Index, [nc, 1]] # 45-P6 class logits
 
   # Fused features are ordered P3, P2, P4, P5, P6 so Proto26 keeps stride-4 masks.
   # Auxiliary logits follow in the matching order. Args use the tested defaults:

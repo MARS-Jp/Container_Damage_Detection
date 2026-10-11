@@ -18,14 +18,14 @@ baseline predictions are preserved; only same-class duplicate additions are remo
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import csv
-from datetime import datetime
 import json
-from pathlib import Path
-import runpy
 import re
+import runpy
 import sys
+from collections import Counter
+from datetime import datetime
+from pathlib import Path
 
 import cv2
 import numpy as np
@@ -43,8 +43,14 @@ BASE = runpy.run_path(str(SCRIPT_DIR / "predict-2.py"))
 REGIONS = {"left": (0.03, 0.20, 0.54, 0.90), "right": (0.65, 0.70, 0.805, 0.89)}
 CONTEXTS = {"left": (0.00, 0.10, 0.59, 0.97), "right": (0.55, 0.25, 0.90, 0.97)}
 VERSION_NAMES = (
-    "S01_baseline", "S02_gamma", "S03_clahe", "S04_crops", "S05_crop_clahe",
-    "S06_crop_mix", "S07_crop_recall", "S08_diagnostic_only",
+    "S01_baseline",
+    "S02_gamma",
+    "S03_clahe",
+    "S04_crops",
+    "S05_crop_clahe",
+    "S06_crop_mix",
+    "S07_crop_recall",
+    "S08_diagnostic_only",
 )
 
 
@@ -80,7 +86,7 @@ def map_detection(detection: Detection, offset: tuple[int, int], shape: tuple[in
     if (x, y) == (0, 0) and detection.mask.shape == shape:
         return Detection(box, detection.mask, detection.view)
     mask = np.zeros(shape, dtype=bool)
-    mask[y:y + height, x:x + width] = detection.mask
+    mask[y : y + height, x : x + width] = detection.mask
     return Detection(box, mask, detection.view)
 
 
@@ -129,8 +135,11 @@ def regional_metrics(detections: list[Detection], bounds: tuple, names: dict) ->
         union = np.zeros((y2 - y1, x2 - x1), dtype=bool)
         for detection in selected:
             union |= detection.mask[y1:y2, x1:x2]
-        output[name] = {"count": len(selected), "roi_pixels": int(union.sum()),
-                        "max_conf": max((float(d.box[4]) for d in selected), default=0.0)}
+        output[name] = {
+            "count": len(selected),
+            "roi_pixels": int(union.sum()),
+            "max_conf": max((float(d.box[4]) for d in selected), default=0.0),
+        }
     return output
 
 
@@ -145,7 +154,13 @@ def selected_profiles(args, regions):
         ("S05_crop_clahe", "原圖＋裁切 CLAHE", crops_clahe, args.conf, args.conf),
         ("S06_crop_mix", "裁切混合 D:0.10 R:0.15", crops_original + crops_clahe, 0.10, 0.15),
         ("S07_crop_recall", "裁切混合 D:0.08 R:0.10", crops_original + crops_clahe, 0.08, 0.10),
-        ("S08_diagnostic_only", "原圖低分檢查，非推薦設定", ["full_original"], args.diagnostic_conf, args.diagnostic_conf),
+        (
+            "S08_diagnostic_only",
+            "原圖低分檢查，非推薦設定",
+            ["full_original"],
+            args.diagnostic_conf,
+            args.diagnostic_conf,
+        ),
     ]
     versions = getattr(args, "versions", None)
     return [p for p in profiles if versions is None or p[0] in versions]
@@ -169,14 +184,27 @@ def evaluate(model, image: np.ndarray, args, regions: dict, contexts: dict, requ
     kept_views, diagnostic_rows = {}, []
     for label, input_image, offset, target_region in views:
         result = model.predict(
-            source=input_image, imgsz=args.imgsz, conf=args.diagnostic_conf, iou=args.iou,
-            device=args.device, retina_masks=True, agnostic_nms=False, max_det=1000,
-            save=False, verbose=False,
+            source=input_image,
+            imgsz=args.imgsz,
+            conf=args.diagnostic_conf,
+            iou=args.iou,
+            device=args.device,
+            retina_masks=True,
+            agnostic_nms=False,
+            max_det=1000,
+            save=False,
+            verbose=False,
         )[0]
         detections = [map_detection(d, offset, shape) for d in extract_detections(result, label, input_image.shape[:2])]
         regional = {name: regional_metrics(detections, bounds, names) for name, bounds in regions.items()}
-        diagnostic_rows.append({"view": label, "regions": regional, "candidate_count": len(detections),
-                                "at_max_det": len(result.boxes) >= 1000})
+        diagnostic_rows.append(
+            {
+                "view": label,
+                "regions": regional,
+                "candidate_count": len(detections),
+                "at_max_det": len(result.boxes) >= 1000,
+            }
+        )
         print(f"  {label}: " + json.dumps(regional, ensure_ascii=True), flush=True)
         # Low-score masks are retained only for the original-input diagnostic control.
         floor = args.diagnostic_conf if label == "full_original" else min(args.conf, 0.08)
@@ -209,7 +237,9 @@ def process_image(model, source: Path, output: Path, args) -> tuple[list[dict], 
     records, summary_rows = [], []
     for version, title, selected_views, dent_conf, rust_conf in profiles:
         candidates = [
-            d for view in selected_views for d in views[view]
+            d
+            for view in selected_views
+            for d in views[view]
             if names[int(d.box[5])] in {"D", "R"}
             and float(d.box[4]) >= (dent_conf if names[int(d.box[5])] == "D" else rust_conf)
             and any(in_region(d, bounds) for bounds in regions.values())
@@ -225,33 +255,75 @@ def process_image(model, source: Path, output: Path, args) -> tuple[list[dict], 
         image_path = version_dir / f"{stem}__all.jpg"
         write_image(image_path, plotted)
         stats = prediction_metrics(masks, classes, names, shape)
-        stats.update(source=str(source), regions={name: regional_metrics(merged, bounds, names) for name, bounds in regions.items()})
-        (version_dir / "prediction_metrics.json").write_text(json.dumps(stats, indent=2, ensure_ascii=False), encoding="utf-8")
+        stats.update(
+            source=str(source),
+            regions={name: regional_metrics(merged, bounds, names) for name, bounds in regions.items()},
+        )
+        (version_dir / "prediction_metrics.json").write_text(
+            json.dumps(stats, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
         provenance = {
-            "version": version, "title": title, "baseline_conf": args.conf,
-            "D_addition_conf": dent_conf, "R_addition_conf": rust_conf, "merge_iou": args.merge_iou,
-            "regions_xyxy": regions, "contexts_xyxy": contexts, "selected_views": selected_views,
-            "detections": [{"class": names[int(d.box[5])], "score": float(d.box[4]), "view": d.view,
-                            "box_xyxy": d.box[:4].tolist(), "mask_pixels": int(d.mask.sum())} for d in merged],
+            "version": version,
+            "title": title,
+            "baseline_conf": args.conf,
+            "D_addition_conf": dent_conf,
+            "R_addition_conf": rust_conf,
+            "merge_iou": args.merge_iou,
+            "regions_xyxy": regions,
+            "contexts_xyxy": contexts,
+            "selected_views": selected_views,
+            "detections": [
+                {
+                    "class": names[int(d.box[5])],
+                    "score": float(d.box[4]),
+                    "view": d.view,
+                    "box_xyxy": d.box[:4].tolist(),
+                    "mask_pixels": int(d.mask.sum()),
+                }
+                for d in merged
+            ],
         }
-        (version_dir / "predictions.json").write_text(json.dumps(provenance, indent=2, ensure_ascii=False), encoding="utf-8")
+        (version_dir / "predictions.json").write_text(
+            json.dumps(provenance, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
         if getattr(args, "save_masks", False):
             # Lossless original-coordinate masks are required for pixel evaluation.
             np.savez_compressed(
-                version_dir / "prediction_masks.npz", schema=np.asarray("instance_bool_packbits_v1"),
-                packed_masks=np.packbits(masks, axis=-1), width=shape[1], height=shape[0],
+                version_dir / "prediction_masks.npz",
+                schema=np.asarray("instance_bool_packbits_v1"),
+                packed_masks=np.packbits(masks, axis=-1),
+                width=shape[1],
+                height=shape[0],
                 class_names=np.asarray([names[int(class_id)] for class_id in classes], dtype=str),
-                class_ids=classes, scores=scores, source=np.asarray(str(source)), version=np.asarray(version),
+                class_ids=classes,
+                scores=scores,
+                source=np.asarray(str(source)),
+                version=np.asarray(version),
             )
         count_labels = []
         for name, metric in stats["regions"].items():
             prefix = "左" if name == "left" else "右"
-            count_labels.append(f"{prefix} D{metric.get('D', {}).get('count', 0)}/R{metric.get('R', {}).get('count', 0)}")
+            count_labels.append(
+                f"{prefix} D{metric.get('D', {}).get('count', 0)}/R{metric.get('R', {}).get('count', 0)}"
+            )
             for cls in ("D", "R"):
-                summary_rows.append({"source": str(source), "version": version, "region": name,
-                                     "class": cls, **metric.get(cls, {"count": 0, "roi_pixels": 0, "max_conf": 0})})
-        records.append({"source": str(source), "image": image_path, "metrics": stats,
-                        "caption": f"{version[:3]}｜{title}\n區內預測：" + "　".join(count_labels)})
+                summary_rows.append(
+                    {
+                        "source": str(source),
+                        "version": version,
+                        "region": name,
+                        "class": cls,
+                        **metric.get(cls, {"count": 0, "roi_pixels": 0, "max_conf": 0}),
+                    }
+                )
+        records.append(
+            {
+                "source": str(source),
+                "image": image_path,
+                "metrics": stats,
+                "caption": f"{version[:3]}｜{title}\n區內預測：" + "　".join(count_labels),
+            }
+        )
     (output / "diagnostics.json").write_text(json.dumps(diagnostics, indent=2, ensure_ascii=False), encoding="utf-8")
     return records, summary_rows
 
@@ -259,18 +331,34 @@ def process_image(model, source: Path, output: Path, args) -> tuple[list[dict], 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--weights", nargs="+", default=BASE["WEIGHT_SOURCES"])
-    parser.add_argument("--source", nargs="+", default=BASE["DATASET_SOURCES"],
-                        help="One or more images or image folders; folders include subfolders")
+    parser.add_argument(
+        "--source",
+        nargs="+",
+        default=BASE["DATASET_SOURCES"],
+        help="One or more images or image folders; folders include subfolders",
+    )
     parser.add_argument("--output", default=str(Path(BASE["OUTPUT_DIR"]) / "shadow_diagnostics"))
     parser.add_argument("--imgsz", type=int, default=BASE["IMAGE_SIZE"])
     parser.add_argument("--conf", type=float, default=BASE["CONFIDENCE"])
     parser.add_argument("--iou", type=float, default=BASE["IOU_THRESHOLD"])
     parser.add_argument("--device", default=BASE["DEVICE"])
-    parser.add_argument("--versions", nargs="+", choices=VERSION_NAMES,
-                        help="Run only these profiles and their required input views; default: all eight")
-    parser.add_argument("--dry-run", action="store_true", help="Preview selected images and expected inference count without running a model")
-    parser.add_argument("--continue-on-error", action="store_true", help="Record failed images and continue processing the dataset")
-    parser.add_argument("--save-masks", action="store_true", help="Save lossless prediction_masks.npz for true pixel-level evaluation")
+    parser.add_argument(
+        "--versions",
+        nargs="+",
+        choices=VERSION_NAMES,
+        help="Run only these profiles and their required input views; default: all eight",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Preview selected images and expected inference count without running a model",
+    )
+    parser.add_argument(
+        "--continue-on-error", action="store_true", help="Record failed images and continue processing the dataset"
+    )
+    parser.add_argument(
+        "--save-masks", action="store_true", help="Save lossless prediction_masks.npz for true pixel-level evaluation"
+    )
     parser.add_argument("--diagnostic-conf", type=float, default=0.01)
     parser.add_argument("--gamma", type=float, default=0.55)
     parser.add_argument("--clahe-clip", type=float, default=3.0)
@@ -300,17 +388,27 @@ def main(argv=None) -> int:
         raise ValueError("No source images configured")
     dataset_splits = [infer_dataset_split(source) for source in sources]
     split_counts = Counter(dataset_splits)
-    output_names = [Path(split) / f"{index:02d}_{safe_name(source.stem)}"
-                    for index, (source, split) in enumerate(zip(sources, dataset_splits), 1)]
+    output_names = [
+        Path(split) / f"{index:02d}_{safe_name(source.stem)}"
+        for index, (source, split) in enumerate(zip(sources, dataset_splits), 1)
+    ]
     profiles = selected_profiles(args, {name: None for name in args.regions})
     if args.versions is None:
         views_per_image = 3 + 3 * len(args.regions)
     else:
         views_per_image = len({"full_original"} | {view for profile in profiles for view in profile[2]})
-    print(f"Models: {len(weights)}; images: {len(sources)}; versions: {len(profiles)}; "
-          f"model calls per image: {views_per_image}; total model calls: {len(weights) * len(sources) * views_per_image}", flush=True)
-    print("Dataset splits: " + "; ".join(f"{split}: {split_counts[split]}" for split in ("train", "val", "test", "other")
-                                        if split_counts[split]), flush=True)
+    print(
+        f"Models: {len(weights)}; images: {len(sources)}; versions: {len(profiles)}; "
+        f"model calls per image: {views_per_image}; total model calls: {len(weights) * len(sources) * views_per_image}",
+        flush=True,
+    )
+    print(
+        "Dataset splits: "
+        + "; ".join(
+            f"{split}: {split_counts[split]}" for split in ("train", "val", "test", "other") if split_counts[split]
+        ),
+        flush=True,
+    )
     if args.dry_run:
         for source, relative_output in zip(sources[:10], output_names[:10]):
             print(f"  {source} -> {relative_output}", flush=True)
@@ -323,12 +421,20 @@ def main(argv=None) -> int:
     with (output / "source_manifest.csv").open("w", encoding="utf-8-sig", newline="") as handle:
         manifest = csv.DictWriter(handle, fieldnames=("image_index", "source", "dataset_split", "output_name"))
         manifest.writeheader()
-        manifest.writerows({"image_index": index, "source": str(source),
-                             "dataset_split": split, "output_name": relative_output.as_posix()}
-                            for index, (source, split, relative_output) in enumerate(zip(sources, dataset_splits, output_names), 1))
-    from ultralytics import YOLO
+        manifest.writerows(
+            {
+                "image_index": index,
+                "source": str(source),
+                "dataset_split": split,
+                "output_name": relative_output.as_posix(),
+            }
+            for index, (source, split, relative_output) in enumerate(zip(sources, dataset_splits, output_names), 1)
+        )
+    from matplotlib import font_manager
+    from matplotlib import pyplot as plt
+
     from tools.compare_parameter_sweep import draw_figure
-    from matplotlib import font_manager, pyplot as plt
+    from ultralytics import YOLO
 
     font = Path("C:/Windows/Fonts/msjh.ttc")
     if font.is_file():
@@ -336,17 +442,35 @@ def main(argv=None) -> int:
         plt.rcParams["font.family"] = font_manager.FontProperties(fname=str(font)).get_name()
     failures = 0
     print(f"Output: {output}", flush=True)
-    with (output / "region_summary.csv").open("w", encoding="utf-8-sig", newline="") as regional_handle, \
-            (output / "image_summary.csv").open("w", encoding="utf-8-sig", newline="") as image_handle:
-        regional_writer = csv.DictWriter(regional_handle, fieldnames=("weight", "source", "dataset_split", "version", "region", "class", "count", "roi_pixels", "max_conf"))
-        image_writer = csv.DictWriter(image_handle, fieldnames=("weight", "source", "dataset_split", "output", "status", "error"))
+    with (output / "region_summary.csv").open("w", encoding="utf-8-sig", newline="") as regional_handle, (
+        output / "image_summary.csv"
+    ).open("w", encoding="utf-8-sig", newline="") as image_handle:
+        regional_writer = csv.DictWriter(
+            regional_handle,
+            fieldnames=(
+                "weight",
+                "source",
+                "dataset_split",
+                "version",
+                "region",
+                "class",
+                "count",
+                "roi_pixels",
+                "max_conf",
+            ),
+        )
+        image_writer = csv.DictWriter(
+            image_handle, fieldnames=("weight", "source", "dataset_split", "output", "status", "error")
+        )
         regional_writer.writeheader()
         image_writer.writeheader()
         for model_index, weight in enumerate(weights, 1):
             model = YOLO(str(weight))
             if model.task != "segment":
                 raise ValueError(f"Expected segmentation weights: {weight}")
-            for source_index, (source, split, relative_output) in enumerate(zip(sources, dataset_splits, output_names), 1):
+            for source_index, (source, split, relative_output) in enumerate(
+                zip(sources, dataset_splits, output_names), 1
+            ):
                 folder = output / f"{model_index:02d}_{safe_name(weight.stem)}" / relative_output
                 print(f"[{model_index}/{len(weights)}][{source_index}/{len(sources)}] {source}", flush=True)
                 entry = {"weight": str(weight), "source": str(source), "dataset_split": split, "output": str(folder)}
@@ -359,9 +483,13 @@ def main(argv=None) -> int:
                         draw_figure(records, comparison_dir / "all_variants.png", "all")
                         for region in args.regions:
                             for kind in ("all", "D", "R"):
-                                draw_figure(records, comparison_dir / f"{region}_{kind}.png", kind,
-                                            tuple(getattr(args, f"{region}_roi")),
-                                            crop_label="左側暗部放大" if region == "left" else "右側陰影內部放大")
+                                draw_figure(
+                                    records,
+                                    comparison_dir / f"{region}_{kind}.png",
+                                    kind,
+                                    tuple(getattr(args, f"{region}_roi")),
+                                    crop_label="左側暗部放大" if region == "left" else "右側陰影內部放大",
+                                )
                 except Exception as error:
                     failures += 1
                     image_writer.writerow({**entry, "status": "failed", "error": f"{type(error).__name__}: {error}"})
