@@ -7,8 +7,8 @@ from pathlib import Path
 from typing import Any
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from ultralytics.utils.metrics import CITYSCAPES_WEIGHT, OKS_SIGMA, RLE_WEIGHT
 from ultralytics.utils.ops import crop_mask, xywh2xyxy, xyxy2xywh
@@ -688,9 +688,7 @@ class v8MultiLabelSegmentationLoss(v8SegmentationLoss):
         classes = batch["cls"].view(-1).to(self.device).long()
         batch_indices = batch["batch_idx"].view(-1).to(self.device).long()
         if masks.ndim != 3 or masks.shape[0] != classes.numel():
-            raise ValueError(
-                "Multi-label targets require one binary mask per instance; train with overlap_mask=False."
-            )
+            raise ValueError("Multi-label targets require one binary mask per instance; train with overlap_mask=False.")
         if not masks.shape[0]:
             return target
 

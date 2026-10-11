@@ -1,4 +1,4 @@
-"""以原圖、暗部 Gamma 提亮及 CLAHE 三種視圖進行 YOLO 分割推論。
+"""以原圖、暗部 Gamma 提亮及 CLAHE 三種視圖進行 YOLO 分割推論。.
 
 執行：python tools/predict_shadow.py
 覆寫：python tools/predict_shadow.py --conf 0.20 --imgsz 960 --device cpu
@@ -39,13 +39,10 @@ if str(REPO_ROOT) not in sys.path:
 
 from tools.predict_seg_by_class import class_color, normalize_names, prediction_metrics, safe_name, write_image
 
-
 # ============================ 使用者設定區 ============================
 # 可像 predict-2.py 一樣直接修改這兩個清單；每個模型都會推論所有圖片。
 WEIGHT_SOURCES = [r"C:\Users\USER\Downloads\last0912.pt"]
-DATASET_ROOT = Path(
-    r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset"
-)
+DATASET_ROOT = Path(r"C:\Users\USER\Desktop\碩論\貨櫃-20221012T025654Z-001\貨櫃\Container_damage Dataset")
 DATASET_SOURCES = [
     DATASET_ROOT / "train/B/CBHU0708054-A.JPG",
     # DATASET_ROOT / "train/B/CBHU0708054-B.JPG",
@@ -56,14 +53,14 @@ DATASET_SOURCES = [
     # DATASET_ROOT / "val 驗證/P8293423.JPG",
 ]
 OUTPUT_DIR = REPO_ROOT / "runs/segment_shadow"
-IMAGE_SIZE = 640          # 細小損傷可用 1280；顯存不足時改成 960 或 640。
-CONFIDENCE = 0.15          # 漏檢多可試 0.10；誤檢多可試 0.25。
-IOU_THRESHOLD = 0.7      # 各次推論內的框 NMS 門檻。
-DEVICE = "auto"           # 有 CUDA 使用 GPU 0，否則使用 CPU；也可指定 "0"。
-GAMMA = 0.5              # 0 < gamma < 1；越小提亮越強，1 表示不提亮。
-CLAHE_CLIP = 1.0          # 局部對比增強強度；過大可能放大紋理與雜訊。
-SHADOW_THRESHOLD = 255    # 0..255 的亮度門檻；亮度 >= 此值的像素保持原樣。
-MERGE_IOU = 0.90          # 不同視圖、同類別的遮罩 IoU 超過此值才去重。
+IMAGE_SIZE = 640  # 細小損傷可用 1280；顯存不足時改成 960 或 640。
+CONFIDENCE = 0.15  # 漏檢多可試 0.10；誤檢多可試 0.25。
+IOU_THRESHOLD = 0.7  # 各次推論內的框 NMS 門檻。
+DEVICE = "auto"  # 有 CUDA 使用 GPU 0，否則使用 CPU；也可指定 "0"。
+GAMMA = 0.5  # 0 < gamma < 1；越小提亮越強，1 表示不提亮。
+CLAHE_CLIP = 1.0  # 局部對比增強強度；過大可能放大紋理與雜訊。
+SHADOW_THRESHOLD = 255  # 0..255 的亮度門檻；亮度 >= 此值的像素保持原樣。
+MERGE_IOU = 0.90  # 不同視圖、同類別的遮罩 IoU 超過此值才去重。
 EXCLUSION_REGIONS = SCRIPT_DIR / "shadow_exclusion_regions.json"
 # =====================================================================
 
@@ -85,15 +82,26 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--shadow-threshold", type=int, default=SHADOW_THRESHOLD)
     parser.add_argument("--merge-iou", type=float, default=MERGE_IOU)
     parser.add_argument("--max-det", type=int, default=300, help="每個視圖的預測數上限")
-    parser.add_argument("--views", nargs="+", choices=("original", "gamma", "clahe"),
-                        default=["original", "gamma", "clahe"], help="原圖始終會執行一次")
+    parser.add_argument(
+        "--views",
+        nargs="+",
+        choices=("original", "gamma", "clahe"),
+        default=["original", "gamma", "clahe"],
+        help="原圖始終會執行一次",
+    )
     parser.add_argument("--save-views", action="store_true", help="額外儲存增強圖與各視圖的預測")
     parser.add_argument("--alpha", type=float, default=0.35, help="遮罩填色透明度")
     exclusions = parser.add_mutually_exclusive_group()
-    exclusions.add_argument("--exclude-regions", type=Path, default=EXCLUSION_REGIONS,
-                            help="依原始圖片路徑匹配的背景排除區 JSON")
-    exclusions.add_argument("--no-exclusions", dest="exclude_regions", action="store_const", const=None,
-                            help="停用背景排除，保留模型的完整預測")
+    exclusions.add_argument(
+        "--exclude-regions", type=Path, default=EXCLUSION_REGIONS, help="依原始圖片路徑匹配的背景排除區 JSON"
+    )
+    exclusions.add_argument(
+        "--no-exclusions",
+        dest="exclude_regions",
+        action="store_const",
+        const=None,
+        help="停用背景排除，保留模型的完整預測",
+    )
     args = parser.parse_args(argv)
     if args.imgsz <= 0 or args.imgsz % 32:
         parser.error("--imgsz 必須是正整數且為 32 的倍數")
@@ -141,13 +149,20 @@ def load_exclusion_rules(path: Path) -> list[dict]:
         raise ValueError("regions 必須是清單")
     for rule in rules:
         points = np.asarray(rule["polygon_normalized"], dtype=float)
-        if (points.ndim != 2 or points.shape[1] != 2 or len(points) < 3
-                or not np.isfinite(points).all() or np.any((points < 0) | (points > 1))):
+        if (
+            points.ndim != 2
+            or points.shape[1] != 2
+            or len(points) < 3
+            or not np.isfinite(points).all()
+            or np.any((points < 0) | (points > 1))
+        ):
             raise ValueError("polygon_normalized 至少需要三個 0..1 座標點")
         if not isinstance(rule["source"], str) or not rule["source"]:
             raise ValueError("每個排除區必須指定圖片 source")
-        if not isinstance(rule["classes"], list) or not rule["classes"] or not all(
-            isinstance(name, str) and name for name in rule["classes"]
+        if (
+            not isinstance(rule["classes"], list)
+            or not rule["classes"]
+            or not all(isinstance(name, str) and name for name in rule["classes"])
         ):
             raise ValueError("每個排除區必須指定非空 classes 清單")
     return rules
@@ -233,8 +248,8 @@ def extract_detections(result, view: str, shape: tuple[int, int]) -> list[Detect
 def merge_detections(detections: list[Detection], threshold: float) -> list[Detection]:
     """Suppress cross-view duplicates of the same class using exact binary-mask IoU.
 
-    Different classes and predictions from the same view never suppress each other.
-    Scores select a complete mask; neither scores nor mask pixels are averaged/unioned.
+    Different classes and predictions from the same view never suppress each other. Scores select a complete mask;
+    neither scores nor mask pixels are averaged/unioned.
     """
     kept = []
     areas = [int(d.mask.sum()) for d in detections]
@@ -286,9 +301,16 @@ def predict_image(model, source: Path, output: Path, args: argparse.Namespace) -
     for view in args.views:
         enhanced = enhance_shadow(image, view, args)
         result = model.predict(
-            source=enhanced, imgsz=args.imgsz, conf=args.conf, iou=args.iou,
-            device=args.device, retina_masks=True, agnostic_nms=False,
-            max_det=args.max_det, save=False, verbose=False,
+            source=enhanced,
+            imgsz=args.imgsz,
+            conf=args.conf,
+            iou=args.iou,
+            device=args.device,
+            retina_masks=True,
+            agnostic_nms=False,
+            max_det=args.max_det,
+            save=False,
+            verbose=False,
         )[0]
         detections = extract_detections(result, view, image.shape[:2])
         raw_counts[view] = len(detections)
@@ -308,16 +330,27 @@ def predict_image(model, source: Path, output: Path, args: argparse.Namespace) -
         filename = f"{stem}__class_{class_id:03d}_{safe_name(name)}.jpg"
         write_image(output / filename, render(image, selected, names, args))
     report = {
-        "source": str(source), "view_counts": counts, "merged_count": len(merged),
-        "raw_view_counts": raw_counts, "excluded_regions": matched_rules,
+        "source": str(source),
+        "view_counts": counts,
+        "merged_count": len(merged),
+        "raw_view_counts": raw_counts,
+        "excluded_regions": matched_rules,
         "exclusion_region_pixels_by_class": {str(key): int(mask.sum()) for key, mask in excluded_masks.items()},
         "metrics": prediction_metrics(
             np.stack([d.mask for d in merged]) if merged else np.zeros((0, *image.shape[:2]), dtype=bool),
-            np.array([int(d.box[5]) for d in merged], dtype=int), names, image.shape[:2],
+            np.array([int(d.box[5]) for d in merged], dtype=int),
+            names,
+            image.shape[:2],
         ),
         "detections": [
-            {"class_id": int(d.box[5]), "class_name": names[int(d.box[5])], "confidence": float(d.box[4]),
-             "view": d.view, "box_xyxy": d.box[:4].tolist(), "mask_pixels": int(d.mask.sum())}
+            {
+                "class_id": int(d.box[5]),
+                "class_name": names[int(d.box[5])],
+                "confidence": float(d.box[4]),
+                "view": d.view,
+                "box_xyxy": d.box[:4].tolist(),
+                "mask_pixels": int(d.mask.sum()),
+            }
             for d in merged
         ],
     }
@@ -336,6 +369,7 @@ def main() -> int:
             raise FileNotFoundError(f"找不到模型：{weight}")
     images = collect_images([resolve_path(p) for p in args.source])
     import torch
+
     from ultralytics import YOLO
 
     if args.device == "auto":

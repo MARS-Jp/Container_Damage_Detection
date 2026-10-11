@@ -15,13 +15,12 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
-from pathlib import Path
 import re
 import tkinter as tk
+from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 
 from PIL import Image, ImageOps, ImageTk
-
 
 # 可直接修改這裡，選擇要查看的推論結果資料夾。
 DEFAULT_RESULTS_DIR = Path(
@@ -33,17 +32,20 @@ IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".tif", ".tiff", ".webp"}
 
 def natural_key(path: Path):
     """Keep folder 2 before folder 10, including runs with >1,000 images."""
-    return [(0, int(part)) if part.isdigit() else (1, part.casefold())
-            for part in re.split(r"(\d+)", path.as_posix())]
+    return [(0, int(part)) if part.isdigit() else (1, part.casefold()) for part in re.split(r"(\d+)", path.as_posix())]
 
 
 def collect_images(folder: Path, pattern="*__all.jpg", all_images=False):
     folder = folder.expanduser().resolve()
     if not folder.is_dir():
         raise FileNotFoundError(f"找不到資料夾：{folder}")
-    paths = [path for path in folder.rglob("*") if path.is_file()
-             and path.suffix.casefold() in IMAGE_SUFFIXES
-             and (all_images or fnmatch.fnmatchcase(path.name.casefold(), pattern.casefold()))]
+    paths = [
+        path
+        for path in folder.rglob("*")
+        if path.is_file()
+        and path.suffix.casefold() in IMAGE_SUFFIXES
+        and (all_images or fnmatch.fnmatchcase(path.name.casefold(), pattern.casefold()))
+    ]
     paths.sort(key=lambda path: natural_key(path.relative_to(folder)))
     if not paths:
         selected = "支援的圖片" if all_images else pattern
@@ -133,8 +135,15 @@ class ImageViewer:
             self.original = None
             self.canvas.itemconfigure(self.image_item, image="")
             self.photo = None
-            self.canvas.create_text(20, 20, anchor="nw", fill="#f6b4b4", width=600, tags="error",
-                                    text=f"無法讀取：{path.name}\n{error}\n\n可按 D / A 切換其他圖片。")
+            self.canvas.create_text(
+                20,
+                20,
+                anchor="nw",
+                fill="#f6b4b4",
+                width=600,
+                tags="error",
+                text=f"無法讀取：{path.name}\n{error}\n\n可按 D / A 切換其他圖片。",
+            )
             self.status.set("圖片讀取失敗｜D 下一張｜A 上一張｜Esc / Q 離開")
             return
         self.render_image()
@@ -156,8 +165,10 @@ class ImageViewer:
         self.photo = ImageTk.PhotoImage(resized, master=self.window)
         self.canvas.itemconfigure(self.image_item, image=self.photo)
         self.canvas.coords(self.image_item, self.canvas.winfo_width() / 2, self.canvas.winfo_height() / 2)
-        self.status.set(f"原圖 {self.original.width} × {self.original.height}｜顯示 {scale:.0%}｜"
-                        "A 上一張｜D 下一張（循環）｜← / → 切換｜F11 全螢幕｜Esc / Q 離開")
+        self.status.set(
+            f"原圖 {self.original.width} × {self.original.height}｜顯示 {scale:.0%}｜"
+            "A 上一張｜D 下一張（循環）｜← / → 切換｜F11 全螢幕｜Esc / Q 離開"
+        )
 
 
 def main(argv=None):
