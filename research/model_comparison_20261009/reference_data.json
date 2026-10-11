@@ -3,18 +3,133 @@
   "user_image": "C:/Users/USER/Downloads/1791524499680.jpg",
   "metric_units": "0_to_1",
   "reference_rows": [
-    {"Model": "SegFormer", "Year": 2021, "Venue": "NeurIPS", "Accuracy": 0.9836, "Precision": 0.9115, "Recall": 0.9182, "Dice": 0.9148, "IoU": 0.8430, "mIoU": 0.9125, "Mean Dice": 0.9529, "FPR": 0.0095, "FNR": 0.0818, "identity_source": "S01", "metric_source": "S06", "metric_provenance": "user_image_unverified_experiment", "dataset": "unknown", "variant": "unknown", "evaluation_basis": "unknown"},
-    {"Model": "LRFormer", "Year": 2025, "Venue": "TPAMI", "Accuracy": 0.9817, "Precision": 0.9161, "Recall": 0.8908, "Dice": 0.9032, "IoU": 0.8235, "mIoU": 0.9017, "Mean Dice": 0.9466, "FPR": 0.0087, "FNR": 0.1092, "identity_source": "S02;S03", "metric_source": "S06", "metric_provenance": "user_image_unverified_experiment", "dataset": "unknown", "variant": "unknown", "evaluation_basis": "unknown", "venue_correction": "TIP in user image; TPAMI in official author sources"},
-    {"Model": "SegMAN", "Year": 2025, "Venue": "CVPR", "Accuracy": 0.9793, "Precision": 0.9018, "Recall": 0.8799, "Dice": 0.8907, "IoU": 0.8029, "mIoU": 0.8901, "Mean Dice": 0.9396, "FPR": 0.0102, "FNR": 0.1201, "identity_source": "S04;S05", "metric_source": "S06", "metric_provenance": "user_image_unverified_experiment", "dataset": "unknown", "variant": "unknown", "evaluation_basis": "unknown"}
+    {
+      "Model": "SegFormer",
+      "Year": 2021,
+      "Venue": "NeurIPS",
+      "Accuracy": 0.9836,
+      "Precision": 0.9115,
+      "Recall": 0.9182,
+      "Dice": 0.9148,
+      "IoU": 0.843,
+      "mIoU": 0.9125,
+      "Mean Dice": 0.9529,
+      "FPR": 0.0095,
+      "FNR": 0.0818,
+      "identity_source": "S01",
+      "metric_source": "S06",
+      "metric_provenance": "user_image_unverified_experiment",
+      "dataset": "unknown",
+      "variant": "unknown",
+      "evaluation_basis": "unknown"
+    },
+    {
+      "Model": "LRFormer",
+      "Year": 2025,
+      "Venue": "TPAMI",
+      "Accuracy": 0.9817,
+      "Precision": 0.9161,
+      "Recall": 0.8908,
+      "Dice": 0.9032,
+      "IoU": 0.8235,
+      "mIoU": 0.9017,
+      "Mean Dice": 0.9466,
+      "FPR": 0.0087,
+      "FNR": 0.1092,
+      "identity_source": "S02;S03",
+      "metric_source": "S06",
+      "metric_provenance": "user_image_unverified_experiment",
+      "dataset": "unknown",
+      "variant": "unknown",
+      "evaluation_basis": "unknown",
+      "venue_correction": "TIP in user image; TPAMI in official author sources"
+    },
+    {
+      "Model": "SegMAN",
+      "Year": 2025,
+      "Venue": "CVPR",
+      "Accuracy": 0.9793,
+      "Precision": 0.9018,
+      "Recall": 0.8799,
+      "Dice": 0.8907,
+      "IoU": 0.8029,
+      "mIoU": 0.8901,
+      "Mean Dice": 0.9396,
+      "FPR": 0.0102,
+      "FNR": 0.1201,
+      "identity_source": "S04;S05",
+      "metric_source": "S06",
+      "metric_provenance": "user_image_unverified_experiment",
+      "dataset": "unknown",
+      "variant": "unknown",
+      "evaluation_basis": "unknown"
+    }
   ],
   "published_benchmarks": [
-    {"Model": "SegFormer-B5", "Year": 2021, "Venue": "NeurIPS", "ADE20K_mIoU_percent": 51.0, "Cityscapes_mIoU_percent": 82.4, "COCO_Stuff_mIoU_percent": 46.7, "test_setting": "single-scale columns", "source_ids": "S01", "evidence_location": "Table 1(a), paper p.7"},
-    {"Model": "LRFormer-B", "Year": 2025, "Venue": "TPAMI", "ADE20K_mIoU_percent": 51.0, "Cityscapes_mIoU_percent": 83.0, "COCO_Stuff_mIoU_percent": 47.2, "test_setting": "as reported; evaluation protocols not harmonized", "source_ids": "S02;S03", "evidence_location": "Tables 3, 5, 4, paper pp.6-7; official README"},
-    {"Model": "SegMAN-B", "Year": 2025, "Venue": "CVPR", "ADE20K_mIoU_percent": 52.6, "Cityscapes_mIoU_percent": 83.8, "COCO_Stuff_mIoU_percent": 48.4, "test_setting": "as reported; evaluation protocols not harmonized", "source_ids": "S04;S05", "evidence_location": "Table 2, arXiv v2"}
+    {
+      "Model": "SegFormer-B5",
+      "Year": 2021,
+      "Venue": "NeurIPS",
+      "ADE20K_mIoU_percent": 51.0,
+      "Cityscapes_mIoU_percent": 82.4,
+      "COCO_Stuff_mIoU_percent": 46.7,
+      "test_setting": "single-scale columns",
+      "source_ids": "S01",
+      "evidence_location": "Table 1(a), paper p.7"
+    },
+    {
+      "Model": "LRFormer-B",
+      "Year": 2025,
+      "Venue": "TPAMI",
+      "ADE20K_mIoU_percent": 51.0,
+      "Cityscapes_mIoU_percent": 83.0,
+      "COCO_Stuff_mIoU_percent": 47.2,
+      "test_setting": "as reported; evaluation protocols not harmonized",
+      "source_ids": "S02;S03",
+      "evidence_location": "Tables 3, 5, 4, paper pp.6-7; official README"
+    },
+    {
+      "Model": "SegMAN-B",
+      "Year": 2025,
+      "Venue": "CVPR",
+      "ADE20K_mIoU_percent": 52.6,
+      "Cityscapes_mIoU_percent": 83.8,
+      "COCO_Stuff_mIoU_percent": 48.4,
+      "test_setting": "as reported; evaluation protocols not harmonized",
+      "source_ids": "S04;S05",
+      "evidence_location": "Table 2, arXiv v2"
+    }
   ],
   "papers": [
-    {"id": "1", "source_ids": "S01", "title": "SegFormer: Simple and Efficient Design for Semantic Segmentation with Transformers", "authors": "Enze Xie; Wenhai Wang; Zhiding Yu; Anima Anandkumar; Jose M. Alvarez; Ping Luo", "venue": "NeurIPS 2021", "url": "https://papers.neurips.cc/paper/2021/file/64f1f27bf1b4ec22924fd0acb550c235-Paper.pdf", "metadata_url": "https://papers.nips.cc/paper/2021/hash/64f1f27bf1b4ec22924fd0acb550c235-Abstract.html", "location": "Table 1(a), p.7"},
-    {"id": "2", "source_ids": "S02;S03", "title": "Low-Resolution Self-Attention for Semantic Segmentation", "authors": "Yu-Huan Wu; Shi-Chen Zhang; Yun Liu; Le Zhang; Xin Zhan; Daquan Zhou; Jiashi Feng; Ming-Ming Cheng; Liangli Zhen", "venue": "IEEE TPAMI 2025", "url": "https://mmcheng.net/wp-content/uploads/2025/06/25PAMI_LRFormer.pdf", "metadata_url": "https://github.com/yuhuan-wu/LRFormer", "location": "Tables 3, 4, 5, pp.6-7; author README"},
-    {"id": "3", "source_ids": "S04;S05", "title": "SegMAN: Omni-scale Context Modeling with State Space Models and Local Attention for Semantic Segmentation", "authors": "Yunxiang Fu; Meng Lou; Yizhou Yu", "venue": "CVPR 2025", "url": "https://arxiv.org/html/2412.11890v2", "metadata_url": "https://github.com/yunxiangfu2001/SegMAN", "location": "Table 2, arXiv v2 (2025-03-27); author README"}
+    {
+      "id": "1",
+      "source_ids": "S01",
+      "title": "SegFormer: Simple and Efficient Design for Semantic Segmentation with Transformers",
+      "authors": "Enze Xie; Wenhai Wang; Zhiding Yu; Anima Anandkumar; Jose M. Alvarez; Ping Luo",
+      "venue": "NeurIPS 2021",
+      "url": "https://papers.neurips.cc/paper/2021/file/64f1f27bf1b4ec22924fd0acb550c235-Paper.pdf",
+      "metadata_url": "https://papers.nips.cc/paper/2021/hash/64f1f27bf1b4ec22924fd0acb550c235-Abstract.html",
+      "location": "Table 1(a), p.7"
+    },
+    {
+      "id": "2",
+      "source_ids": "S02;S03",
+      "title": "Low-Resolution Self-Attention for Semantic Segmentation",
+      "authors": "Yu-Huan Wu; Shi-Chen Zhang; Yun Liu; Le Zhang; Xin Zhan; Daquan Zhou; Jiashi Feng; Ming-Ming Cheng; Liangli Zhen",
+      "venue": "IEEE TPAMI 2025",
+      "url": "https://mmcheng.net/wp-content/uploads/2025/06/25PAMI_LRFormer.pdf",
+      "metadata_url": "https://github.com/yuhuan-wu/LRFormer",
+      "location": "Tables 3, 4, 5, pp.6-7; author README"
+    },
+    {
+      "id": "3",
+      "source_ids": "S04;S05",
+      "title": "SegMAN: Omni-scale Context Modeling with State Space Models and Local Attention for Semantic Segmentation",
+      "authors": "Yunxiang Fu; Meng Lou; Yizhou Yu",
+      "venue": "CVPR 2025",
+      "url": "https://arxiv.org/html/2412.11890v2",
+      "metadata_url": "https://github.com/yunxiangfu2001/SegMAN",
+      "location": "Table 2, arXiv v2 (2025-03-27); author README"
+    }
   ]
 }

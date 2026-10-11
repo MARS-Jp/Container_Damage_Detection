@@ -47,11 +47,7 @@
         "complexScriptTypeface": "Calibri"
       }
     },
-    "typefaces": [
-      "Calibri",
-      "Calibri Light",
-      "Noto Sans TC"
-    ]
+    "typefaces": ["Calibri", "Calibri Light", "Noto Sans TC"]
   },
   "inheritedLayers": [
     {
@@ -78,12 +74,7 @@
       "aid": "sh/nu58f2hs",
       "id": "13",
       "name": "title",
-      "bbox": [
-        60,
-        35,
-        1160,
-        70
-      ],
+      "bbox": [60, 35, 1160, 70],
       "geometry": "rect",
       "text": "重疊損傷的監督與辨識影響",
       "textPreview": "重疊損傷的監督與辨識影響",
@@ -143,12 +134,7 @@
       "aid": "sh/9072xkry",
       "id": "2",
       "name": "subtitle",
-      "bbox": [
-        62,
-        113,
-        1150,
-        42
-      ],
+      "bbox": [62, 113, 1150, 42],
       "geometry": "rect",
       "text": "同一位置可同時保留 Rust 與 Dent 的正標籤",
       "textPreview": "同一位置可同時保留 Rust 與 Dent 的正標籤",
@@ -206,12 +192,7 @@
       "aid": "sh/ozy1ofad",
       "id": "3",
       "name": "response-heading",
-      "bbox": [
-        62,
-        174,
-        545,
-        42
-      ],
+      "bbox": [62, 174, 545, 42],
       "geometry": "rect",
       "text": "獨立 response 與 multi-hot 真值",
       "textPreview": "獨立 response 與 multi-hot 真值",
@@ -271,12 +252,7 @@
       "aid": "sh/b29kza94",
       "id": "4",
       "name": "response-example",
-      "bbox": [
-        62,
-        228,
-        555,
-        48
-      ],
+      "bbox": [62, 228, 555, 48],
       "geometry": "rect",
       "text": "σ(2) = 0.881　σ(1.5) = 0.818",
       "textPreview": "σ(2) = 0.881　σ(1.5) = 0.818",
@@ -336,12 +312,7 @@
       "aid": "sh/a10jqpsj",
       "id": "5",
       "name": "response-example-meaning",
-      "bbox": [
-        62,
-        286,
-        555,
-        72
-      ],
+      "bbox": [62, 286, 555, 72],
       "geometry": "rect",
       "text": "重疊位置的 (Rust, Dent) 真值為 (1, 1)\n兩類都可高分，示例數值並非訓練結果",
       "textPreview": "重疊位置的 (Rust, Dent) 真值為 (1, 1) | 兩類都可高分，示例數值並非訓練結果",
@@ -423,12 +394,7 @@
       "aid": "sh/x4r21kru",
       "id": "6",
       "name": "loss-heading",
-      "bbox": [
-        660,
-        174,
-        560,
-        42
-      ],
+      "bbox": [660, 174, 560, 42],
       "geometry": "rect",
       "text": "共存區域加權，四尺度等權平均",
       "textPreview": "共存區域加權，四尺度等權平均",
@@ -488,12 +454,7 @@
       "aid": "sh/w3i1sfa9",
       "id": "7",
       "name": "overlap-equation",
-      "bbox": [
-        660,
-        226,
-        558,
-        46
-      ],
+      "bbox": [660, 226, 558, 46],
       "geometry": "rect",
       "text": "w = 1 + 2 × 1[ΣₖYₖ > 1]",
       "textPreview": "w = 1 + 2 × 1[ΣₖYₖ > 1]",
@@ -553,12 +514,7 @@
       "aid": "sh/r65knqtk",
       "id": "8",
       "name": "loss-equation",
-      "bbox": [
-        660,
-        278,
-        558,
-        42
-      ],
+      "bbox": [660, 278, 558, 42],
       "geometry": "rect",
       "text": "Laux = 0.5 × mean尺度(0.5 LwBCE + 0.5 LDice)",
       "textPreview": "Laux = 0.5 × mean尺度(0.5 LwBCE + 0.5 LDice)",
@@ -618,12 +574,7 @@
       "aid": "sh/q5wjelsz",
       "id": "9",
       "name": "loss-explanation",
-      "bbox": [
-        660,
-        324,
-        558,
-        38
-      ],
+      "bbox": [660, 324, 558, 38],
       "geometry": "rect",
       "text": "BCE 的相對權重為 3:1，Dice 不另加權",
       "textPreview": "BCE 的相對權重為 3:1，Dice 不另加權",
@@ -680,12 +631,7 @@
       "scope": "slide",
       "aid": "tb/b2l0nqpw",
       "id": "14",
-      "bbox": [
-        62,
-        384,
-        1156,
-        220
-      ],
+      "bbox": [62, 384, 1156, 220],
       "text": "情境 | 本版作用 | 需驗證的影響\n陰影內損傷 | P2 細節與 token 上下文 | 暗處 recall、純陰影誤報\nRust + Dent 重疊 | multi-hot 與加權多標籤 loss | 配對 recall、非重疊區誤報\n最終框與 masks | 語意特徵送回 YOLO head | assignment、NMS 仍可能漏類",
       "textPreview": "情境 | 本版作用 | 需驗證的影響 | 陰影內損傷 | P2 細節與 token 上下文 | 暗處 recall、純陰影誤報 | Rust + Dent 重疊 | multi-hot 與加權多標籤 loss | 配對 recall、非重疊區誤報 | 最終框與 masks ...",
       "rows": 4,
@@ -695,12 +641,7 @@
           "index": 1,
           "row": 1,
           "column": 1,
-          "bbox": [
-            62,
-            384,
-            218,
-            55
-          ],
+          "bbox": [62, 384, 218, 55],
           "text": "情境",
           "textPreview": "情境",
           "fillColor": "#182E44",
@@ -725,12 +666,7 @@
           "index": 2,
           "row": 1,
           "column": 2,
-          "bbox": [
-            280,
-            384,
-            449,
-            55
-          ],
+          "bbox": [280, 384, 449, 55],
           "text": "本版作用",
           "textPreview": "本版作用",
           "fillColor": "#182E44",
@@ -755,12 +691,7 @@
           "index": 3,
           "row": 1,
           "column": 3,
-          "bbox": [
-            729,
-            384,
-            489,
-            55
-          ],
+          "bbox": [729, 384, 489, 55],
           "text": "需驗證的影響",
           "textPreview": "需驗證的影響",
           "fillColor": "#182E44",
@@ -785,12 +716,7 @@
           "index": 4,
           "row": 2,
           "column": 1,
-          "bbox": [
-            62,
-            439,
-            218,
-            55
-          ],
+          "bbox": [62, 439, 218, 55],
           "text": "陰影內損傷",
           "textPreview": "陰影內損傷",
           "fillColor": "#FFFFFF",
@@ -815,12 +741,7 @@
           "index": 5,
           "row": 2,
           "column": 2,
-          "bbox": [
-            280,
-            439,
-            449,
-            55
-          ],
+          "bbox": [280, 439, 449, 55],
           "text": "P2 細節與 token 上下文",
           "textPreview": "P2 細節與 token 上下文",
           "fillColor": "#FFFFFF",
@@ -844,12 +765,7 @@
           "index": 6,
           "row": 2,
           "column": 3,
-          "bbox": [
-            729,
-            439,
-            489,
-            55
-          ],
+          "bbox": [729, 439, 489, 55],
           "text": "暗處 recall、純陰影誤報",
           "textPreview": "暗處 recall、純陰影誤報",
           "fillColor": "#FFFFFF",
@@ -873,12 +789,7 @@
           "index": 7,
           "row": 3,
           "column": 1,
-          "bbox": [
-            62,
-            494,
-            218,
-            55
-          ],
+          "bbox": [62, 494, 218, 55],
           "text": "Rust + Dent 重疊",
           "textPreview": "Rust + Dent 重疊",
           "fillColor": "#EFF4F6",
@@ -903,12 +814,7 @@
           "index": 8,
           "row": 3,
           "column": 2,
-          "bbox": [
-            280,
-            494,
-            449,
-            55
-          ],
+          "bbox": [280, 494, 449, 55],
           "text": "multi-hot 與加權多標籤 loss",
           "textPreview": "multi-hot 與加權多標籤 loss",
           "fillColor": "#EFF4F6",
@@ -932,12 +838,7 @@
           "index": 9,
           "row": 3,
           "column": 3,
-          "bbox": [
-            729,
-            494,
-            489,
-            55
-          ],
+          "bbox": [729, 494, 489, 55],
           "text": "配對 recall、非重疊區誤報",
           "textPreview": "配對 recall、非重疊區誤報",
           "fillColor": "#EFF4F6",
@@ -961,12 +862,7 @@
           "index": 10,
           "row": 4,
           "column": 1,
-          "bbox": [
-            62,
-            549,
-            218,
-            55
-          ],
+          "bbox": [62, 549, 218, 55],
           "text": "最終框與 masks",
           "textPreview": "最終框與 masks",
           "fillColor": "#FFFFFF",
@@ -991,12 +887,7 @@
           "index": 11,
           "row": 4,
           "column": 2,
-          "bbox": [
-            280,
-            549,
-            449,
-            55
-          ],
+          "bbox": [280, 549, 449, 55],
           "text": "語意特徵送回 YOLO head",
           "textPreview": "語意特徵送回 YOLO head",
           "fillColor": "#FFFFFF",
@@ -1020,12 +911,7 @@
           "index": 12,
           "row": 4,
           "column": 3,
-          "bbox": [
-            729,
-            549,
-            489,
-            55
-          ],
+          "bbox": [729, 549, 489, 55],
           "text": "assignment、NMS 仍可能漏類",
           "textPreview": "assignment、NMS 仍可能漏類",
           "fillColor": "#FFFFFF",
@@ -1054,12 +940,7 @@
       "aid": "sh/9wnqhczy",
       "id": "11",
       "name": "training",
-      "bbox": [
-        62,
-        626,
-        1148,
-        39
-      ],
+      "bbox": [62, 626, 1148, 39],
       "geometry": "rect",
       "text": "訓練設定：overlap_mask=False，mask_ratio=4",
       "textPreview": "訓練設定：overlap_mask=False，mask_ratio=4",
@@ -1119,12 +1000,7 @@
       "aid": "sh/mtwrmxg7",
       "id": "12",
       "name": "cost",
-      "bbox": [
-        62,
-        669,
-        1150,
-        33
-      ],
+      "bbox": [62, 669, 1150, 33],
       "geometry": "rect",
       "text": "n、3 類參數：5.53M 增至 6.30M（+13.9%）。尚無此版精度增益數據。",
       "textPreview": "n、3 類參數：5.53M 增至 6.30M（+13.9%）。尚無此版精度增益數據。",

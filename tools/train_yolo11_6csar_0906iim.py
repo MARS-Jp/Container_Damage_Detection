@@ -11,14 +11,13 @@ from copy import deepcopy
 from pathlib import Path
 
 import torch
-import torch.nn as nn
+from torch import nn
 
 from ultralytics.models.yolo.segment.train import SegmentationTrainer
 from ultralytics.nn.tasks import SegmentationModel, yaml_model_load
 from ultralytics.utils import RANK
 from ultralytics.utils.loss import MultiChannelDiceLoss, v8MultiLabelSegmentationLoss
 from ultralytics.utils.torch_utils import unwrap_model
-
 
 ROOT = Path(__file__).resolve().parents[1]
 MODEL_CFG = ROOT / "ultralytics/cfg/models/11_myself/yolo11-6csar-0906iim.yaml"

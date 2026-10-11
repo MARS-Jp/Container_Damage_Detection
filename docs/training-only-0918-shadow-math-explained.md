@@ -1,6 +1,6 @@
 # 0918 七版 YAML：以「陰影下的損傷辨識」為主軸的數學與影響說明
 
-這份說明對應本專案實際的七個 **yolo11-10csar-dr-trainonly-0918-*.yaml**，以及 training_aux_0918.py、training_aux_ops.py、loss.py 的實作。七版不是七種新推論網路：YOLO11 + IIMStem + AttentionResiduals + FSNetShuffle + 10 CSAR + 五尺度 MSATMultiLabel + Segment26MultiLabel 均保持 0912 基準模型的形狀與輸出。改變的是訓練資料視角與目標函數。以下的「陰影辨識」意指**辨識陰影中的凹洞等損傷，並降低對光照的敏感性**；目前沒有陰影類別、陰影標註、陰影偵測 head，也沒有直接輸出陰影 mask。
+這份說明對應本專案實際的七個 **yolo11-10csar-dr-trainonly-0918-\*.yaml**，以及 training_aux_0918.py、training_aux_ops.py、loss.py 的實作。七版不是七種新推論網路：YOLO11 + IIMStem + AttentionResiduals + FSNetShuffle + 10 CSAR + 五尺度 MSATMultiLabel + Segment26MultiLabel 均保持 0912 基準模型的形狀與輸出。改變的是訓練資料視角與目標函數。以下的「陰影辨識」意指**辨識陰影中的凹洞等損傷，並降低對光照的敏感性**；目前沒有陰影類別、陰影標註、陰影偵測 head，也沒有直接輸出陰影 mask。
 
 ## 1. 共用符號與七版總覽
 
@@ -8,15 +8,15 @@
 
 為使公式與程式相符，定義 \(L_B(x)\) 為新增邊界項在正 anchor 數正規化、原 segmentation gain 等既有流程處理後，對單視角總損失的貢獻；\(L_O(x)\) 為五尺度真交集項的平均；\(L_C(x,\tilde x)\) 為五尺度一致性項的平均。邊界 gain 0.1 不是直接乘一個「全圖平均 boundary loss」：實作先加進每個匹配實例，再經既有的 anchor 正規化與 hyp.box。
 
-| YAML 後綴 | 原圖／陰影雙視角 | \(L_C\) gain | \(L_B\) gain | \(L_O\) gain | 單次訓練目標的簡寫 |
-|---|:---:|---:|---:|---:|---|
-| baseline | 否 | 0 | 0 | 0 | \(L_0(x)\) |
-| shadow-aug | 是 | 0 | 0 | 0 | \(\tfrac12[L_0(x)+L_0(\tilde x)]\) |
-| consistency | 是 | 0.2 | 0 | 0 | 雙視角監督 \(+0.2L_C\) |
-| boundary | 否 | 0 | 0.1 | 0 | \(L_0(x)+0.1L_B(x)\) |
-| overlap | 否 | 0 | 0 | 0.2 | \(L_0(x)+0.2L_O(x)\) |
-| shadow-boundary | 是 | 0.2 | 0.1 | 0 | \(\tfrac12[(L_0+0.1L_B)(x)+(L_0+0.1L_B)(\tilde x)]+0.2L_C\) |
-| full | 是 | 0.2 | 0.1 | 0.2 | 前式兩視角各加 \(0.2L_O\)，再加 \(0.2L_C\) |
+| YAML 後綴       | 原圖／陰影雙視角 | \(L_C\) gain | \(L_B\) gain | \(L_O\) gain | 單次訓練目標的簡寫                                          |
+| --------------- | :--------------: | -----------: | -----------: | -----------: | ----------------------------------------------------------- |
+| baseline        |        否        |            0 |            0 |            0 | \(L_0(x)\)                                                  |
+| shadow-aug      |        是        |            0 |            0 |            0 | \(\tfrac12[L_0(x)+L_0(\tilde x)]\)                          |
+| consistency     |        是        |          0.2 |            0 |            0 | 雙視角監督 \(+0.2L_C\)                                      |
+| boundary        |        否        |            0 |          0.1 |            0 | \(L_0(x)+0.1L_B(x)\)                                        |
+| overlap         |        否        |            0 |            0 |          0.2 | \(L_0(x)+0.2L_O(x)\)                                        |
+| shadow-boundary |        是        |          0.2 |          0.1 |            0 | \(\tfrac12[(L_0+0.1L_B)(x)+(L_0+0.1L_B)(\tilde x)]+0.2L_C\) |
+| full            |        是        |          0.2 |          0.1 |          0.2 | 前式兩視角各加 \(0.2L_O\)，再加 \(0.2L_C\)                  |
 
 這七版是**消融對照與組合**，不是上一列的結果接著訓練下一列。要公平比較，從同一份 0912 權重各自初始化。baseline 裏的「0」只代表本次新增機制關閉；原有共存加權仍開啟。
 
