@@ -8,7 +8,7 @@ from copy import deepcopy
 from pathlib import Path
 
 import torch
-import torch.nn as nn
+from torch import nn
 
 from ultralytics.nn.autobackend import check_class_names
 from ultralytics.nn.modules import (
@@ -18,10 +18,14 @@ from ultralytics.nn.modules import (
     C2PSA,
     C3,
     C3TR,
+    CSAR,
     ELAN1,
+    MSAT,
     OBB,
     OBB26,
     PSA,
+    SCA,
+    SETA,
     SPP,
     SPPELAN,
     SPPF,
@@ -29,7 +33,6 @@ from ultralytics.nn.modules import (
     AConv,
     ADown,
     AttentionResiduals,
-    SETA,
     Bottleneck,
     BottleneckCSP,
     C2f,
@@ -41,34 +44,31 @@ from ultralytics.nn.modules import (
     C3x,
     CBFuse,
     CBLinear,
-    CSAR,
-    MultiStateCSAR,
-    MSAT,
-    MSATMultiLabel,
-    CrossScaleAttention,
-    PatchCSAR,
     Classify,
     Concat,
     Conv,
     Conv2,
     ConvTranspose,
-    Detect,
+    CrossScaleAttention,
     DamageSemanticAttention,
-    LuminanceResidualStem,
+    Detect,
     DWConv,
     DWConvTranspose2d,
+    Focus,
     FSAttentionResiduals,
     FSNetShuffle,
-    Focus,
     GhostBottleneck,
     GhostConv,
-    IIMStem,
-    ShadowIIMStem,
     HGBlock,
     HGStem,
+    IIMStem,
     ImagePoolingAttn,
     Index,
     LRPCHead,
+    LuminanceResidualStem,
+    MSATMultiLabel,
+    MultiStateCSAR,
+    PatchCSAR,
     Pose,
     Pose26,
     RepC3,
@@ -81,11 +81,11 @@ from ultralytics.nn.modules import (
     Segment,
     Segment26,
     Segment26MultiLabel,
-    Segment26MultiLabelShadow,
     Segment26MultiLabelBoundary,
     Segment26MultiLabelExtent,
-    SCA,
+    Segment26MultiLabelShadow,
     SemanticSegment,
+    ShadowIIMStem,
     TorchVision,
     WorldDetect,
     YOLOEDetect,
@@ -96,17 +96,16 @@ from ultralytics.nn.modules import (
 from ultralytics.utils import DEFAULT_CFG_DICT, LOGGER, SETTINGS, WINDOWS, YAML, colorstr, emojis
 from ultralytics.utils.checks import REMOTE_FILE_PREFIXES, check_file, check_requirements, check_suffix, check_yaml
 from ultralytics.utils.dent_boundary_loss import v8BoundaryMultiLabelSegmentationLoss
-from ultralytics.utils.training_aux_0918 import TrainingAuxSegmentationLoss, training_auxiliary_loss
 from ultralytics.utils.loss import (
     E2ELoss,
     PoseLoss26,
     SemanticSegmentationLoss,
     v8ClassificationLoss,
     v8DetectionLoss,
+    v8MultiLabelSegmentationLoss,
     v8OBBLoss,
     v8PoseLoss,
     v8SegmentationLoss,
-    v8MultiLabelSegmentationLoss,
 )
 from ultralytics.utils.ops import make_divisible
 from ultralytics.utils.patches import torch_load
@@ -121,6 +120,7 @@ from ultralytics.utils.torch_utils import (
     smart_inference_mode,
     time_sync,
 )
+from ultralytics.utils.training_aux_0918 import TrainingAuxSegmentationLoss, training_auxiliary_loss
 
 
 class BaseModel(torch.nn.Module):
@@ -1493,11 +1493,9 @@ class SafeClass:
 
     def __init__(self, *args, **kwargs):
         """Initialize SafeClass instance, ignoring all arguments."""
-        pass
 
     def __call__(self, *args, **kwargs):
         """Run SafeClass instance, ignoring all arguments."""
-        pass
 
 
 class SafeUnpickler(pickle.Unpickler):

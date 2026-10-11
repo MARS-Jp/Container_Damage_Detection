@@ -1,14 +1,16 @@
 # Ultralytics AGPL-3.0 License - https://ultralytics.com/license
 """Tests for the isolated 0910 adaptive-IIM, P2, MMS class-query model."""
 
+from __future__ import annotations
+
 from types import SimpleNamespace
 
 import torch
 
 from tools.train_yolo11_6csar_0910iim import (
+    MODEL_CFG,
     IIMQueryASLSegmentationModel,
     IIMQueryASLTrainer,
-    MODEL_CFG,
     build_overrides,
     parse_args,
 )
@@ -114,9 +116,7 @@ def test_standard_validator_receives_matching_stride_four_masks():
     model = IIMQueryASLSegmentationModel(MODEL_CFG, ch=3, nc=3, verbose=False).eval()
     image = torch.rand(1, 3, 128, 128)
     raw_predictions = model(image)
-    args = get_cfg(
-        overrides={"task": "segment", "mode": "val", "conf": 0.001, "iou": 0.7, "overlap_mask": False}
-    )
+    args = get_cfg(overrides={"task": "segment", "mode": "val", "conf": 0.001, "iou": 0.7, "overlap_mask": False})
     validator = SegmentationValidator(args=args)
     validator.device = torch.device("cpu")
     validator.nc = 3

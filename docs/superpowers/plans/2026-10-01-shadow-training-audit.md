@@ -26,9 +26,9 @@
 - [x] 驗證混入偵測框、無效座標和退化多邊形不會被當成合法分割標註。
 
 ```python
-polygons, issues = parse_polygons('2 0.5 0.5 0.2 0.2', {2: 'D'})
+polygons, issues = parse_polygons("2 0.5 0.5 0.2 0.2", {2: "D"})
 assert not polygons
-assert issues[0]['issue'] == 'box_row_not_segmentation'
+assert issues[0]["issue"] == "box_row_not_segmentation"
 ```
 
 - [x] 驗證同類框交集不會被誤當成實際遮罩覆盖，且不同類別不交叉配對。

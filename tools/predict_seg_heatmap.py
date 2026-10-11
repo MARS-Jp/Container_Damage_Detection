@@ -19,7 +19,6 @@ import numpy as np
 
 from ultralytics import YOLO
 
-
 IMG_SUFFIXES = {".bmp", ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp"}
 
 
@@ -36,7 +35,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--device", default=None, help="CUDA device, e.g. 0, or cpu. Defaults to Ultralytics auto.")
     parser.add_argument("--classes", type=int, nargs="+", default=None, help="Optional class IDs to keep.")
     parser.add_argument("--alpha", type=float, default=0.45, help="Overlay opacity for heatmap and seedmap.")
-    parser.add_argument("--sigma-scale", type=float, default=0.25, help="Gaussian sigma as fraction of min mask box side.")
+    parser.add_argument(
+        "--sigma-scale", type=float, default=0.25, help="Gaussian sigma as fraction of min mask box side."
+    )
     parser.add_argument(
         "--heatmap-mode",
         choices=("mask", "center", "box"),

@@ -49,11 +49,13 @@
 ### Task 1: Freeze the Baseline and Build Pair Targets
 
 **Files:**
+
 - Keep: `ultralytics/cfg/models/11_myself/yolo11-10csar-0911.yaml`
 - Create: `ultralytics/utils/dent_rust.py`
 - Create: `tests/test_yolo11_10csar_dr_0911.py`
 
 **Interfaces:**
+
 - Consumes: baseline YAML and independent instance masks shaped `[N, H, W]`.
 - Produces: `resolve_dent_rust_ids(names) -> tuple[int, int]` and `build_dent_rust_targets(masks, classes, batch_indices, batch_size, size, dent_class, rust_class, radius_cells) -> Tensor[B, 3, H, W]` with channel order D, R, D-near-R.
 
@@ -65,7 +67,6 @@ from pathlib import Path
 import torch
 
 from ultralytics.nn.tasks import yaml_model_load
-
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE_CFG = ROOT / "ultralytics/cfg/models/11_myself/yolo11-10csar-0911.yaml"
@@ -102,18 +103,18 @@ def test_dent_rust_ids_are_resolved_strictly():
 
 def test_pair_target_keeps_standalone_dent_positive_without_marking_it_as_pair():
     masks = torch.zeros(3, 32, 32)
-    masks[0, 4:12, 4:12] = 1                 # D near R
-    masks[1, 8:16, 10:18] = 1                # R
-    masks[2, 22:29, 22:29] = 1               # standalone D
+    masks[0, 4:12, 4:12] = 1  # D near R
+    masks[1, 8:16, 10:18] = 1  # R
+    masks[2, 22:29, 22:29] = 1  # standalone D
     classes = torch.tensor([2, 5, 2])
     batch_indices = torch.zeros(3, dtype=torch.long)
     target = build_dent_rust_targets(
         masks, classes, batch_indices, batch_size=1, size=(32, 32), dent_class=2, rust_class=5, radius_cells=2
     )
     assert target.shape == (1, 3, 32, 32)
-    assert target[0, 0, 25, 25] == 1          # all D remains supervised
-    assert target[0, 2, 25, 25] == 0          # distant D is not D-near-R
-    assert target[0, 2, 9, 10] == 1           # D pixel near R is pair-positive
+    assert target[0, 0, 25, 25] == 1  # all D remains supervised
+    assert target[0, 2, 25, 25] == 0  # distant D is not D-near-R
+    assert target[0, 2, 9, 10] == 1  # D pixel near R is pair-positive
 ```
 
 - [ ] **Step 4: Run the target tests and verify the missing module fails**
@@ -203,12 +204,14 @@ git commit -m "test: freeze 0911 ten-csar dent-rust baseline"
 ### Task 2: Add the High-Resolution Dent-Rust Relation Gate
 
 **Files:**
+
 - Create: `ultralytics/nn/modules/dent_rust.py`
 - Modify: `ultralytics/nn/modules/__init__.py`
 - Modify: `ultralytics/nn/tasks.py`
 - Modify: `tests/test_yolo11_10csar_dr_0911.py`
 
 **Interfaces:**
+
 - Consumes: one P2, P3, or P4 feature tensor `[B, C, H, W]`.
 - Produces: `DentRustRelationGate.forward(x) -> tuple[enhanced_feature, relation_logits]`; logits always have channels `[D, R, D-near-R]`.
 
@@ -247,8 +250,8 @@ from __future__ import annotations
 import math
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from .conv import Conv
 
@@ -304,15 +307,13 @@ In `ultralytics/nn/modules/__init__.py`, import `DentRustRelationGate` from `.de
 # ultralytics/nn/modules/__init__.py
 from .dent_rust import DentRustRelationGate
 
-__all__ = (
-    "DentRustRelationGate",
-)
+__all__ = ("DentRustRelationGate",)
 
 # ultralytics/nn/tasks.py: ultralytics.nn.modules import list
-DentRustRelationGate,
+(DentRustRelationGate,)
 
 # ultralytics/nn/tasks.py: parse_model() base_modules
-DentRustRelationGate,
+(DentRustRelationGate,)
 ```
 
 - [ ] **Step 5: Run module and parser regression tests**
@@ -331,12 +332,14 @@ git commit -m "feat: add bounded dent-rust relation gate"
 ### Task 3: Add a Segment26 Head That Carries Relation Logits
 
 **Files:**
+
 - Modify: `ultralytics/nn/modules/head.py`
 - Modify: `ultralytics/nn/modules/__init__.py`
 - Modify: `ultralytics/nn/tasks.py`
 - Modify: `tests/test_yolo11_10csar_dr_0911.py`
 
 **Interfaces:**
+
 - Consumes: five feature maps followed by three relation-logit maps.
 - Produces: ordinary Segment26 predictions plus `preds["dent_rust_logits"]` during training.
 
@@ -387,6 +390,9 @@ Expected: FAIL because `Segment26DentRust` does not exist.
 Add to `ultralytics/nn/modules/head.py`:
 
 ```python
+from __future__ import annotations
+
+
 class Segment26DentRust(Segment26):
     """Segment26 head with explicit high-resolution dent/rust relation supervision."""
 
@@ -439,16 +445,16 @@ Add `Segment26DentRust` to the imports and `__all__` in `ultralytics/nn/modules/
 
 ```python
 # ultralytics/nn/modules/__init__.py: .head import list and __all__
-Segment26DentRust,
+(Segment26DentRust,)
 
 # ultralytics/nn/tasks.py: ultralytics.nn.modules import list
-Segment26DentRust,
+(Segment26DentRust,)
 
 # ultralytics/nn/tasks.py: Detect/Segment constructor set
-Segment26DentRust,
+(Segment26DentRust,)
 
 # ultralytics/nn/tasks.py: prototype-width scaling set
-Segment26DentRust,
+(Segment26DentRust,)
 ```
 
 - [ ] **Step 5: Run the focused head test and existing Segment26 tests**
@@ -467,10 +473,12 @@ git commit -m "feat: carry dent-rust relation maps through segment26"
 ### Task 4: Wire the Relation Architecture into a New YAML
 
 **Files:**
+
 - Create: `ultralytics/cfg/models/11_myself/yolo11-10csar-dr-0911.yaml`
 - Modify: `tests/test_yolo11_10csar_dr_0911.py`
 
 **Interfaces:**
+
 - Consumes: global layers `0–30` from the immutable baseline.
 - Produces: a 41-layer model whose layers `31–39` are three relation gates plus their explicit outputs, and layer `40` is `Segment26DentRust`.
 
@@ -488,9 +496,15 @@ def test_dr_yaml_preserves_layers_zero_to_thirty_and_adds_only_relation_layers()
     candidate_layers = candidate["backbone"] + candidate["head"]
     assert candidate_layers[:31] == base_layers[:31]
     assert [row[2] for row in candidate_layers[31:41]] == [
-        "DentRustRelationGate", "Index", "Index",
-        "DentRustRelationGate", "Index", "Index",
-        "DentRustRelationGate", "Index", "Index",
+        "DentRustRelationGate",
+        "Index",
+        "Index",
+        "DentRustRelationGate",
+        "Index",
+        "Index",
+        "DentRustRelationGate",
+        "Index",
+        "Index",
         "Segment26DentRust",
     ]
     model = SegmentationModel(DR_CFG, ch=3, nc=8, verbose=False)
@@ -512,37 +526,36 @@ Copy the baseline file, retain `nc`, `scales`, the complete `backbone`, and head
 
 ```yaml
 dent_rust:
-  dent_class: 2
-  rust_class: 5
-  relation_loss_gain: 0.25
-  cooccurrence_weight: 2.0
-  gamma_pos: 1.0
-  gamma_neg: 4.0
-  clip: 0.05
+    dent_class: 2
+    rust_class: 5
+    relation_loss_gain: 0.25
+    cooccurrence_weight: 2.0
+    gamma_pos: 1.0
+    gamma_neg: 4.0
+    clip: 0.05
 ```
 
 Append exactly these rows to `head`:
 
 ```yaml
-  # P2 relation gate: 5x5 at stride 4 preserves fine dent boundaries.
-  - [26, 1, DentRustRelationGate, [128, 64, 5, 0.10]] # 31
-  - [31, 1, Index, [-1, 0]]                           # 32-P2 enhanced
-  - [31, 1, Index, [3, 1]]                            # 33-P2 D/R/pair logits
+# P2 relation gate: 5x5 at stride 4 preserves fine dent boundaries.
+- [26, 1, DentRustRelationGate, [128, 64, 5, 0.10]] # 31
+- [31, 1, Index, [-1, 0]] # 32-P2 enhanced
+- [31, 1, Index, [3, 1]] # 33-P2 D/R/pair logits
 
-  # P3 relation gate: primary Segment26 feature and local context.
-  - [27, 1, DentRustRelationGate, [256, 96, 5, 0.10]] # 34
-  - [34, 1, Index, [-1, 0]]                           # 35-P3 enhanced
-  - [34, 1, Index, [3, 1]]                            # 36-P3 D/R/pair logits
+# P3 relation gate: primary Segment26 feature and local context.
+- [27, 1, DentRustRelationGate, [256, 96, 5, 0.10]] # 34
+- [34, 1, Index, [-1, 0]] # 35-P3 enhanced
+- [34, 1, Index, [3, 1]] # 36-P3 D/R/pair logits
 
-  # P4 relation gate: use 3x3 to avoid excessive coarse-scale dilation.
-  - [28, 1, DentRustRelationGate, [512, 128, 3, 0.10]] # 37
-  - [37, 1, Index, [-1, 0]]                            # 38-P4 enhanced
-  - [37, 1, Index, [3, 1]]                             # 39-P4 D/R/pair logits
+# P4 relation gate: use 3x3 to avoid excessive coarse-scale dilation.
+- [28, 1, DentRustRelationGate, [512, 128, 3, 0.10]] # 37
+- [37, 1, Index, [-1, 0]] # 38-P4 enhanced
+- [37, 1, Index, [3, 1]] # 39-P4 D/R/pair logits
 
-  # Five Segment features first; relation maps follow in P3, P2, P4 order.
-  # Radii [2, 4, 1] correspond to approximately 16 input pixels at strides [8, 4, 16].
-  - [[35, 32, 38, 29, 30, 36, 33, 39], 1, Segment26DentRust,
-     [nc, 32, 256, 2, 5, 5, 3, 0.25, [2, 4, 1]]] # 40
+# Five Segment features first; relation maps follow in P3, P2, P4 order.
+# Radii [2, 4, 1] correspond to approximately 16 input pixels at strides [8, 4, 16].
+- [[35, 32, 38, 29, 30, 36, 33, 39], 1, Segment26DentRust, [nc, 32, 256, 2, 5, 5, 3, 0.25, [2, 4, 1]]] # 40
 ```
 
 - [ ] **Step 4: Add a forward-shape regression test**
@@ -577,18 +590,23 @@ git commit -m "feat: add ten-csar dent-rust relation architecture"
 ### Task 5: Train the Relation Maps and Warm-Start the New Head
 
 **Files:**
+
 - Create: `tools/train_yolo11_10csar_dr_0911.py`
 - Modify: `tests/test_yolo11_10csar_dr_0911.py`
 
 **Interfaces:**
+
 - Consumes: standard segmentation batch, candidate YAML, optional baseline checkpoint.
 - Produces: `DentRustRelationLoss`, `DentRustSegmentationModel`, `DentRustTrainer`, `prepare_common_initialization`, `remap_base_state_dict`, `parse_args`, and `build_overrides`.
 
 - [ ] **Step 1: Write failing loss-target and backward tests**
 
 ```python
-from ultralytics.cfg import get_cfg
+from __future__ import annotations
+
 from tools.train_yolo11_10csar_dr_0911 import DentRustSegmentationModel
+
+from ultralytics.cfg import get_cfg
 
 
 def _dent_rust_batch() -> dict[str, torch.Tensor]:
@@ -600,11 +618,13 @@ def _dent_rust_batch() -> dict[str, torch.Tensor]:
         "img": torch.randn(1, 3, 128, 128),
         "batch_idx": torch.tensor([0.0, 0.0, 0.0]),
         "cls": torch.tensor([[2.0], [5.0], [2.0]]),
-        "bboxes": torch.tensor([
-            [0.34375, 0.390625, 0.4375, 0.46875],
-            [0.53125, 0.546875, 0.4375, 0.46875],
-            [0.171875, 0.828125, 0.21875, 0.21875],
-        ]),
+        "bboxes": torch.tensor(
+            [
+                [0.34375, 0.390625, 0.4375, 0.46875],
+                [0.53125, 0.546875, 0.4375, 0.46875],
+                [0.171875, 0.828125, 0.21875, 0.21875],
+            ]
+        ),
         "masks": masks,
         "sem_masks": torch.zeros(1, 32, 32),
         "heatmaps": torch.zeros(1, 8, 32, 32),
@@ -650,15 +670,14 @@ from copy import deepcopy
 from pathlib import Path
 
 import torch
+from ultralytics.utils.dent_rust import build_dent_rust_targets, resolve_dent_rust_ids
 
 from tools.train_yolo11_6csar_0906iim import AsymmetricLoss
 from ultralytics.models.yolo.segment.train import SegmentationTrainer
 from ultralytics.nn.tasks import SegmentationModel, load_checkpoint
 from ultralytics.utils import RANK
-from ultralytics.utils.dent_rust import build_dent_rust_targets, resolve_dent_rust_ids
 from ultralytics.utils.loss import MultiChannelDiceLoss, v8SegmentationLoss
 from ultralytics.utils.torch_utils import unwrap_model
-
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -757,10 +776,15 @@ class DentRustTrainer(SegmentationTrainer):
 - [ ] **Step 5: Add and test baseline-head weight remapping**
 
 ```python
+from __future__ import annotations
+
+
 def remap_base_state_dict(source: dict[str, torch.Tensor], target: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
     transfer = {}
     for source_key, tensor in source.items():
-        target_key = source_key.replace("model.31.", "model.40.", 1) if source_key.startswith("model.31.") else source_key
+        target_key = (
+            source_key.replace("model.31.", "model.40.", 1) if source_key.startswith("model.31.") else source_key
+        )
         if target_key in target and target[target_key].shape == tensor.shape:
             transfer[target_key] = tensor
     if not any(key.startswith("model.40.") for key in transfer):
@@ -806,6 +830,8 @@ def test_identity_gates_preserve_baseline_predictions_after_weight_remap():
 Expose `--data`, `--pretrained`, `--epochs`, `--imgsz`, `--batch`, `--device`, `--workers`, `--project`, and `--name`. `build_overrides()` must return:
 
 ```python
+from __future__ import annotations
+
 MODEL_CFG = ROOT / "ultralytics/cfg/models/11_myself/yolo11-10csar-dr-0911.yaml"
 
 
@@ -876,11 +902,13 @@ git commit -m "feat: train dent-rust relation supervision"
 ### Task 6: Add Pair-Stratified Evaluation and Run the Controlled Comparison
 
 **Files:**
+
 - Create: `tools/eval_dent_rust_0911.py`
 - Modify: `tests/test_yolo11_10csar_dr_0911.py`
 - Create at run time: `runs/segment/0911-dent-rust-comparison/metrics.json`
 
 **Interfaces:**
+
 - Consumes: baseline checkpoint, candidate checkpoint, validation dataset YAML, `association_radius_px=16`, and `mask_iou=0.50`.
 - Produces: standard validation metrics plus D overall, D-with-R, D-without-R, R, and rust-only false-D statistics for both checkpoints.
 
@@ -924,6 +952,9 @@ Expected: FAIL because `tools.eval_dent_rust_0911` does not exist.
 - [ ] **Step 3: Implement the association contract**
 
 ```python
+from __future__ import annotations
+
+
 def classify_dent_instances(dent_masks: torch.Tensor, rust_masks: torch.Tensor, radius_px: int) -> torch.Tensor:
     if dent_masks.ndim != 3 or rust_masks.ndim != 3:
         raise ValueError("Expected dent and rust masks shaped [N, H, W].")
@@ -964,11 +995,11 @@ from pathlib import Path
 import cv2
 import numpy as np
 import torch
+from ultralytics.utils.dent_rust import resolve_dent_rust_ids
 
 from ultralytics import YOLO
 from ultralytics.data.utils import IMG_FORMATS, img2label_paths, polygon2mask
 from ultralytics.utils.checks import check_det_dataset
-from ultralytics.utils.dent_rust import resolve_dent_rust_ids
 
 
 def split_roots(value: str | list[str]) -> list[Path]:
@@ -1063,6 +1094,9 @@ For each validation image:
 Use this aggregation function so the operating-point and standard AP metrics cannot be mixed accidentally:
 
 ```python
+from __future__ import annotations
+
+
 def evaluate_checkpoint(
     checkpoint: Path,
     data_yaml: Path,
@@ -1144,6 +1178,9 @@ labels = [Path(path) for path in img2label_paths([str(image) for image in images
 Complete `main()` with an explicit shared dataset pass and JSON write:
 
 ```python
+from __future__ import annotations
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Compare D recall with and without nearby R.")
     parser.add_argument("--base", type=Path, required=True)
@@ -1162,10 +1199,22 @@ def main() -> None:
     data = check_det_dataset(str(args.data))
     dent_class, rust_class = resolve_dent_rust_ids(data["names"])
     if split_roots(data["train"]) == split_roots(data["val"]):
-        raise ValueError("Pair-aware evaluation requires a held-out val split; train and val resolve to the same images.")
+        raise ValueError(
+            "Pair-aware evaluation requires a held-out val split; train and val resolve to the same images."
+        )
     images = validation_images(data["val"])
     labels = [Path(path) for path in img2label_paths([str(image) for image in images])]
-    common = (args.data, images, labels, dent_class, rust_class, args.association_radius, args.mask_iou, args.conf, args.imgsz)
+    common = (
+        args.data,
+        images,
+        labels,
+        dent_class,
+        rust_class,
+        args.association_radius,
+        args.mask_iou,
+        args.conf,
+        args.imgsz,
+    )
     baseline = evaluate_checkpoint(args.base, *common)
     candidate = evaluate_checkpoint(args.candidate, *common)
     payload = {
