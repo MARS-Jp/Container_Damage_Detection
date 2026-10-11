@@ -19,16 +19,15 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import datetime
 import json
 import os
-from pathlib import Path
 import re
 import runpy
 import subprocess
 import sys
 import time
-
+from datetime import datetime
+from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 BASE = runpy.run_path(str(SCRIPT_DIR / "predict-2.py"))
@@ -93,8 +92,19 @@ GROUP_TESTS = {"shadow": SHADOW_TESTS, "general": GENERAL_TESTS, "combined": COM
 GROUP_DIRS = {"shadow": "01_shadow", "general": "02_general", "combined": "03_combined"}
 PARAMETER_KEYS = ("imgsz", "conf", "iou", "device", "retina_masks")
 SUMMARY_FIELDS = (
-    "group", "version", "weight", "source", *PARAMETER_KEYS, "class_conf", *SHADOW_DEFAULTS,
-    "exclude_regions", "status", "returncode", "seconds", "output", "log",
+    "group",
+    "version",
+    "weight",
+    "source",
+    *PARAMETER_KEYS,
+    "class_conf",
+    *SHADOW_DEFAULTS,
+    "exclude_regions",
+    "status",
+    "returncode",
+    "seconds",
+    "output",
+    "log",
 )
 
 
@@ -104,7 +114,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--weights", nargs="+", default=BASE["WEIGHT_SOURCES"])
     parser.add_argument("--source", nargs="+", default=BASE["DATASET_SOURCES"])
     parser.add_argument(
-        "--output", default=None,
+        "--output",
+        default=None,
         help="Parent output directory; relative paths resolve from tools/, as in predict-2.py.",
     )
     parser.add_argument("--imgsz", type=int, default=BASE["IMAGE_SIZE"], help="Baseline image size.")
@@ -115,27 +126,41 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--suite", choices=("initial", "focused", *GROUP_TESTS, "all"), default="initial")
     parser.add_argument("--versions", nargs="+", help="Version names within the selected suite(s).")
     parser.add_argument("--save-metrics", action="store_true", help="Save class counts and mask coverage.")
-    parser.add_argument("--compare", action="store_true", help="Automatically create full-image and D/R comparison figures.")
+    parser.add_argument(
+        "--compare", action="store_true", help="Automatically create full-image and D/R comparison figures."
+    )
     parser.add_argument("--reference-run", type=Path, help="Optional earlier sweep to include as a labeled reference.")
     parser.add_argument("--reference-versions", nargs="+", default=["imgsz960"])
     exclusions = parser.add_mutually_exclusive_group()
-    exclusions.add_argument("--exclude-regions", type=Path, default=SCRIPT_DIR / "shadow_exclusion_regions.json",
-                            help="Background exclusion JSON for shadow/general/combined suites; snapshotted once per run.")
+    exclusions.add_argument(
+        "--exclude-regions",
+        type=Path,
+        default=SCRIPT_DIR / "shadow_exclusion_regions.json",
+        help="Background exclusion JSON for shadow/general/combined suites; snapshotted once per run.",
+    )
     exclusions.add_argument("--no-exclusions", dest="exclude_regions", action="store_const", const=None)
-    parser.add_argument("--dry-run", action="store_true", help="Print all commands without running inference or writing files.")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Print all commands without running inference or writing files."
+    )
     args = parser.parse_args(argv)
     args.groups = list(GROUP_TESTS) if args.suite == "all" else [args.suite] if args.suite in GROUP_TESTS else []
-    available = ({name: preset for group in args.groups for name, preset in GROUP_TESTS[group].items()}
-                 if args.groups else dict(PARAMETER_TESTS, **FOCUSED_TESTS))
+    available = (
+        {name: preset for group in args.groups for name, preset in GROUP_TESTS[group].items()}
+        if args.groups
+        else dict(PARAMETER_TESTS, **FOCUSED_TESTS)
+    )
     if args.versions is None:
-        args.versions = list(available if args.groups else FOCUSED_TESTS if args.suite == "focused" else PARAMETER_TESTS)
+        args.versions = list(
+            available if args.groups else FOCUSED_TESTS if args.suite == "focused" else PARAMETER_TESTS
+        )
     if any(version not in available for version in args.versions):
         parser.error(f"Selected versions do not belong to suite {args.suite!r}; available: {', '.join(available)}")
     if args.output is None:
         folder = "parameter_tests_round2" if args.suite == "focused" else "parameter_tests"
         args.output = str(
             SCRIPT_DIR.parent / "runs/segment_shadow/parameter_tests"
-            if args.groups else Path(BASE["OUTPUT_DIR"]) / folder
+            if args.groups
+            else Path(BASE["OUTPUT_DIR"]) / folder
         )
     if args.imgsz <= 0 or not 0 <= args.conf <= 1 or not 0 <= args.iou <= 1:
         parser.error("imgsz must be positive; conf and iou must be between 0 and 1.")
@@ -145,7 +170,9 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         if args.imgsz % 32:
             parser.error("The comparison suites require imgsz to be a multiple of 32.")
         if not args.retina_masks:
-            parser.error("The comparison suites require retina masks; enable RETINA_MASKS in predict-2.py or pass --retina-masks.")
+            parser.error(
+                "The comparison suites require retina masks; enable RETINA_MASKS in predict-2.py or pass --retina-masks."
+            )
         if args.reference_run:
             parser.error("--reference-run is supported only for the initial/focused suites.")
     return args
@@ -166,8 +193,10 @@ def build_jobs(args: argparse.Namespace, run_dir: Path) -> list[dict]:
             for index, version in enumerate((v for v in args.versions if v in GROUP_TESTS[group]), 1)
         ]
     else:
-        versions = [(args.suite, index, version, dict(PARAMETER_TESTS, **FOCUSED_TESTS)[version])
-                    for index, version in enumerate(args.versions, 1)]
+        versions = [
+            (args.suite, index, version, dict(PARAMETER_TESTS, **FOCUSED_TESTS)[version])
+            for index, version in enumerate(args.versions, 1)
+        ]
     for group, version_index, version, overrides in versions:
         settings = {key: getattr(args, key) for key in PARAMETER_KEYS}
         settings["class_conf"] = {}
@@ -175,8 +204,7 @@ def build_jobs(args: argparse.Namespace, run_dir: Path) -> list[dict]:
             settings.update(SHADOW_DEFAULTS)
         settings.update(overrides)
         version_dir = (
-            f"{version_index:02d}_{version}_img{settings['imgsz']}"
-            f"_conf{settings['conf']:g}_iou{settings['iou']:g}"
+            f"{version_index:02d}_{version}_img{settings['imgsz']}_conf{settings['conf']:g}_iou{settings['iou']:g}"
         )
         if args.suite == "focused" or args.groups:
             version_dir = f"{version_index:02d}_{version}"
@@ -186,12 +214,23 @@ def build_jobs(args: argparse.Namespace, run_dir: Path) -> list[dict]:
             model_name = safe_component(BASE["model_run_name"](weight))
             for source_index, source_value in enumerate(args.source, 1):
                 source = BASE["resolve_path"](source_value)
-                output = group_dir / version_dir / f"{model_index:02d}_{model_name}" / (
-                    f"{source_index:02d}_{safe_component(source.stem)}"
+                output = (
+                    group_dir
+                    / version_dir
+                    / f"{model_index:02d}_{model_name}"
+                    / (f"{source_index:02d}_{safe_component(source.stem)}")
                 )
                 if args.groups:
-                    command = [sys.executable, str(SCRIPT_DIR / "predict_shadow.py"),
-                               "--weights", str(weight), "--source", str(source), "--output", str(output)]
+                    command = [
+                        sys.executable,
+                        str(SCRIPT_DIR / "predict_shadow.py"),
+                        "--weights",
+                        str(weight),
+                        "--source",
+                        str(source),
+                        "--output",
+                        str(output),
+                    ]
                     for key in ("imgsz", "conf", "iou", "device", *SHADOW_DEFAULTS):
                         if key != "views":
                             command.extend([f"--{key.replace('_', '-')}", str(settings[key])])
@@ -204,20 +243,26 @@ def build_jobs(args: argparse.Namespace, run_dir: Path) -> list[dict]:
                     command = BASE["build_command"](argparse.Namespace(**settings), weight, source, output)
                     command.append("--hide-labels")
                     if settings["class_conf"]:
-                        command.extend(["--class-conf", *[f"{name}={value:g}" for name, value in settings["class_conf"].items()]])
+                        command.extend(
+                            ["--class-conf", *[f"{name}={value:g}" for name, value in settings["class_conf"].items()]]
+                        )
                     if args.save_metrics or args.compare:
                         command.append("--save-metrics")
-                jobs.append({
-                    "group": group,
-                    "version": version,
-                    "weight": str(weight),
-                    "source": str(source),
-                    **settings,
-                    "exclude_regions": str(BASE["resolve_path"](args.exclude_regions)) if args.groups and args.exclude_regions else None,
-                    "output": str(output),
-                    "log": str(output / "inference.log"),
-                    "command": command,
-                })
+                jobs.append(
+                    {
+                        "group": group,
+                        "version": version,
+                        "weight": str(weight),
+                        "source": str(source),
+                        **settings,
+                        "exclude_regions": str(BASE["resolve_path"](args.exclude_regions))
+                        if args.groups and args.exclude_regions
+                        else None,
+                        "output": str(output),
+                        "log": str(output / "inference.log"),
+                        "command": command,
+                    }
+                )
     return jobs
 
 
@@ -231,8 +276,14 @@ def run_job(job: dict) -> tuple[int, float]:
     with Path(job["log"]).open("w", encoding="utf-8") as log:
         try:
             with subprocess.Popen(
-                job["command"], cwd=SCRIPT_DIR, env=env, stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT, text=True, encoding="utf-8", errors="replace",
+                job["command"],
+                cwd=SCRIPT_DIR,
+                env=env,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
             ) as process:
                 for line in process.stdout:
                     print(line, end="", flush=True)
@@ -259,12 +310,8 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     if not args.dry_run:
         missing = [
-            BASE["resolve_path"](value) for value in args.weights
-            if not BASE["resolve_path"](value).is_file()
-        ] + [
-            BASE["resolve_path"](value) for value in args.source
-            if not BASE["resolve_path"](value).exists()
-        ]
+            BASE["resolve_path"](value) for value in args.weights if not BASE["resolve_path"](value).is_file()
+        ] + [BASE["resolve_path"](value) for value in args.source if not BASE["resolve_path"](value).exists()]
         if missing:
             for path in missing:
                 print(f"Missing input: {path}", file=sys.stderr)
@@ -299,7 +346,8 @@ def main(argv: list[str] | None = None) -> int:
             print(
                 f"\n[{index}/{len(jobs)}] {job['group']}/{job['version']} | imgsz={job['imgsz']}"
                 f" conf={job['conf']} class_conf={job['class_conf']} iou={job['iou']} | {Path(job['weight']).name}"
-                f" | {Path(job['source']).name}\nOutput: {job['output']}", flush=True,
+                f" | {Path(job['source']).name}\nOutput: {job['output']}",
+                flush=True,
             )
             returncode, seconds = run_job(job)
             failed += returncode != 0

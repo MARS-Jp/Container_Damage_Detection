@@ -19,7 +19,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
 PREDICT_SCRIPT = REPO_ROOT / "tools/predict_seg_by_class.py"
 

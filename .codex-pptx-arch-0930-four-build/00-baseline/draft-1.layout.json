@@ -38,9 +38,7 @@
       "hlink": "#467886",
       "folHlink": "#96607D"
     },
-    "typefaces": [
-      "Noto Sans TC"
-    ]
+    "typefaces": ["Noto Sans TC"]
   },
   "inheritedLayers": [
     {
@@ -67,12 +65,7 @@
       "aid": "sh/ixgnmx07",
       "id": "1",
       "name": "title",
-      "bbox": [
-        60,
-        32,
-        1160,
-        72
-      ],
+      "bbox": [60, 32, 1160, 72],
       "geometry": "rect",
       "text": "00 基準架構的陰影線索",
       "textPreview": "00 基準架構的陰影線索",
@@ -132,12 +125,7 @@
       "aid": "sh/507mhsjy",
       "id": "2",
       "name": "subtitle",
-      "bbox": [
-        62,
-        111,
-        1156,
-        48
-      ],
+      "bbox": [62, 111, 1156, 48],
       "geometry": "rect",
       "text": "原主幹與四個語意分支，作為後續架構的共同對照",
       "textPreview": "原主幹與四個語意分支，作為後續架構的共同對照",
@@ -194,12 +182,7 @@
       "aid": "sh/4zy5onid",
       "id": "3",
       "name": "footer",
-      "bbox": [
-        62,
-        663,
-        1156,
-        38
-      ],
+      "bbox": [62, 663, 1156, 38],
       "geometry": "rect",
       "text": "陰影辨識目標：找到暗處損壞，並控制純陰影誤報。目前沒有獨立 Shadow 類別。",
       "textPreview": "陰影辨識目標：找到暗處損壞，並控制純陰影誤報。目前沒有獨立 Shadow 類別。",
@@ -255,12 +238,7 @@
       "scope": "slide",
       "aid": "im/qxgzyt0f",
       "id": "4",
-      "bbox": [
-        62,
-        184,
-        480,
-        360
-      ],
+      "bbox": [62, 184, 480, 360],
       "alt": "既有 last0926.pt 的無信心數字推論圖，非新架構的訓練結果",
       "contentType": "image/jpeg",
       "imageFit": "contain",
@@ -277,12 +255,7 @@
       "aid": "sh/utgnid0b",
       "id": "5",
       "name": "photo-caption",
-      "bbox": [
-        62,
-        556,
-        495,
-        72
-      ],
+      "bbox": [62, 556, 495, 72],
       "geometry": "rect",
       "text": "既有 last0926.pt 推論，已隱藏信心分數\n橘色為 D，綠色為 R。此圖用於說明問題。",
       "textPreview": "既有 last0926.pt 推論，已隱藏信心分數 | 橘色為 D，綠色為 R。此圖用於說明問題。",
@@ -362,12 +335,7 @@
       "aid": "sh/hw7mdsjm",
       "id": "6",
       "name": "imaging-heading",
-      "bbox": [
-        601,
-        178,
-        610,
-        43
-      ],
+      "bbox": [601, 178, 610, 43],
       "geometry": "rect",
       "text": "低亮度仍可能包含形狀線索",
       "textPreview": "低亮度仍可能包含形狀線索",
@@ -427,12 +395,7 @@
       "aid": "sh/gvy5kni1",
       "id": "7",
       "name": "imaging-formula",
-      "bbox": [
-        601,
-        226,
-        610,
-        50
-      ],
+      "bbox": [601, 226, 610, 50],
       "geometry": "rect",
       "text": "I ≈ Lρ + η",
       "textPreview": "I ≈ Lρ + η",
@@ -492,12 +455,7 @@
       "aid": "sh/7q547i1k",
       "id": "8",
       "name": "imaging-meaning",
-      "bbox": [
-        601,
-        280,
-        610,
-        78
-      ],
+      "bbox": [601, 280, 610, 78],
       "geometry": "rect",
       "text": "照明 L 與表面反射 ρ 共同影響影像。\n暗區可能來自陰影、形變或材質。",
       "textPreview": "照明 L 與表面反射 ρ 共同影響影像。 | 暗區可能來自陰影、形變或材質。",
@@ -577,12 +535,7 @@
       "aid": "sh/6pw3ed0z",
       "id": "9",
       "name": "residual-heading",
-      "bbox": [
-        601,
-        366,
-        610,
-        43
-      ],
+      "bbox": [601, 366, 610, 43],
       "geometry": "rect",
       "text": "跨深度狀態的 AttentionResiduals",
       "textPreview": "跨深度狀態的 AttentionResiduals",
@@ -642,12 +595,7 @@
       "aid": "sh/k32dcrmd",
       "id": "10",
       "name": "residual-formula",
-      "bbox": [
-        601,
-        413,
-        610,
-        50
-      ],
+      "bbox": [601, 413, 610, 50],
       "geometry": "rect",
       "text": "aⱼ = softmax狀態(qᵀ RMS(Xⱼ))",
       "textPreview": "aⱼ = softmax狀態(qᵀ RMS(Xⱼ))",
@@ -707,12 +655,7 @@
       "aid": "sh/l4be5w3i",
       "id": "11",
       "name": "csar-heading",
-      "bbox": [
-        601,
-        472,
-        610,
-        43
-      ],
+      "bbox": [601, 472, 610, 43],
       "geometry": "rect",
       "text": "跨來源尺度的 CSAR",
       "textPreview": "跨來源尺度的 CSAR",
@@ -772,12 +715,7 @@
       "aid": "sh/y1kva147",
       "id": "12",
       "name": "csar-formula",
-      "bbox": [
-        601,
-        520,
-        610,
-        50
-      ],
+      "bbox": [601, 520, 610, 50],
       "geometry": "rect",
       "text": "aₛ = softmax尺度(Q·Kₛ / √dₖ)",
       "textPreview": "aₛ = softmax尺度(Q·Kₛ / √dₖ)",
@@ -837,12 +775,7 @@
       "aid": "sh/z2tw3mls",
       "id": "13",
       "name": "csar-meaning",
-      "bbox": [
-        601,
-        576,
-        610,
-        72
-      ],
+      "bbox": [601, 576, 610, 72],
       "geometry": "rect",
       "text": "保留目標特徵，再融合尺度與局部線索。\n權重不是經校準的陰影機率。",
       "textPreview": "保留目標特徵，再融合尺度與局部線索。 | 權重不是經校準的陰影機率。",

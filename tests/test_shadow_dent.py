@@ -111,8 +111,8 @@ def test_model_compatibility_loss_backward_and_eval():
     masks[1, 12:29, 12:27] = 1
     batch = {
         "img": image,
-        "batch_idx": torch.tensor([0., 0.]),
-        "cls": torch.tensor([[2.], [5.]]),  # D and R
+        "batch_idx": torch.tensor([0.0, 0.0]),
+        "cls": torch.tensor([[2.0], [5.0]]),  # D and R
         "bboxes": torch.tensor([[0.40625, 0.453125, 0.5, 0.53125], [0.609375, 0.640625, 0.46875, 0.53125]]),
         "masks": masks,
         "heatmaps": torch.zeros(1, 8, 32, 32),

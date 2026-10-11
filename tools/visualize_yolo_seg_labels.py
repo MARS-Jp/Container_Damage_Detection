@@ -21,7 +21,6 @@ from typing import Any
 import cv2
 import numpy as np
 
-
 IMAGE_EXTS = {".bmp", ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp"}
 
 
@@ -39,7 +38,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--alpha", type=float, default=0.38, help="Polygon fill opacity.")
     parser.add_argument("--line-width", type=int, default=2, help="Polygon/bbox line width.")
     parser.add_argument("--draw-fill", action="store_true", help="Fill polygons with transparent color.")
-    parser.add_argument("--only-with-labels", action="store_true", help="Skip images with no label file or empty labels.")
+    parser.add_argument(
+        "--only-with-labels", action="store_true", help="Skip images with no label file or empty labels."
+    )
     parser.add_argument("--save-individual", action="store_true", help="Save every preview image in addition to sheet.")
     return parser.parse_args()
 
@@ -206,7 +207,7 @@ def visualize_one(
 
 def resize_thumb(image: np.ndarray, width: int) -> np.ndarray:
     scale = width / image.shape[1]
-    height = max(1, int(round(image.shape[0] * scale)))
+    height = max(1, round(image.shape[0] * scale))
     return cv2.resize(image, (width, height), interpolation=cv2.INTER_AREA)
 
 

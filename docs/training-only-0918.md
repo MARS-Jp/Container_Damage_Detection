@@ -8,15 +8,15 @@
 
 所有檔案位於 `ultralytics/cfg/models/11_myself/`，共同前綴是 `yolo11-10csar-dr-trainonly-0918-`。
 
-| YAML 後綴 | 成對原圖／陰影圖監督 | 一致性 | 實例邊界 | 新增重疊約束 |
-|---|:---:|:---:|:---:|:---:|
-| `baseline.yaml` | — | — | — | — |
-| `shadow-aug.yaml` | ✓ | — | — | — |
-| `consistency.yaml` | ✓ | ✓ | — | — |
-| `boundary.yaml` | — | — | ✓ | — |
-| `overlap.yaml` | — | — | — | ✓ |
-| `shadow-boundary.yaml` | ✓ | ✓ | ✓ | — |
-| `full.yaml` | ✓ | ✓ | ✓ | ✓ |
+| YAML 後綴              | 成對原圖／陰影圖監督 | 一致性 | 實例邊界 | 新增重疊約束 |
+| ---------------------- | :------------------: | :----: | :------: | :----------: |
+| `baseline.yaml`        |          —           |   —    |    —     |      —       |
+| `shadow-aug.yaml`      |          ✓           |   —    |    —     |      —       |
+| `consistency.yaml`     |          ✓           |   ✓    |    —     |      —       |
+| `boundary.yaml`        |          —           |   —    |    ✓     |      —       |
+| `overlap.yaml`         |          —           |   —    |    —     |      ✓       |
+| `shadow-boundary.yaml` |          ✓           |   ✓    |    ✓     |      —       |
+| `full.yaml`            |          ✓           |   ✓    |    ✓     |      ✓       |
 
 這是**獨立機制與組合實驗**，不是每一列都累加上一列。`consistency` 與 `shadow-aug` 使用完全相同的雙視角監督，兩者只差一致性 loss；`shadow-boundary` 則是使用者優先提出的 Shadow Consistency + Boundary 組合。建議先比較 `baseline`、`shadow-aug`、`consistency`、`boundary`、`shadow-boundary`，再比較額外 overlap 與 full；此順序不代表預先知道哪版最好。
 

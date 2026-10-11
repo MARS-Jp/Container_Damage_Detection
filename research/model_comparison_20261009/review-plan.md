@@ -28,11 +28,11 @@
 
 ## Search map
 
-| Topic or family | Candidate primary sources | Status |
-| --- | --- | --- |
-| SegFormer | NeurIPS 2021 正式論文 | 已核對身分與 Table 1(a) 公開基準 |
-| LRFormer | IEEE TPAMI 2025 作者稿 / 作者官方程式庫 | 已修正圖片 TIP 誤植；已核對 Tables 3-5 |
-| SegMAN | CVPR 2025；arXiv v2 / 作者官方程式庫 | CVF 存取失敗；以版本化作者稿核對 Table 2 |
+| Topic or family | Candidate primary sources               | Status                                   |
+| --------------- | --------------------------------------- | ---------------------------------------- |
+| SegFormer       | NeurIPS 2021 正式論文                   | 已核對身分與 Table 1(a) 公開基準         |
+| LRFormer        | IEEE TPAMI 2025 作者稿 / 作者官方程式庫 | 已修正圖片 TIP 誤植；已核對 Tables 3-5   |
+| SegMAN          | CVPR 2025；arXiv v2 / 作者官方程式庫    | CVF 存取失敗；以版本化作者稿核對 Table 2 |
 
 ## Planned synthesis
 

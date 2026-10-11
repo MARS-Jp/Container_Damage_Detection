@@ -6,14 +6,14 @@ from __future__ import annotations
 import math
 
 import torch
-import torch.nn as nn
 import torch.nn.functional as F
+from torch import nn
 
 from .block import Proto26MultiLabel
 from .conv import Conv, DWConv
 from .shadow_dent import LuminanceDetail, Segment26MultiLabelShadow
 
-__all__ = ("LuminanceResidualStem", "DualPathP2Proto", "Segment26MultiLabelExtent")
+__all__ = ("DualPathP2Proto", "LuminanceResidualStem", "Segment26MultiLabelExtent")
 
 
 def _validate_scale(value):
@@ -24,8 +24,8 @@ def _validate_scale(value):
 class LuminanceResidualStem(Conv):
     """Keep the original RGB Conv and add a gated luminance/contrast/gradient branch.
 
-    Inherited conv/bn/act names allow all original stem weights to be loaded. Signed local
-    contrast can expose low-contrast shape cues, but is not a physical depth or shadow estimate.
+    Inherited conv/bn/act names allow all original stem weights to be loaded. Signed local contrast can expose
+    low-contrast shape cues, but is not a physical depth or shadow estimate.
     """
 
     def __init__(self, c1, c2, k=3, s=2, detail_scale=0.1):
@@ -56,9 +56,9 @@ class LuminanceResidualStem(Conv):
 class DualPathP2Proto(Proto26MultiLabel):
     """Add a native P2 detail decoder alongside the complete original prototype path.
 
-    The original path first combines scales at P3 then upsamples to P2. This second path
-    projects P2 directly and gates its contribution with resized P4 context. No original
-    transpose-convolution or auxiliary localization weights are removed or renamed.
+    The original path first combines scales at P3 then upsamples to P2. This second path projects P2 directly and gates
+    its contribution with resized P4 context. No original transpose-convolution or auxiliary localization weights are
+    removed or renamed.
     """
 
     def __init__(self, ch=(), c_=256, c2=32, nc=80, detail_scale=0.1):
@@ -81,9 +81,7 @@ class DualPathP2Proto(Proto26MultiLabel):
         original = super().forward(x)
         base = original[0] if isinstance(original, tuple) else original
         detail = self.native_p2(x[1])
-        context = F.interpolate(
-            self.native_context(x[2]), size=detail.shape[-2:], mode="bilinear", align_corners=False
-        )
+        context = F.interpolate(self.native_context(x[2]), size=detail.shape[-2:], mode="bilinear", align_corners=False)
         gate = self.native_gate(torch.cat((detail, context), dim=1)).sigmoid()
         delta = self.native_output(self.native_refine(detail + context))
         prototypes = base + self.native_scale.tanh() * gate * delta
@@ -93,8 +91,8 @@ class DualPathP2Proto(Proto26MultiLabel):
 class Segment26MultiLabelExtent(Segment26MultiLabelShadow):
     """Four-scale multi-label head with shallow bypasses and a second P2 prototype path.
 
-    Inputs: four enhanced features, four independent class-logit maps, then shallow P3/P2.
-    The detection and mask-coefficient heads and their state keys are inherited unchanged.
+    Inputs: four enhanced features, four independent class-logit maps, then shallow P3/P2. The detection and
+    mask-coefficient heads and their state keys are inherited unchanged.
     """
 
     def __init__(
